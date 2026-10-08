@@ -311,15 +311,13 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="Damas na Escola.html#inicio"><span class="brand-mark"
-          aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Portal do Jogador</a>
       <nav class="menu" aria-label="Seções">
-        <a href="Damas na Escola.html#projeto">O projeto</a>
-        <a href="Damas na Escola.html#ensino">Plano de ensino</a>
-        <a href="rotina.html">Rotina de Treino</a>
-        <a href="regras.html">Regras Oficiais</a>
-        <a href="profissionais.html" class="cta">Profissional</a>
-        <a href="Damas na Escola.html#contatos">Contatos</a>
+        <a href="index.html">Início</a>
+        <a href="index.html#info">Eventos</a>
+        <a href="index.html#loja">Loja Oficial</a>
+        <a href="index.html#jogadores">Mural de Jogadores</a>
+        <a href="cadastro.html" class="cta">Fazer Cadastro</a>
       </nav>
     </div>
   </header>
@@ -358,7 +356,7 @@
             </div>
             <div style="display: flex; gap: 12px; margin-top: 8px;">
               <button class="btn" type="submit">Enviar Cadastro</button>
-              <a href="profissionais.html" class="btn ghost">Ver Lista de Jogadores</a>
+              <a href="index.html" class="btn ghost">Ver Lista de Jogadores</a>
             </div>
             <p class="msg" id="p-msg" hidden></p>
           </form>
@@ -438,7 +436,7 @@
           ev.target.reset();
 
           m.className = 'msg ok';
-          m.innerHTML = 'Cadastro realizado com sucesso! <a href="profissionais.html" style="color:var(--good);text-decoration:underline;">Clique aqui para ver a lista</a>';
+          m.innerHTML = 'Cadastro realizado com sucesso! <a href="index.html" style="color:var(--good);text-decoration:underline;">Clique aqui para ver a lista</a>';
           m.hidden = false;
         };
         reader.readAsDataURL(fotoFile);
