@@ -1,0 +1,196 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rotina de Treino - Damas na Escola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F4F0; --surface:#FFFFFF; --ink:#16201B; --muted:#56635C; --line:#D6DBD4;
+  --accent:#1E6A4C; --accent-ink:#FFFFFF; --accent-soft:#E1EEE7;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;text-transform:uppercase}
+h3{font-size:1.45rem;font-weight:600; margin-top: 32px; margin-bottom: 12px;}
+p{margin:0;max-width:65ch; margin-bottom: 16px;}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
+.brand-mark i:nth-child(1),.brand-mark i:nth-child(4){background:var(--ink)}
+nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
+nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent}
+nav.menu a:hover{border-color:var(--accent)}
+nav.menu a.cta{color:var(--accent)}
+
+/* sections */
+section.block{padding-block:72px;}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px;margin-bottom:40px;align-items:end}
+.sec-head p{color:var(--muted)}
+footer{padding-block:40px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface); margin-bottom: 24px;}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+
+/* cards */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h4 { font-size: 1.1rem; margin: 0; font-weight: 700; color: var(--accent); }
+ul.bullets { margin: 0; padding-left: 20px; }
+ul.bullets li { margin-bottom: 8px; }
+
+.callout { padding: 16px; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 4px; margin-bottom: 24px; }
+
+@media (max-width:860px){
+  .sec-head{grid-template-columns:minmax(0,1fr)}
+  nav.menu{margin-left:0;width:100%;padding-bottom:8px}
+  .g2{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="Damas na Escola.html#inicio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
+    <nav class="menu" aria-label="Seções">
+      <a href="Damas na Escola.html#projeto">O projeto</a>
+      <a href="Damas na Escola.html#ensino">Plano de ensino</a>
+      <a href="rotina.html" class="cta">Rotina de Treino</a>
+      <a href="regras.html">Regras Oficiais</a>
+      <a href="profissionais.html">Profissional</a>
+      <a href="Damas na Escola.html#contatos">Contatos</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Plano de Treino</span><h2>Rotina Semanal e Ferramentas</h2></div>
+        <p>Rotina semanal, conteúdo de estudo e plano inicial de 4 semanas baseado no método russo de constância diária.</p>
+      </div>
+
+      <div class="callout">
+        <strong>Como usar este material:</strong> imprima ou acompanhe no celular. O segredo do método russo é <b>constância curta e diária</b>, não maratonas ocasionais.
+      </div>
+
+      <h3>1. Rotina Semanal no Estilo Russo</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Dia</th><th>Treino</th><th>Duração</th></tr></thead>
+          <tbody>
+            <tr><td><b>Segunda</b></td><td>Tática (puzzles de captura múltipla) + finais básicos + 1 partida lenta</td><td>60 min</td></tr>
+            <tr><td><b>Terça</b></td><td>Teoria de abertura + análise de partida de mestre</td><td>50 min</td></tr>
+            <tr><td><b>Quarta</b></td><td>Tática + cálculo profundo + 1 partida lenta</td><td>60 min</td></tr>
+            <tr><td><b>Quinta</b></td><td>Estudo de planos e estratégia + problemas</td><td>50 min</td></tr>
+            <tr><td><b>Sexta</b></td><td>Tática + finais + 1 partida lenta</td><td>60 min</td></tr>
+            <tr><td><b>Sábado</b></td><td>Torneio online ou partidas presenciais</td><td>90 min</td></tr>
+            <tr><td><b>Domingo</b></td><td>Revisão dos erros da semana + caderno de posições</td><td>40 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><em>Regra de ouro: partidas lentas = pelo menos 15 min + incremento. É nelas que o cálculo profundo se desenvolve. Partidas blitz são só recreação.</em></p>
+
+      <h3>2. O que Estudar</h3>
+      <div class="grid g2">
+        <div class="card">
+          <h4>🎯 Tática</h4>
+          <ul class="bullets">
+            <li>Capturas múltiplas e "shots"</li>
+            <li>Sacrifícios para abrir linhas</li>
+            <li>Combinações de coroação</li>
+            <li>Golpes pelas alas e pelo centro</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>♟️ Finais</h4>
+          <ul class="bullets">
+            <li>Dama contra dama</li>
+            <li>Dama contra peças</li>
+            <li>Corrida de coroação</li>
+            <li>Finais com poucas peças</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>🧠 Estratégia</h4>
+          <ul class="bullets">
+            <li>Controle do centro</li>
+            <li>Ataques pelas alas</li>
+            <li>Formações clássicas (pirâmide, flanco)</li>
+            <li>Peças na borda: quando e por quê</li>
+            <li>Tempo e iniciativa</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>📖 Aberturas e Análise</h4>
+          <ul class="bullets">
+            <li>Esquemas básicos (não decorar 50 linhas, entender planos)</li>
+            <li>Escolher 2–3 aberturas e aprofundar</li>
+            <li>Analisar mestres (Chizhov, Georgiev, Schwartzman, Gantwarg)</li>
+            <li>Método de análise: tente prever o lance antes de olhar. Anote e compare!</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 48px;">3. Plano Inicial de 4 Semanas</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Fase</th><th>Semana</th><th>Foco e Objetivos</th></tr></thead>
+          <tbody>
+            <tr><td><b>BASE</b></td><td><b>Semana 1: Fundamentos</b></td><td>Dominar regras, notação 1 a 50 e visão tática básica. 20 puzzles por dia e iniciar o caderno de erros.</td></tr>
+            <tr><td><b>TÁTICA</b></td><td><b>Semana 2: Tática e Finais</b></td><td>Reconhecer padrões táticos e dominar finais de coroação. Revisar partidas da semana com motor.</td></tr>
+            <tr><td><b>ESTRATÉGIA</b></td><td><b>Semana 3: Estratégia e Aberturas</b></td><td>Entender planos de jogo (centro, alas) e montar um repertório inicial de 2-3 aberturas. Analisar partidas de grandes mestres.</td></tr>
+            <tr><td><b>DESAFIO</b></td><td><b>Semana 4: Competição e Revisão</b></td><td>Testar o aprendizado em torneio, ajustar a rotina conforme a necessidade e definir metas para o próximo mês.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4. Ferramentas e Tecnologia</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ferramenta</th><th>Para que serve</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://lidraughts.org" target="_blank">Lidraughts.org</a></td><td>Jogar, puzzles e torneios online (Escolha a variante <i>International Draughts</i>)</td></tr>
+            <tr><td>Scan / Damy</td><td>Motores de análise (Revisar partidas, <b>não</b> jogar por você)</td></tr>
+            <tr><td><a href="https://playstrategy.org" target="_blank">PlayStrategy</a></td><td>Partidas online (Alternativa ao Lidraughts)</td></tr>
+            <tr><td><a href="https://fmjd.org" target="_blank">FMJD</a></td><td>Regras, ratings e calendário (Site oficial da federação mundial)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <strong>Uso correto do motor (computador):</strong> calcule sozinho primeiro, anote sua linha, só depois confira com o motor. O motor é professor, não muleta!
+      </div>
+
+    </div>
+  </section>
+</main>
+<footer id="contatos">
+  <div class="wrap">
+    <div>
+      <b style="color:var(--ink)">Damas na Escola</b><br>
+      Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
+      <strong style="color:var(--ink)">Contatos:</strong><br>
+      WhatsApp: (98) 90000-0000<br>
+      E-mail: contato@damasnaescola.com.br<br>
+      Endereço: São Luís, MA
+    </div>
+    <div>Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br>Regras: Federação Mundial de Jogo de Damas (FMJD)</div>
+  </div>
+</footer>
+</body></html>

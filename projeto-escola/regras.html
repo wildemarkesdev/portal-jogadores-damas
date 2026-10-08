@@ -1,0 +1,129 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Regras Oficiais - Damas na Escola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F4F0; --surface:#FFFFFF; --ink:#16201B; --muted:#56635C; --line:#D6DBD4;
+  --accent:#1E6A4C; --accent-ink:#FFFFFF; --accent-soft:#E1EEE7;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;text-transform:uppercase}
+h3{font-size:1.45rem;font-weight:600; margin-top: 32px; margin-bottom: 12px;}
+p{margin:0;max-width:65ch; margin-bottom: 16px;}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
+.brand-mark i:nth-child(1),.brand-mark i:nth-child(4){background:var(--ink)}
+nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
+nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent}
+nav.menu a:hover{border-color:var(--accent)}
+nav.menu a.cta{color:var(--accent)}
+
+/* sections */
+section.block{padding-block:72px;}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px;margin-bottom:40px;align-items:end}
+.sec-head p{color:var(--muted)}
+footer{padding-block:40px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+
+.rule-img { margin-bottom: 24px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 320px; width: 100%; display: block;}
+ul.bullets { margin: 0 0 24px 0; padding-left: 20px; }
+ul.bullets li { margin-bottom: 8px; }
+
+@media (max-width:860px){
+  .sec-head{grid-template-columns:minmax(0,1fr)}
+  nav.menu{margin-left:0;width:100%;padding-bottom:8px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="Damas na Escola.html#inicio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
+    <nav class="menu" aria-label="Seções">
+      <a href="Damas na Escola.html#projeto">O projeto</a>
+      <a href="Damas na Escola.html#ensino">Plano de ensino</a>
+      <a href="rotina.html">Rotina de Treino</a>
+      <a href="regras.html" class="cta">Regras Oficiais</a>
+      <a href="profissionais.html">Profissional</a>
+      <a href="Damas na Escola.html#contatos">Contatos</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Regras Oficiais</span><h2>O Jogo de Damas 10x10</h2></div>
+        <p>Baseado nas <a href="https://lidraughts.org/variant/standard" target="_blank" rel="noopener">Regras oficiais (FMJD) do Lidraughts</a>.</p>
+      </div>
+
+      <h3>O Tabuleiro</h3>
+      <p>As damas internacionais são jogadas em um tabuleiro de 10x10. Embora existam diferentes variantes de damas, com vários tamanhos de tabuleiro e regras, nos referiremos aqui às Damas Internacionais.</p>
+      <p>Apenas as casas escuras do tabuleiro são usadas. Os jogadores com as peças pretas e brancas começam com 20 peças cada (também chamadas de pedras), posicionadas em lados opostos do tabuleiro:</p>
+      <img src="https://images.prismic.io/lidraughts%2Fd375e695-dba7-4fa8-b28c-f5cdc6f31502_startingposition.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Posição inicial" class="rule-img">
+
+      <p>O sistema de coordenadas tradicionalmente usado em damas é bastante diferente da notação algébrica do xadrez. Como apenas as casas escuras são usadas, existem 50 casas que as peças podem ocupar. Elas são numeradas de 1 a 50, onde a casa 1 fica no canto superior esquerdo (da perspectiva das brancas), contando até a casa 50 no canto inferior direito:</p>
+      <img src="https://images.prismic.io/lidraughts%2Fd7633b88-ee2e-43ed-81fe-c565e6413990_coordinates.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Coordenadas" class="rule-img">
+
+      <h3>Lances e Capturas</h3>
+      <p>O jogador de brancas sempre começa o jogo, e depois os turnos se alternam.</p>
+      <p>As pedras comuns sempre se movem uma casa diagonalmente para a frente, para uma casa desocupada:</p>
+      <img src="https://images.prismic.io/lidraughts%2Fc7504343-3d6e-4722-910b-920ce6dd9361_standardmove.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Movimento padrão" class="rule-img">
+
+      <p>A captura é feita saltando sobre uma peça inimiga, duas casas para frente ou para trás, caindo em uma casa desocupada imediatamente após ela:</p>
+      <img src="https://images.prismic.io/lidraughts%2Fd626720e-cc1c-4dc2-9d2e-1c847131a3f1_standardcapture.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Captura padrão" class="rule-img">
+      
+      <p><strong>A captura é sempre obrigatória</strong>, então se um jogador pode capturar, ele deve capturar.</p>
+      <p>Se uma peça pode capturar novamente a partir da casa onde aterrissou, ela deve continuar capturando. Desta forma, ela pode fazer saltos sucessivos, capturando várias peças inimigas no mesmo turno. Não é permitido pular sobre a mesma peça mais de uma vez.</p>
+      <img src="https://images.prismic.io/lidraughts%2F0348088a-9890-40fe-a724-d841178e1730_standardcapture2.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Captura múltipla" class="rule-img">
+
+      <p><strong>Lei da Maioria:</strong> Se houver vários caminhos de captura disponíveis, é sempre obrigatório jogar a sequência de captura mais longa possível (a que captura mais peças).</p>
+      <p><strong>Golpe Turco:</strong> É importante notar que as peças inimigas só são removidas do tabuleiro depois que toda a sequência de captura foi concluída. As peças não saem durante o salto, apenas no final do lance.</p>
+
+      <h3>A Dama</h3>
+      <p>Se uma pedra termina seu turno em uma casa na outra extremidade do tabuleiro, ela é coroada e vira uma dama. Isso só é possível no final do turno, então nada acontece se uma peça atingir a borda durante uma sequência de capturas, mas tiver que pular para trás logo em seguida.</p>
+      <p>A dama tem a vantagem de poder se mover quantas casas quiser, tanto para frente quanto para trás (dama voadora). Ela também pode aterrissar em qualquer casa vazia após a peça que capturou, o que cria muitas possibilidades (embora ainda seja obrigada a capturar o número máximo de peças possível):</p>
+      <img src="https://images.prismic.io/lidraughts%2F752a0c53-7e41-45bc-8742-a766ee4e5d73_standardcaptureking.jpg?auto=compress,format&rect=0,0,512,512&w=320&h=320" alt="Captura com a dama" class="rule-img">
+
+      <h3>Vitória e Empate</h3>
+      <ul class="bullets">
+        <li>Um jogador ganha quando o oponente não tem mais lances válidos. Isso ocorre porque todas as peças do oponente foram capturadas ou porque estão todas bloqueadas sem casas disponíveis.</li>
+        <li>Se a mesma posição aparecer no tabuleiro pela terceira vez, com o mesmo lado a jogar, o jogo é considerado empate por tripla repetição.</li>
+        <li>A partida empata quando ambos os jogadores fazem 25 movimentos consecutivos de dama sem nenhuma captura.</li>
+        <li>Quando um jogador tem apenas uma dama e o outro tem três peças incluindo pelo menos uma dama, o jogo empata após ambos jogarem 16 lances.</li>
+        <li>Quando um jogador tem apenas uma dama e o outro tem duas peças ou menos incluindo pelo menos uma dama, o jogo empata após ambos jogarem 5 lances.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+<footer id="contatos">
+  <div class="wrap">
+    <div>
+      <b style="color:var(--ink)">Damas na Escola</b><br>
+      Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
+      <strong style="color:var(--ink)">Contatos:</strong><br>
+      WhatsApp: (98) 90000-0000<br>
+      E-mail: contato@damasnaescola.com.br<br>
+      Endereço: São Luís, MA
+    </div>
+    <div>Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br>Regras: Federação Mundial de Jogo de Damas (FMJD)</div>
+  </div>
+</footer>
+</body></html>

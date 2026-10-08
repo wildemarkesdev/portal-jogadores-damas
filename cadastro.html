@@ -1,0 +1,450 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Cadastro de Jogador - Damas na Escola</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #F3F4F0;
+      --surface: #FFFFFF;
+      --ink: #16201B;
+      --muted: #56635C;
+      --line: #D6DBD4;
+      --accent: #1E6A4C;
+      --accent-ink: #FFFFFF;
+      --accent-soft: #E1EEE7;
+      --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+      --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --good: #2D7A4D;
+      --bad: #C83532;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: 20px
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--f-display);
+      line-height: 1.02;
+      text-wrap: balance;
+      margin: 0;
+      letter-spacing: .005em
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4.4vw, 3rem);
+      font-weight: 800;
+      text-transform: uppercase
+    }
+
+    h3 {
+      font-size: 1.45rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin: 0;
+      max-width: 65ch;
+      margin-bottom: 16px;
+    }
+
+    a {
+      color: var(--accent)
+    }
+
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    .mono {
+      font-family: var(--f-mono)
+    }
+
+    /* nav */
+    header.top {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .top .wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: 60px;
+      flex-wrap: wrap
+    }
+
+    .brand {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 2px solid var(--ink)
+    }
+
+    .brand-mark i:nth-child(1),
+    .brand-mark i:nth-child(4) {
+      background: var(--ink)
+    }
+
+    nav.menu {
+      display: flex;
+      gap: 4px 18px;
+      flex-wrap: wrap;
+      margin-left: auto
+    }
+
+    nav.menu a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent
+    }
+
+    nav.menu a:hover {
+      border-color: var(--accent)
+    }
+
+    nav.menu a.cta {
+      color: var(--accent)
+    }
+
+    /* sections */
+    section.block {
+      padding-block: 72px;
+    }
+
+    .sec-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: 24px 48px;
+      margin-bottom: 40px;
+      align-items: end
+    }
+
+    .sec-head p {
+      color: var(--muted)
+    }
+
+    footer {
+      padding-block: 40px;
+      border-top: 1px solid var(--line);
+      font-size: .9rem;
+      color: var(--muted)
+    }
+
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 40px;
+      justify-content: space-between
+    }
+
+    /* Forms */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 18px
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0
+    }
+
+    .field.full {
+      grid-column: 1/-1
+    }
+
+    label {
+      font-weight: 600;
+      font-size: .9rem
+    }
+
+    input,
+    textarea {
+      font: inherit;
+      font-size: .98rem;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--ink);
+      width: 100%
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font: 600 1rem var(--f-body);
+      padding: 12px 20px;
+      border-radius: 4px;
+      border: 2px solid var(--accent);
+      background: var(--accent);
+      color: var(--accent-ink);
+      text-decoration: none;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent)
+    }
+
+    .msg {
+      font-size: .92rem;
+      padding: 10px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--line)
+    }
+
+    .msg.ok {
+      border-color: var(--good);
+      color: var(--good);
+      background: #EBF5F0
+    }
+
+    .msg.err {
+      border-color: var(--bad);
+      color: var(--bad);
+      background: #FDF3F3
+    }
+
+    .msg.info {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft)
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0
+    }
+
+    @media (max-width:860px) {
+      .sec-head {
+        grid-template-columns: minmax(0, 1fr)
+      }
+
+      nav.menu {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 8px
+      }
+
+      .fgrid {
+        grid-template-columns: minmax(0, 1fr)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="Damas na Escola.html#inicio"><span class="brand-mark"
+          aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
+      <nav class="menu" aria-label="Seções">
+        <a href="Damas na Escola.html#projeto">O projeto</a>
+        <a href="Damas na Escola.html#ensino">Plano de ensino</a>
+        <a href="rotina.html">Rotina de Treino</a>
+        <a href="regras.html">Regras Oficiais</a>
+        <a href="profissionais.html" class="cta">Profissional</a>
+        <a href="Damas na Escola.html#contatos">Contatos</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="block" style="padding-top: 48px;">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="eyebrow">Novo Cadastro</span>
+            <h2>Inscreva-se no Projeto</h2>
+          </div>
+          <p>Preencha seus dados abaixo para fazer parte do nosso quadro de jogadores profissionais do Maranhão.</p>
+        </div>
+
+        <div class="card" id="form-prof" style="margin-bottom: 40px; background: var(--surface);">
+          <h3>Inscreva-se como Profissional</h3>
+          <form id="f-prof">
+            <div class="fgrid">
+              <div class="field full"><label for="p-nome">Nome completo</label><input id="p-nome" required></div>
+              <div class="field"><label for="p-tel">Telefone / WhatsApp</label><input id="p-tel" required></div>
+              <div class="field"><label for="p-cep">CEP</label><input id="p-cep" required placeholder="Ex: 65000000"
+                  maxlength="9"></div>
+
+              <div class="field"><label for="p-end">Endereço (Rua/Av)</label><input id="p-end" required></div>
+              <div class="field"><label for="p-num">Número</label><input id="p-num" required></div>
+
+              <div class="field"><label for="p-bairro">Bairro</label><input id="p-bairro" required></div>
+              <div class="field"><label for="p-cidade">Cidade (Maranhão)</label><input id="p-cidade" required
+                  value="São Luís"></div>
+
+              <div class="field full"><label for="p-foto">Sua Foto (Arquivo de Imagem)</label><input type="file"
+                  id="p-foto" accept="image/*" required style="background: white;"></div>
+              <div class="field full"><label for="p-bio">Breve Biografia e Conquistas</label><textarea id="p-bio"
+                  required
+                  placeholder="Conte um pouco sobre sua trajetória, anos de experiência, títulos em torneios da federação..."></textarea>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 8px;">
+              <button class="btn" type="submit">Enviar Cadastro</button>
+              <a href="profissionais.html" class="btn ghost">Ver Lista de Jogadores</a>
+            </div>
+            <p class="msg" id="p-msg" hidden></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="contatos">
+    <div class="wrap">
+      <div>
+        <b style="color:var(--ink)">Damas na Escola</b><br>
+        Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
+        <strong style="color:var(--ink)">Contatos:</strong><br>
+        WhatsApp: (98) 90000-0000<br>
+        E-mail: contato@damasnaescola.com.br<br>
+        Endereço: São Luís, MA
+      </div>
+      <div>Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br>Regras: Federação Mundial de Jogo de
+        Damas (FMJD)</div>
+    </div>
+  </footer>
+  <script>
+    function msg(el, text, kind) { el.hidden = false; el.className = 'msg ' + kind; el.textContent = text; }
+
+    // Auto-fill address from CEP via ViaCEP API
+    document.getElementById('p-cep').addEventListener('blur', async (e) => {
+      let cep = e.target.value.replace(/\D/g, '');
+      if (cep.length === 8) {
+        try {
+          const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = await response.json();
+          if (!data.erro) {
+            document.getElementById('p-end').value = data.logradouro || '';
+            document.getElementById('p-bairro').value = data.bairro || '';
+            document.getElementById('p-cidade').value = data.localidade || '';
+            document.getElementById('p-num').focus();
+          }
+        } catch (err) { console.error('Erro ao buscar CEP:', err); }
+      }
+    });
+
+    function getProfs() {
+      return JSON.parse(localStorage.getItem('damas_profissionais') || '[]');
+    }
+    function saveProfs(data) {
+      localStorage.setItem('damas_profissionais', JSON.stringify(data));
+    }
+
+    const fProf = document.getElementById('f-prof');
+    if (fProf) {
+      fProf.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const m = document.getElementById('p-msg');
+        const fotoFile = document.getElementById('p-foto').files[0];
+
+        if (!fotoFile) { msg(m, 'Selecione uma foto.', 'err'); return; }
+
+        msg(m, 'Processando cadastro...', 'info');
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const novo = {
+            id: 'p_' + Date.now(),
+            nome: document.getElementById('p-nome').value.trim(),
+            cep: document.getElementById('p-cep').value.trim(),
+            endereco: document.getElementById('p-end').value.trim(),
+            numero: document.getElementById('p-num').value.trim(),
+            bairro: document.getElementById('p-bairro').value.trim(),
+            cidade: document.getElementById('p-cidade').value.trim(),
+            tel: document.getElementById('p-tel').value.trim(),
+            bio: document.getElementById('p-bio').value.trim(),
+            foto: e.target.result // Base64 image
+          };
+          const profs = getProfs();
+          profs.push(novo);
+          saveProfs(profs);
+          ev.target.reset();
+
+          m.className = 'msg ok';
+          m.innerHTML = 'Cadastro realizado com sucesso! <a href="profissionais.html" style="color:var(--good);text-decoration:underline;">Clique aqui para ver a lista</a>';
+          m.hidden = false;
+        };
+        reader.readAsDataURL(fotoFile);
+      });
+    }
+  </script>
+</body>
+
+</html>

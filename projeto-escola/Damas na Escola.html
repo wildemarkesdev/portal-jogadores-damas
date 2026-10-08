@@ -1,0 +1,385 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Damas na Escola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: faixa superior com tabuleiro 10x10 como peça central; seções em coluna única de leitura,
+   com grades de cartões só onde há itens paralelos (níveis, benefícios). */
+:root{
+  --bg:#F3F4F0; --surface:#FFFFFF; --ink:#16201B; --muted:#56635C; --line:#D6DBD4;
+  --accent:#1E6A4C; --accent-ink:#FFFFFF; --accent-soft:#E1EEE7;
+  --wood-light:#E8D2A6; --wood-dark:#8A5A34; --frame:#4A3020;
+  --man-white:#FBF8F1; --man-black:#1B1B1B; --num:#F4E7CC;
+  --warn:#9A5B00; --bad:#A3302A; --good:#1E6A4C;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111613; --surface:#18201B; --ink:#E7ECE8; --muted:#A1ADA6; --line:#2C3631;
+  --accent:#5FBF94; --accent-ink:#0C1410; --accent-soft:#1D3328;
+  --wood-light:#CDB487; --wood-dark:#6B4428; --frame:#2B1B11;
+  --man-white:#F3EFE6; --man-black:#0E0E0E; --num:#F4E7CC;
+  --warn:#E0A54A; --bad:#E07A72; --good:#5FBF94; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111613; --surface:#18201B; --ink:#E7ECE8; --muted:#A1ADA6; --line:#2C3631;
+  --accent:#5FBF94; --accent-ink:#0C1410; --accent-soft:#1D3328;
+  --wood-light:#CDB487; --wood-dark:#6B4428; --frame:#2B1B11;
+  --man-white:#F3EFE6; --man-black:#0E0E0E; --num:#F4E7CC;
+  --warn:#E0A54A; --bad:#E07A72; --good:#5FBF94; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0;letter-spacing:.005em}
+h1{font-size:clamp(2.8rem,7vw,5.2rem);font-weight:800;text-transform:uppercase}
+h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;text-transform:uppercase}
+h3{font-size:1.45rem;font-weight:600}
+p{margin:0;max-width:65ch}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
+.brand-mark i:nth-child(1),.brand-mark i:nth-child(4){background:var(--ink)}
+nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
+nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent}
+nav.menu a:hover{border-color:var(--accent)}
+nav.menu a.cta{color:var(--accent)}
+
+/* hero */
+.hero{padding-block:48px 56px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hero-copy .lead{font-size:1.15rem;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;padding:0;margin:0;list-style:none}
+.facts li{display:flex;flex-direction:column}
+.facts b{font-family:var(--f-display);font-size:2rem;font-weight:800;line-height:1}
+.facts span{font-size:.85rem;color:var(--muted)}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 1rem var(--f-body);padding:12px 20px;border-radius:4px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.small{padding:6px 12px;font-size:.88rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* board */
+.board-box{display:flex;flex-direction:column;gap:12px;min-width:0}
+.board{width:100%;max-width:520px;aspect-ratio:1;margin-inline:auto;background:var(--frame);padding:3.2%;border-radius:6px;box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
+.board svg{display:block;width:100%;height:100%}
+.board-ctrl{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.chip{font:500 .85rem var(--f-mono);padding:6px 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.board-note{text-align:center;font-size:.85rem;color:var(--muted);margin-inline:auto}
+
+/* sections */
+section.block{padding-block:72px;border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px;margin-bottom:40px;align-items:end}
+.sec-head p{color:var(--muted)}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card p{color:var(--muted);font-size:.96rem}
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.why div{display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--ink);padding-top:14px}
+.why p{color:var(--muted)}
+.evidence{margin-top:36px;background:var(--accent-soft);border-radius:6px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center}
+.evidence .big{font-family:var(--f-display);font-weight:800;font-size:3.4rem;line-height:1;color:var(--accent)}
+.evidence p{font-size:.95rem}
+
+/* levels */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tab{font:700 1rem var(--f-body);padding:10px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.level{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:32px}
+.level .meta{display:flex;flex-direction:column;gap:14px}
+.level dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:.95rem}
+.level dt{color:var(--muted)}
+.level dd{margin:0;font-weight:600}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.routine{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.routine li{padding:16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.routine li:last-child{border-right:0}
+.routine .min{font:500 .8rem var(--f-mono);color:var(--accent)}
+.routine b{font-size:.98rem}
+.routine span{font-size:.85rem;color:var(--muted)}
+
+/* rules */
+.rules{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 40px;padding:0;margin:0;list-style:none}
+.rules li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;padding-block:12px;border-bottom:1px solid var(--line)}
+.rules b{font-weight:700}
+.rules span{color:var(--muted);font-size:.95rem}
+.links{margin-top:36px}
+
+/* status pills */
+.pill{display:inline-block;font:500 .75rem var(--f-mono);padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.aberto{color:var(--good)} .pill.breve{color:var(--warn)} .pill.encerrado{color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted);font-size:.95rem}
+.rank-pos{font-family:var(--f-display);font-weight:800;font-size:1.3rem}
+
+/* forms */
+form{display:flex;flex-direction:column;gap:16px}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-weight:600;font-size:.9rem}
+input,select,textarea{font:inherit;font-size:.98rem;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:80px;resize:vertical}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;align-self:flex-start}
+.seg button{font:600 .95rem var(--f-body);padding:9px 16px;border:0;background:var(--surface);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.msg{font-size:.92rem;padding:10px 14px;border-radius:4px;border:1px solid var(--line)}
+.msg.ok{border-color:var(--good);color:var(--good)}
+.msg.err{border-color:var(--bad);color:var(--bad)}
+.msg.info{color:var(--muted)}
+.mine{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.mine li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;font-size:.93rem;background:var(--bg)}
+.mine small{color:var(--muted)}
+
+.admin{background:var(--accent-soft)}
+.admin .card{background:var(--surface)}
+.row-actions{display:flex;gap:6px}
+.linkbtn{background:none;border:0;color:var(--bad);font:600 .85rem var(--f-body);cursor:pointer;padding:0}
+
+footer{padding-block:40px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+
+@media (max-width:860px){
+  .hero .wrap,.sec-head,.level,.rules{grid-template-columns:minmax(0,1fr)}
+  .g3,.why{grid-template-columns:minmax(0,1fr)}
+  .routine{grid-template-columns:minmax(0,1fr)}
+  .routine li{border-right:0;border-bottom:1px solid var(--line)}
+  nav.menu{margin-left:0;width:100%;padding-bottom:8px}
+}
+@media (max-width:560px){
+  .g2,.fgrid{grid-template-columns:minmax(0,1fr)}
+  .rules li{grid-template-columns:minmax(0,1fr);gap:2px}
+  .evidence{grid-template-columns:minmax(0,1fr)}
+  section.block{padding-block:52px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#projeto">O projeto</a>
+      <a href="#ensino">Plano de ensino</a>
+      <a href="rotina.html">Rotina de Treino</a>
+      <a href="regras.html">Regras Oficiais</a>
+      <a href="profissionais.html">Profissional</a>
+      <a href="#contatos" class="cta">Contatos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">Damas internacionais 10×10 · Escola russa</span>
+        <h1>Cem casas para aprender a pensar</h1>
+        <p class="lead">Um programa escolar de damas com plano de ensino, ementa e avaliação. Os alunos aprendem a modalidade oficial da Federação Mundial, do primeiro lance à competição, com o método que formou campeões mundiais.</p>
+        <ul class="facts">
+          <li><b>3</b><span>níveis progressivos</span></li>
+          <li><b>80</b><span>h/aula por ano</span></li>
+          <li><b>8+</b><span>anos de idade</span></li>
+          <li><b>20</b><span>peças por jogador</span></li>
+        </ul>
+        <div class="btns">
+          <a class="btn" href="#contatos">Falar com a equipe</a>
+          <a class="btn ghost" href="#ensino">Ver plano de ensino</a>
+        </div>
+      </div>
+      <div class="board-box">
+        <div class="board" id="board" role="img" aria-label="Tabuleiro de damas internacionais 10 por 10 na posição inicial"></div>
+        <div class="board-ctrl" role="group" aria-label="Exibição do tabuleiro">
+          <button class="chip" id="bt-pecas" aria-pressed="true" type="button">Posição inicial</button>
+          <button class="chip" id="bt-num" aria-pressed="false" type="button">Numeração 1–50</button>
+        </div>
+        <p class="board-note">Pretas nas casas 1–20, brancas nas 31–50. As brancas começam.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projeto">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">O projeto</span><h2>Por que damas na escola</h2></div>
+        <p>O jogo é barato, conhecido pelas famílias e fácil de começar. A versão 10×10 é profunda o bastante para sustentar anos de estudo e é a disputada em Mundiais e nos Jogos Mundiais da Mente.</p>
+      </div>
+      <div class="why">
+        <div><h3>Tabuleiro oficial</h3><p>Ensinar o 10×10 desde a escola leva o aluno direto ao circuito federado, sem reaprender outro jogo.</p></div>
+        <div><h3>Método russo</h3><p>Etapas com metas claras, muito exercício tático, finais desde o primeiro ano e análise das próprias partidas.</p></div>
+        <div><h3>Custo baixo</h3><p>Tabuleiros, relógios e fichas de exercícios. Sem exigência física, com participação igual para todos.</p></div>
+      </div>
+
+      <div class="grid g3" style="margin-top:40px">
+        <div class="card"><span class="eyebrow">Cognitivo</span><h3>Raciocínio e cálculo</h3><p>Cálculo de variantes, memória de trabalho e reconhecimento de padrões, treinados com combinações diárias.</p></div>
+        <div class="card"><span class="eyebrow">Matemática</span><h3>Coordenadas e contagem</h3><p>Notação de 1 a 50, contagem de tempos, paridade e simetria nos finais.</p></div>
+        <div class="card"><span class="eyebrow">Atenção</span><h3>Concentração e autocontrole</h3><p>Partidas com relógio e a regra de peça tocada, peça jogada.</p></div>
+        <div class="card"><span class="eyebrow">Socioemocional</span><h3>Saber perder e respeitar</h3><p>Fair play, análise conjunta depois da partida e torneios regulares.</p></div>
+        <div class="card"><span class="eyebrow">Autonomia</span><h3>Hábito de estudo</h3><p>Caderno de partidas e exercícios online para treinar em casa.</p></div>
+        <div class="card"><span class="eyebrow">Esporte</span><h3>Caminho federado</h3><p>Ranking interno, torneios intercolegiais e competições da FMJDM e da CBD.</p></div>
+      </div>
+
+      <div class="evidence">
+        <span class="big">0,38</span>
+        <p>Efeito médio do ensino de xadrez, jogo de estrutura semelhante, sobre o desempenho em Matemática, numa meta-análise de 24 estudos com 5.221 alunos (Sala e Gobet, 2016). O ganho foi maior com mais de 25 horas de instrução. Por isso o projeto prevê 80 h/aula por ano e mede seus resultados com uma turma de comparação.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ensino">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Plano de ensino</span><h2>Três níveis, um caminho</h2></div>
+        <p>Cada nível dura um ano letivo, com 2 h/aula por semana. O aluno avança quando domina o conteúdo do nível, comprovado em exame de passagem.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Níveis">
+        <button class="tab" role="tab" id="tab-1" aria-selected="true" aria-controls="lv" data-lv="0" type="button">Nível 1 · Iniciação</button>
+        <button class="tab" role="tab" id="tab-2" aria-selected="false" aria-controls="lv" data-lv="1" type="button">Nível 2 · Desenvolvimento</button>
+        <button class="tab" role="tab" id="tab-3" aria-selected="false" aria-controls="lv" data-lv="2" type="button">Nível 3 · Aperfeiçoamento</button>
+      </div>
+      <div id="lv" role="tabpanel" class="level"></div>
+
+      <h3 style="margin-top:48px">Como é uma aula de 100 minutos</h3>
+      <ol class="routine">
+        <li><span class="min">15 min</span><b>Aquecimento tático</b><span>5 a 10 posições curtas, resolvidas sozinho</span></li>
+        <li><span class="min">25 min</span><b>Tema novo</b><span>Exposição no tabuleiro mural, com perguntas</span></li>
+        <li><span class="min">20 min</span><b>Fixação</b><span>Exercícios do tema em duplas</span></li>
+        <li><span class="min">30 min</span><b>Jogo dirigido</b><span>Posições do tema ou partida com relógio</span></li>
+        <li><span class="min">10 min</span><b>Fechamento</b><span>Correção, análise rápida e tarefa</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="estudo">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Área de estudo</span><h2>Estudo e Regras</h2></div>
+        <p>Acesse o material didático para evoluir no jogo de damas. Aprenda as regras oficiais detalhadas e siga uma rotina de treino estruturada.</p>
+      </div>
+      
+      <div class="grid g2">
+        <div class="card" style="padding: 32px; border: 2px solid var(--accent);">
+          <span class="eyebrow">Para iniciantes</span>
+          <h3 style="font-size: 2rem; margin: 8px 0 16px;">Regras Oficiais da FMJD</h3>
+          <p style="margin-bottom: 24px;">Aprenda a movimentação, a captura obrigatória, a lei da maioria e as regras de empate, com exemplos visuais do Lidraughts.</p>
+          <a class="btn" href="regras.html">Ler as Regras 10x10</a>
+        </div>
+        <div class="card" style="padding: 32px; border: 2px solid var(--ink);">
+          <span class="eyebrow">Para praticantes</span>
+          <h3 style="font-size: 2rem; margin: 8px 0 16px;">Plano e Rotina de Treino</h3>
+          <p style="margin-bottom: 24px;">Uma rotina semanal no estilo russo, focada em tática, cálculo profundo e constância diária para evolução contínua.</p>
+          <a class="btn" style="background: var(--ink); color: var(--bg); border-color: var(--ink);" href="rotina.html">Ver Plano de Treino</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contatos">
+  <div class="wrap">
+    <div>
+      <b style="color:var(--ink)">Damas na Escola</b><br>
+      Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
+      <strong style="color:var(--ink)">Contatos:</strong><br>
+      WhatsApp: (98) 90000-0000<br>
+      E-mail: contato@damasnaescola.com.br<br>
+      Endereço: São Luís, MA
+    </div>
+    <div>Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br>Regras: Federação Mundial de Jogo de Damas (FMJD)</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- Tabuleiro ---------- */
+  const N = 10, S = 10; // viewBox 100x100, casa = 10
+  let showPieces = true, showNums = false;
+  function sqNumber(r, c){ // casas escuras numeradas 1..50 a partir do topo
+    if ((r + c) % 2 === 0) return null;
+    return r * 5 + Math.floor(c / 2) + 1;
+  }
+  function drawBoard(){
+    let s = '<svg viewBox="0 0 100 100" aria-hidden="true">';
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++){
+      const n = sqNumber(r, c);
+      s += `<rect x="${c*S}" y="${r*S}" width="${S}" height="${S}" fill="var(${n ? '--wood-dark' : '--wood-light'})"/>`;
+      if (!n) continue;
+      if (showPieces && (n <= 20 || n >= 31)){
+        const black = n <= 20;
+        s += `<circle cx="${c*S+5}" cy="${r*S+5}" r="3.9" fill="var(${black?'--man-black':'--man-white'})" stroke="${black?'rgba(255,255,255,.18)':'rgba(0,0,0,.35)'}" stroke-width=".35"/>`;
+        s += `<circle cx="${c*S+5}" cy="${r*S+5}" r="2.6" fill="none" stroke="${black?'rgba(255,255,255,.14)':'rgba(0,0,0,.18)'}" stroke-width=".3"/>`;
+      }
+      if (showNums){
+        const onPiece = showPieces && (n <= 20 || n >= 31);
+        const col = onPiece ? (n <= 20 ? '#F4E7CC' : '#3A2614') : 'var(--num)';
+        s += `<text x="${c*S+5}" y="${r*S+6.3}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="3.6" font-weight="500" fill="${col}">${n}</text>`;
+      }
+    }
+    s += '</svg>';
+    document.getElementById('board').innerHTML = s;
+  }
+  const btP = document.getElementById('bt-pecas'), btN = document.getElementById('bt-num');
+  btP.addEventListener('click', () => { showPieces = !showPieces; btP.setAttribute('aria-pressed', showPieces); drawBoard(); });
+  btN.addEventListener('click', () => { showNums = !showNums; btN.setAttribute('aria-pressed', showNums); drawBoard(); });
+  drawBoard();
+
+  /* ---------- Níveis ---------- */
+  const LEVELS = [
+    { title:'Iniciação', perfil:'Não conhece as regras oficiais 10×10', turma:'até 20 alunos', meta:'4ª categoria',
+      ementa:'História e modalidades do jogo. Tabuleiro 10×10, notação e regras da FMJD. Captura obrigatória, lei da maioria e promoção. Golpes elementares e finais básicos. Conduta esportiva, relógio e anotação.',
+      units:[['O jogo e as regras',8],['Tática I: golpes elementares',14],['Finais I: promoção, oposição, dama contra pedras',8],['Tática II: combinações de 2 e 3 lances',16],['Jogo de meio I: centro e desenvolvimento',8],['Finais II: dama contra várias pedras',6],['Prática de jogo com relógio',14],['Avaliações',6]] },
+    { title:'Desenvolvimento', perfil:'Concluiu o Nível 1 ou já joga com notação', turma:'até 15 alunos', meta:'3ª categoria',
+      ementa:'Combinações de 3 a 5 lances e seus motivos: sacrifício, bloqueio, ruptura, atração. Cálculo de variantes e contagem de tempos. Finais de damas. Estruturas de meio de jogo e posto avançado (kol). Fundamentos das aberturas e análise de partidas.',
+      units:[['Regulamento de torneio',2],['Tática III: motivos combinatórios',26],['Finais III: grande diagonal, 3 e 4 damas contra 1',14],['Jogo de meio II: centro, flancos e kol',14],['Aberturas I: 32-28, 33-28, 31-27, 34-29',6],['Análise de partidas',6],['Prática de jogo',8],['Avaliações',4]] },
+    { title:'Aperfeiçoamento', perfil:'Concluiu o Nível 2 e compete pela escola', turma:'até 10 alunos', meta:'2ª e 1ª categorias',
+      ementa:'Combinações complexas e golpes de longo alcance. Jogo clássico, de cerco, de flanco e de tempos. Finais complexos e estudos. Repertório de aberturas, partidas de mestres e preparação para competição.',
+      units:[['Regulamentos e arbitragem',2],['Tática IV: combinações complexas',20],['Finais IV: estudos clássicos',14],['Estratégia e posições-tipo',14],['Aberturas II: repertório pessoal',10],['Partidas de mestres e análise',10],['Preparação competitiva',6],['Avaliações',4]] }
+  ];
+  const lv = document.getElementById('lv');
+  function esc(t){ return String(t ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+  function showLevel(i){
+    const L = LEVELS[i];
+    document.querySelectorAll('.tab').forEach((t, k) => t.setAttribute('aria-selected', k === i));
+    lv.setAttribute('aria-labelledby', 'tab-' + (i + 1));
+    lv.innerHTML = `<div class="meta"><h3>Nível ${i+1} · ${esc(L.title)}</h3><p>${esc(L.ementa)}</p>
+      <dl><dt>Perfil</dt><dd>${esc(L.perfil)}</dd><dt>Turma</dt><dd>${esc(L.turma)}</dd><dt>Carga</dt><dd>80 h/aula · 40 semanas</dd><dt>Meta</dt><dd>${esc(L.meta)}</dd></dl></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Unidade</th><th class="num">h/aula</th></tr></thead><tbody>
+      ${L.units.map(u => `<tr><td>${esc(u[0])}</td><td class="num">${u[1]}</td></tr>`).join('')}
+      <tr><td><b>Total</b></td><td class="num"><b>${L.units.reduce((a,u)=>a+u[1],0)}</b></td></tr></tbody></table></div>`;
+  }
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showLevel(+t.dataset.lv)));
+  showLevel(0);
+
+  /* ---------- Administração ---------- */
+  let isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+  if (!isAdmin && localStorage.getItem('damas_admin') === '1') isAdmin = true;
+  if (isAdmin) localStorage.setItem('damas_admin', '1');
+
+  if (!isAdmin){
+     const fBold = document.querySelector('footer b');
+     if(fBold) {
+       fBold.addEventListener('dblclick', () => { window.location.href = '?admin=1'; });
+       fBold.style.cursor = 'pointer'; fBold.title = 'Duplo clique para gerenciar';
+     }
+  }
+})();
+</script>
+
+</body></html>
