@@ -220,8 +220,24 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
         <a href="cadastro.html" class="btn">Registrar-se</a>
       </div>
 
-      <div class="prof-grid" id="prof-list">
-        <!-- JS render here -->
+      <div class="filter-bar" style="margin-bottom: 24px;">
+        <input type="text" id="filtro-cidade" placeholder="Buscar por cidade..." style="padding: 12px; border-radius: 6px; border: 1px solid var(--line); width: 100%; max-width: 300px; font-family: var(--f-body); font-size: 1rem;">
+      </div>
+
+      <div class="prof-table-wrap" style="overflow-x: auto;">
+        <table class="prof-table" style="width: 100%; border-collapse: collapse; text-align: left; background: var(--surface); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+          <thead>
+            <tr style="background: var(--accent); color: white;">
+              <th style="padding: 16px;">Foto</th>
+              <th style="padding: 16px;">Nome</th>
+              <th style="padding: 16px;">Cidade</th>
+              <th style="padding: 16px; text-align: right;">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="prof-list">
+            <!-- JS render here -->
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -269,51 +285,62 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
     localStorage.setItem('damas_admin', '1');
   }
 
+  let allProfs = [];
+
   async function renderProfs() {
     const list = document.getElementById('prof-list');
-    list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">Sincronizando com a nuvem...</div>';
+    list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Sincronizando com a nuvem...</td></tr>';
     
     try {
-      // Create index in firebase or it may fallback to no ordering if index isn't ready. 
-      // To avoid index errors, we'll fetch all and sort client-side for simplicity, 
-      // or just trust Firebase to return them. For safety, let's fetch and sort manually.
       const querySnapshot = await getDocs(collection(db, "jogadores"));
-      const profs = [];
+      allProfs = [];
       querySnapshot.forEach((doc) => {
-        profs.push({ id: doc.id, ...doc.data() });
+        allProfs.push({ id: doc.id, ...doc.data() });
       });
 
       // Sort by date descending
-      profs.sort((a, b) => new Date(b.dataCadastro || 0) - new Date(a.dataCadastro || 0));
-
-      if(profs.length === 0) {
-        list.innerHTML = '<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: var(--muted); border: 2px dashed var(--line); border-radius: 12px; font-size:1.1rem;">Nenhum jogador cadastrado ainda.<br><a href="cadastro.html" style="color:var(--accent);font-weight:bold;margin-top:12px;display:inline-block;">Seja o primeiro a se cadastrar!</a></div>';
-        return;
-      }
-      
-      list.innerHTML = profs.map(p => `
-        <div class="prof-card" id="card-${p.id}">
-          <img src="${p.foto}" alt="${p.nome}" class="prof-photo">
-          <div class="prof-info">
-            <h3 class="prof-name">${p.nome}</h3>
-            <span class="prof-loc">📍 ${p.bairro}, ${p.cidade}</span>
-            <p class="prof-bio">${p.bio}</p>
-            <span class="prof-contact">📱 ${p.tel}</span>
-            ${isAdmin ? `<button class="prof-del" onclick="window.delProf('${p.id}')">Remover jogador (Nuvem)</button>` : ''}
-          </div>
-        </div>
-      `).join('');
+      allProfs.sort((a, b) => new Date(b.dataCadastro || 0) - new Date(a.dataCadastro || 0));
+      drawTable(allProfs);
     } catch (error) {
       console.error("Erro ao buscar jogadores:", error);
-      list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:red;">Erro ao conectar com o banco de dados. Verifique as configurações.</div>';
+      list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:red;">Erro ao conectar com o banco de dados. Verifique as configurações.</td></tr>';
     }
+  }
+
+  function drawTable(data) {
+    const list = document.getElementById('prof-list');
+    if(data.length === 0) {
+      list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Nenhum jogador encontrado.</td></tr>';
+      return;
+    }
+    
+    list.innerHTML = data.map(p => `
+      <tr id="row-${p.id}" style="border-bottom: 1px solid var(--line); transition: background 0.2s;" onmouseover="this.style.background='#F9FAF8'" onmouseout="this.style.background='transparent'">
+        <td style="padding: 16px; width: 70px;"><img src="${p.foto}" alt="${p.nome}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"></td>
+        <td style="padding: 16px; font-weight: 600; color: var(--ink);">${p.nome}</td>
+        <td style="padding: 16px; color: var(--muted);">${p.cidade || '-'}</td>
+        <td style="padding: 16px; text-align: right;">
+          <a href="perfil.html?id=${p.id}" class="btn ghost" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-block;">Ver Perfil</a>
+          ${isAdmin ? `<button class="btn" style="background:var(--bad); border-color:var(--bad); padding: 6px 12px; font-size: 0.85rem; margin-left: 8px;" onclick="window.delProf('${p.id}')">Excluir</button>` : ''}
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  const filtroInput = document.getElementById('filtro-cidade');
+  if (filtroInput) {
+    filtroInput.addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      const filtrados = allProfs.filter(p => (p.cidade || '').toLowerCase().includes(val));
+      drawTable(filtrados);
+    });
   }
 
   window.delProf = async function(id) {
     if(confirm('Tem certeza que deseja remover este jogador DEFINITIVAMENTE da nuvem?')) {
       try {
         await deleteDoc(doc(db, "jogadores", id));
-        document.getElementById('card-' + id).remove();
+        document.getElementById('row-' + id).remove();
         alert('Jogador removido da nuvem!');
       } catch (error) {
         alert("Erro ao remover: " + error.message);

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Dados</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; text-align: center; background: #F3F4F0; }
+    .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; }
+    button { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #1E6A4C; color: white; border: none; border-radius: 8px; font-weight: bold; width: 100%; transition: opacity 0.2s; }
+    button:hover { opacity: 0.9; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    #msg { margin-top: 20px; font-weight: bold; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Gerador de Jogadores Fictícios</h2>
+    <p style="color: #555; margin-bottom: 24px;">Clique no botão abaixo para adicionar 4 jogadores de teste realistas no seu Banco de Dados Firebase.</p>
+    <button id="btn">Gerar 4 Jogadores Mágicos ✨</button>
+    <div id="msg"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Suas chaves exatas do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
+      authDomain: "portal-jogadores-de-dama.firebaseapp.com",
+      projectId: "portal-jogadores-de-dama",
+      storageBucket: "portal-jogadores-de-dama.firebasestorage.app",
+      messagingSenderId: "58381213060",
+      appId: "1:58381213060:web:14d476a88e5869fdb311d1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const fakes = [
+      {
+        nome: "Carlos Eduardo Silva",
+        cep: "65000-000",
+        endereco: "Rua das Laranjeiras",
+        numero: "123",
+        bairro: "Renascença",
+        cidade: "São Luís",
+        tel: "(98) 98888-1111",
+        bio: "Mestre regional com 15 anos de experiência. Especialista em posições fechadas e Campeão maranhense de 2018.",
+        foto: "https://i.pravatar.cc/300?img=11",
+        dataCadastro: new Date().toISOString()
+      },
+      {
+        nome: "Ana Beatriz Sousa",
+        cep: "65000-000",
+        endereco: "Av. Litorânea",
+        numero: "456",
+        bairro: "Calhau",
+        cidade: "São Luís",
+        tel: "(98) 97777-2222",
+        bio: "Especialista em táticas de abertura russa. Compete ativamente na liga feminina e incentiva o esporte nas escolas.",
+        foto: "https://i.pravatar.cc/300?img=5",
+        dataCadastro: new Date(Date.now() - 10000).toISOString()
+      },
+      {
+        nome: "Roberto Mendes",
+        cep: "65000-000",
+        endereco: "Rua do Sol",
+        numero: "78",
+        bairro: "Centro",
+        cidade: "São Luís",
+        tel: "(98) 96666-3333",
+        bio: "Amador entusiasta e árbitro da Federação Maranhense. Dedica seus finais de semana ensinando a nova geração.",
+        foto: "https://i.pravatar.cc/300?img=60",
+        dataCadastro: new Date(Date.now() - 20000).toISOString()
+      },
+      {
+        nome: "Juliana Ferreira",
+        cep: "65900-000",
+        endereco: "Av. Getúlio Vargas",
+        numero: "900",
+        bairro: "Centro",
+        cidade: "Imperatriz",
+        tel: "(99) 95555-4444",
+        bio: "Jovem prodígio do sul do estado. Vencedora invicta do torneio sub-20 estadual. Famosa pelo seu jogo extremamente agressivo.",
+        foto: "https://i.pravatar.cc/300?img=47",
+        dataCadastro: new Date(Date.now() - 30000).toISOString()
+      }
+    ];
+
+    document.getElementById('btn').addEventListener('click', async (e) => {
+      e.target.disabled = true;
+      e.target.textContent = "Enviando dados para a nuvem...";
+      const msg = document.getElementById('msg');
+      msg.style.color = '#56635C';
+      msg.textContent = "Conectando ao banco de dados...";
+
+      try {
+        for (const p of fakes) {
+          await addDoc(collection(db, "jogadores"), p);
+        }
+        msg.style.color = '#2D7A4D';
+        msg.innerHTML = "✅ Sucesso! 4 jogadores foram adicionados.<br><br>Pode fechar esta página e abrir a sua <b>Página Inicial (Mural)</b> para ver como ficou lindo!";
+        e.target.textContent = "Tudo Pronto!";
+      } catch (err) {
+        console.error(err);
+        msg.style.color = '#C83532';
+        msg.textContent = "Erro ao adicionar dados. (Verifique sua internet ou se o banco bloqueou).";
+        e.target.disabled = false;
+        e.target.textContent = "Tentar Novamente";
+      }
+    });
+  </script>
+</body>
+</html>
