@@ -238,8 +238,8 @@
                       <span class="info-label">Status Atual</span>
                       <span class="info-value">${data.online ? '🟢 Online' : '⚪ Offline'}</span>
                     </div>
-                    <div class="info-box" style="background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="window.open('${data.url}', '_blank')">
-                      <span style="color: white; font-weight: bold; text-decoration: none;">↗ Ver no Lidraughts</span>
+                    <div class="info-box" style="background: #262421; border: 1px solid #4a453e; color: white; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onmouseover="this.style.background='#36332f'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#262421'; this.style.transform='none';" onclick="window.open('${data.url}', '_blank')">
+                      <span style="font-weight: bold; font-size: 1.05rem;">↗ Ver no Lidraughts</span>
                     </div>
                   </div>
                 `;

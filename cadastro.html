@@ -341,11 +341,12 @@
   <main>
     <section class="block" style="padding-top: 48px;">
       <div class="wrap">
-        <div class="sec-head">
-          <div><span class="eyebrow">Novo Cadastro</span>
-            <h2>Inscreva-se no Projeto</h2>
-          </div>
-          <p>Preencha seus dados abaixo para fazer parte do nosso quadro de jogadores profissionais do Maranhão.</p>
+        <div style="text-align: center; margin-bottom: 48px;">
+          <span class="eyebrow">Cadastro Oficial</span>
+          <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 12px;">Inscreva-se</h2>
+          <p style="margin-inline: auto; font-size: 1.1rem; color: var(--muted); max-width: 600px;">
+            Preencha seus dados abaixo para fazer parte do nosso quadro oficial de jogadores profissionais do Maranhão.
+          </p>
         </div>
 
         <div class="card" id="form-prof" style="margin-bottom: 40px; background: var(--surface);">
@@ -365,8 +366,7 @@
               <div class="field"><label for="p-estado">Estado</label><input id="p-estado" value="Maranhão (MA)" readonly style="color: var(--muted); cursor: not-allowed;" title="Apenas residentes do MA"></div>
               <div class="field"><label for="p-cidade">Cidade</label><input id="p-cidade" required value="São Luís"></div>
 
-              <div class="field full"><label for="p-foto">Sua Foto (Arquivo de Imagem)</label><input type="file"
-                  id="p-foto" accept="image/*" required style="background: white;"></div>
+              <div class="field"><label for="p-foto">Sua Foto (Arquivo de Imagem)</label><input type="file" id="p-foto" accept="image/*" required style="background: white; padding: 7px;"></div>
               <div class="field full"><label for="p-bio">Breve Biografia e Conquistas</label><textarea id="p-bio"
                   required
                   placeholder="Conte um pouco sobre sua trajetória, anos de experiência, títulos em torneios da federação..."></textarea>
