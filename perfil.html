@@ -322,16 +322,21 @@
               const doc = parser.parseFromString(data.contents, 'text/html');
               const trs = doc.querySelectorAll('table tbody tr');
               let ratingEncontrado = null;
-              
+              const ths = doc.querySelectorAll('table thead th');
+              let idx100 = 3; // Default
+              ths.forEach((th, i) => {
+                if (th.textContent.includes('100-R')) idx100 = i;
+              });
+
               for (let tr of trs) {
                 const tds = tr.querySelectorAll('td');
-                if (tds.length > 3) {
+                if (tds.length >= 3) {
                   const nomeNaTabela = tds[1].textContent.trim().toLowerCase();
                   if (nomeNaTabela.includes(p.nome.toLowerCase()) || p.nome.toLowerCase().includes(nomeNaTabela)) {
                     ratingEncontrado = {
                       reg: tds[0].textContent.trim(),
                       uf: tds[2].textContent.trim(),
-                      r100c: tds[6].textContent.trim()
+                      r100c: tds[idx100] ? tds[idx100].textContent.trim() : '0'
                     };
                     
                     if (ratingEncontrado.uf === 'MA' || ratingEncontrado.uf === '') {
