@@ -245,67 +245,28 @@
                   </div>
                 `;
 
-                // Buscar página de estatísticas detalhadas do Blitz para pegar recordes
-                const statsUrl = `https://lidraughts.org/@/${p.lidraughts}/perf/blitz`;
-                fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(statsUrl)}`)
-                  .then(res2 => res2.json())
-                  .then(htmlData => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlData.contents, 'text/html');
-                    
-                    let highRating = '-';
-                    let lowRating = '-';
-                    let winStreak = '-';
-                    let loseStreak = '-';
-                    
-                    try {
-                      const highNode = doc.querySelector('.highlow > div:nth-child(1) h2 strong');
-                      if(highNode) highRating = highNode.textContent.trim();
-                      
-                      const lowNode = doc.querySelector('.highlow > div:nth-child(2) h2 strong');
-                      if(lowNode) lowRating = lowNode.textContent.trim();
-                      
-                      const winNode = doc.querySelector('.resultStreak > div:nth-child(1) .streak:nth-of-type(1) h3');
-                      if(winNode) {
-                        const val = winNode.querySelector('green, red, strong, span');
-                        if (val) winStreak = val.textContent.trim();
-                        else winStreak = winNode.textContent.replace(/.*:/, '').trim();
-                      }
-                      
-                      const loseNode = doc.querySelector('.resultStreak > div:nth-child(2) .streak:nth-of-type(1) h3');
-                      if(loseNode) {
-                        const val = loseNode.querySelector('green, red, strong, span');
-                        if (val) loseStreak = val.textContent.trim();
-                        else loseStreak = loseNode.textContent.replace(/.*:/, '').trim();
-                      }
-                      
-                      if (highRating !== '-') {
-                        const grid = document.getElementById('lidraughts-grid');
-                        const btn = grid.lastElementChild;
-                        grid.removeChild(btn); // Remove temporariamente o botao "Ver no Lidraughts"
-                        
-                        grid.innerHTML += `
-                          <div class="info-box">
-                            <span class="info-label">Maior Pontuação</span>
-                            <span class="info-value" style="color: var(--good);">📈 ${highRating}</span>
-                          </div>
-                          <div class="info-box">
-                            <span class="info-label">Menor Pontuação</span>
-                            <span class="info-value" style="color: var(--bad);">📉 ${lowRating}</span>
-                          </div>
-                          <div class="info-box">
-                            <span class="info-label">Maior Série de Vitórias</span>
-                            <span class="info-value" style="color: var(--good);">🔥 ${winStreak}</span>
-                          </div>
-                          <div class="info-box">
-                            <span class="info-label">Maior Série de Derrotas</span>
-                            <span class="info-value" style="color: var(--bad);">🧊 ${loseStreak}</span>
-                          </div>
-                        `;
-                        grid.appendChild(btn); // Adiciona o botao de volta no final
-                      }
-                    } catch(e) {}
-                  }).catch(e => console.log('Erro ao buscar stats extra', e));
+                // Adicionar estatísticas gerais que vêm direto da API principal do Lidraughts
+                if (data.count) {
+                  const grid = document.getElementById('lidraughts-grid');
+                  const btn = grid.lastElementChild;
+                  grid.removeChild(btn);
+                  
+                  grid.innerHTML += `
+                    <div class="info-box">
+                      <span class="info-label">Total Vitórias</span>
+                      <span class="info-value" style="color: var(--good);">🏆 ${data.count.win || 0}</span>
+                    </div>
+                    <div class="info-box">
+                      <span class="info-label">Total Derrotas</span>
+                      <span class="info-value" style="color: var(--bad);">📉 ${data.count.loss || 0}</span>
+                    </div>
+                    <div class="info-box">
+                      <span class="info-label">Total Empates</span>
+                      <span class="info-value" style="color: var(--gold);">🤝 ${data.count.draw || 0}</span>
+                    </div>
+                  `;
+                  grid.appendChild(btn);
+                }
               })
               .catch(err => {
                 document.getElementById('lidraughts-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Erro ao carregar dados da API do Lidraughts.</p>`;
@@ -314,13 +275,34 @@
              document.getElementById('lidraughts-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Este jogador ainda não vinculou uma conta do Lidraughts.</p>`;
           }
 
-          // Buscar Rating Nacional via CORS Proxy
+          // Buscar Rating Nacional via CORS Proxy com Fallbacks
           const urlBusca = `https://ratingdamas.org/rating?search=${encodeURIComponent(p.nome)}`;
-          fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}`)
-            .then(res => res.json())
-            .then(data => {
+          
+          const proxies = [
+            `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
+            `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
+            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlBusca)}`
+          ];
+
+          async function getRatingHtml() {
+            for (let proxy of proxies) {
+              try {
+                const res = await fetch(proxy, { cache: 'no-store' });
+                if (!res.ok) continue;
+                let text = await res.text();
+                if (proxy.includes('allorigins')) {
+                  try { text = JSON.parse(text).contents; } catch(e) { continue; }
+                }
+                if (text && text.includes('<table')) return text;
+              } catch (err) {}
+            }
+            throw new Error('All proxies failed');
+          }
+
+          getRatingHtml()
+            .then(html => {
               const parser = new DOMParser();
-              const doc = parser.parseFromString(data.contents, 'text/html');
+              const doc = parser.parseFromString(html, 'text/html');
               const trs = doc.querySelectorAll('table tbody tr');
               let ratingEncontrado = null;
               const ths = doc.querySelectorAll('table thead th');
@@ -381,7 +363,12 @@
               }
             })
             .catch(err => {
-              document.getElementById('nacional-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Não foi possível consultar o site RatingDamas no momento.</p>`;
+              document.getElementById('nacional-stats').innerHTML = `
+                <div style="text-align: center; color: var(--muted);">
+                  <p style="margin-bottom: 12px;">Servidores de busca instáveis. Acesse o portal oficial para conferir o rating.</p>
+                  <a href="${urlBusca}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 0.9rem;">Ver Rating Oficial</a>
+                </div>
+              `;
             });
         } else {
           container.innerHTML = '<div class="loading" style="color:red;">Nenhum jogador encontrado com este ID. Ele pode ter sido deletado.</div>';
