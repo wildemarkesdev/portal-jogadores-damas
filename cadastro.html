@@ -305,6 +305,25 @@
         grid-template-columns: minmax(0, 1fr)
       }
     }
+    /* Spinner Animation */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+      background: var(--muted);
+      border-color: var(--muted);
+    }
   </style>
 </head>
 
@@ -422,36 +441,70 @@
 
         if (!fotoFile) { msg(m, 'Selecione uma foto.', 'err'); return; }
 
-        msg(m, 'Enviando para a nuvem...', 'info');
-        fProf.querySelector('button[type="submit"]').disabled = true;
+        m.hidden = true;
+        const submitBtn = fProf.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<div class="spinner"></div> Processando...';
+        submitBtn.disabled = true;
 
         const reader = new FileReader();
-        reader.onload = async function (e) {
-          const novo = {
-            nome: document.getElementById('p-nome').value.trim(),
-            cep: document.getElementById('p-cep').value.trim(),
-            endereco: document.getElementById('p-end').value.trim(),
-            numero: document.getElementById('p-num').value.trim(),
-            bairro: document.getElementById('p-bairro').value.trim(),
-            cidade: document.getElementById('p-cidade').value.trim(),
-            tel: document.getElementById('p-tel').value.trim(),
-            bio: document.getElementById('p-bio').value.trim(),
-            foto: e.target.result, // Base64
-            dataCadastro: new Date().toISOString()
-          };
+        reader.onload = function (e) {
+          const img = new Image();
+          img.onload = async function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 600;
+            const MAX_HEIGHT = 600;
+            let width = img.width;
+            let height = img.height;
 
-          try {
-            await addDoc(collection(db, "jogadores"), novo);
-            m.className = 'msg ok';
-            m.innerHTML = 'Cadastro realizado na nuvem com sucesso! <a href="index.html" style="color:var(--good);text-decoration:underline;">Ver Lista</a>';
-            m.hidden = false;
-            ev.target.reset();
-          } catch (error) {
-            console.error("Erro ao adicionar:", error);
-            msg(m, 'Erro ao salvar no banco de dados. Tente novamente.', 'err');
-          } finally {
-            fProf.querySelector('button[type="submit"]').disabled = false;
-          }
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Comprime a imagem para JPEG com 60% de qualidade
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+
+            const novo = {
+              nome: document.getElementById('p-nome').value.trim(),
+              cep: document.getElementById('p-cep').value.trim(),
+              endereco: document.getElementById('p-end').value.trim(),
+              numero: document.getElementById('p-num').value.trim(),
+              bairro: document.getElementById('p-bairro').value.trim(),
+              cidade: document.getElementById('p-cidade').value.trim(),
+              tel: document.getElementById('p-tel').value.trim(),
+              bio: document.getElementById('p-bio').value.trim(),
+              foto: dataUrl,
+              dataCadastro: new Date().toISOString()
+            };
+
+            try {
+              await addDoc(collection(db, "jogadores"), novo);
+              m.className = 'msg ok';
+              m.innerHTML = 'Cadastro realizado na nuvem com sucesso! <a href="index.html" style="color:var(--good);text-decoration:underline;">Ver Lista</a>';
+              m.hidden = false;
+              ev.target.reset();
+            } catch (error) {
+              console.error("Erro ao adicionar:", error);
+              msg(m, 'Erro ao salvar no banco de dados. Tente novamente. Tamanho da imagem pode ser a causa.', 'err');
+            } finally {
+              submitBtn.innerHTML = originalBtnText;
+              submitBtn.disabled = false;
+            }
+          };
+          img.src = e.target.result;
         };
         reader.readAsDataURL(fotoFile);
       });
