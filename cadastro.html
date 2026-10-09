@@ -353,7 +353,8 @@
           <h3>Inscreva-se como Profissional</h3>
           <form id="f-prof">
             <div class="fgrid">
-              <div class="field full"><label for="p-nome">Nome completo</label><input id="p-nome" required></div>
+              <div class="field"><label for="p-nome">Nome Completo (Para busca do Rating)</label><input id="p-nome" required></div>
+              <div class="field"><label for="p-apelido">Nome de Exibição / Apelido</label><input id="p-apelido" required></div>
               <div class="field"><label for="p-tel">Telefone / WhatsApp</label><input id="p-tel" required></div>
               <div class="field"><label for="p-nasc">Data de Nascimento</label><input type="date" id="p-nasc" required></div>
               <div class="field"><label for="p-cep">CEP</label><input id="p-cep" required placeholder="Ex: 65000000" maxlength="9"></div>
@@ -483,6 +484,7 @@
 
             const novo = {
               nome: document.getElementById('p-nome').value.trim(),
+              apelido: document.getElementById('p-apelido').value.trim(),
               dataNascimento: document.getElementById('p-nasc').value,
               cep: document.getElementById('p-cep').value.trim(),
               endereco: document.getElementById('p-end').value.trim(),

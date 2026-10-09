@@ -46,7 +46,7 @@
     nav.menu a.cta:hover { background: var(--accent); }
 
     .perfil-container { display: flex; gap: 40px; margin-top: 60px; align-items: flex-start; }
-    .perfil-foto { width: 300px; height: 300px; border-radius: 16px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 4px solid var(--surface); }
+    .perfil-foto { width: 300px; height: 300px; border-radius: 16px; object-fit: cover; object-position: top center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 4px solid var(--surface); }
     .perfil-info { flex: 1; }
     .perfil-info h2 { font-size: 3.5rem; margin-bottom: 10px; }
     .perfil-cidade { font-family: var(--f-mono); font-size: 1rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 24px; }
@@ -145,9 +145,10 @@
 
           container.innerHTML = `
             <div class="perfil-container">
-              <img src="${p.foto}" alt="${p.nome}" class="perfil-foto">
+              <img src="${p.foto}" alt="${p.apelido || p.nome}" class="perfil-foto">
               <div class="perfil-info">
-                <h2>${p.nome}</h2>
+                <h2 style="margin-bottom: 4px;">${p.apelido || p.nome}</h2>
+                ${p.apelido ? `<span style="display: block; font-size: 1.1rem; color: var(--muted); margin-bottom: 12px; font-weight: 500;">${p.nome}</span>` : ''}
                 <span class="perfil-cidade">📍 ${p.bairro || 'Bairro não inf.'}, ${p.cidade || 'Cidade não inf.'}</span>
                 <p class="perfil-bio">${p.bio || 'Nenhuma biografia disponível para este jogador.'}</p>
                 
@@ -208,7 +209,7 @@
               </div>
             </div>
           `;
-          document.title = p.nome + " - Portal do Damista Maranhense";
+          document.title = (p.apelido || p.nome) + " - Portal do Damista Maranhense";
 
           if (p.lidraughts) {
             fetch(`https://lidraughts.org/api/user/${p.lidraughts}`)
