@@ -378,7 +378,22 @@
         Damas (FMJD)</div>
     </div>
   </footer>
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
+      authDomain: "portal-jogadores-de-dama.firebaseapp.com",
+      projectId: "portal-jogadores-de-dama",
+      storageBucket: "portal-jogadores-de-dama.firebasestorage.app",
+      messagingSenderId: "58381213060",
+      appId: "1:58381213060:web:14d476a88e5869fdb311d1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     function msg(el, text, kind) { el.hidden = false; el.className = 'msg ' + kind; el.textContent = text; }
 
     // Auto-fill address from CEP via ViaCEP API
@@ -398,28 +413,21 @@
       }
     });
 
-    function getProfs() {
-      return JSON.parse(localStorage.getItem('damas_profissionais') || '[]');
-    }
-    function saveProfs(data) {
-      localStorage.setItem('damas_profissionais', JSON.stringify(data));
-    }
-
     const fProf = document.getElementById('f-prof');
     if (fProf) {
-      fProf.addEventListener('submit', ev => {
+      fProf.addEventListener('submit', async ev => {
         ev.preventDefault();
         const m = document.getElementById('p-msg');
         const fotoFile = document.getElementById('p-foto').files[0];
 
         if (!fotoFile) { msg(m, 'Selecione uma foto.', 'err'); return; }
 
-        msg(m, 'Processando cadastro...', 'info');
+        msg(m, 'Enviando para a nuvem...', 'info');
+        fProf.querySelector('button[type="submit"]').disabled = true;
 
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = async function (e) {
           const novo = {
-            id: 'p_' + Date.now(),
             nome: document.getElementById('p-nome').value.trim(),
             cep: document.getElementById('p-cep').value.trim(),
             endereco: document.getElementById('p-end').value.trim(),
@@ -428,16 +436,22 @@
             cidade: document.getElementById('p-cidade').value.trim(),
             tel: document.getElementById('p-tel').value.trim(),
             bio: document.getElementById('p-bio').value.trim(),
-            foto: e.target.result // Base64 image
+            foto: e.target.result, // Base64
+            dataCadastro: new Date().toISOString()
           };
-          const profs = getProfs();
-          profs.push(novo);
-          saveProfs(profs);
-          ev.target.reset();
 
-          m.className = 'msg ok';
-          m.innerHTML = 'Cadastro realizado com sucesso! <a href="index.html" style="color:var(--good);text-decoration:underline;">Clique aqui para ver a lista</a>';
-          m.hidden = false;
+          try {
+            await addDoc(collection(db, "jogadores"), novo);
+            m.className = 'msg ok';
+            m.innerHTML = 'Cadastro realizado na nuvem com sucesso! <a href="index.html" style="color:var(--good);text-decoration:underline;">Ver Lista</a>';
+            m.hidden = false;
+            ev.target.reset();
+          } catch (error) {
+            console.error("Erro ao adicionar:", error);
+            msg(m, 'Erro ao salvar no banco de dados. Tente novamente.', 'err');
+          } finally {
+            fProf.querySelector('button[type="submit"]').disabled = false;
+          }
         };
         reader.readAsDataURL(fotoFile);
       });

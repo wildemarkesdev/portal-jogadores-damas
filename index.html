@@ -241,7 +241,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
   </div>
 </footer>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
+    authDomain: "portal-jogadores-de-dama.firebaseapp.com",
+    projectId: "portal-jogadores-de-dama",
+    storageBucket: "portal-jogadores-de-dama.firebasestorage.app",
+    messagingSenderId: "58381213060",
+    appId: "1:58381213060:web:14d476a88e5869fdb311d1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
   const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1' || localStorage.getItem('damas_admin') === '1';
   
   if (!isAdmin) {
@@ -250,41 +265,59 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
       fBold.addEventListener('dblclick', () => { window.location.href = '?admin=1'; });
       fBold.style.cursor = 'pointer'; fBold.title = 'Duplo clique para gerenciar';
     }
+  } else {
+    localStorage.setItem('damas_admin', '1');
   }
 
-  function getProfs() {
-    return JSON.parse(localStorage.getItem('damas_profissionais') || '[]');
-  }
-  function saveProfs(data) {
-    localStorage.setItem('damas_profissionais', JSON.stringify(data));
-  }
-
-  function renderProfs() {
+  async function renderProfs() {
     const list = document.getElementById('prof-list');
-    const profs = getProfs();
-    if(profs.length === 0) {
-      list.innerHTML = '<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: var(--muted); border: 2px dashed var(--line); border-radius: 12px; font-size:1.1rem;">Nenhum jogador cadastrado ainda.<br><a href="cadastro-profissional.html" style="color:var(--accent);font-weight:bold;margin-top:12px;display:inline-block;">Seja o primeiro a se cadastrar!</a></div>';
-      return;
-    }
-    list.innerHTML = profs.slice().reverse().map(p => `
-      <div class="prof-card">
-        <img src="${p.foto}" alt="${p.nome}" class="prof-photo">
-        <div class="prof-info">
-          <h3 class="prof-name">${p.nome}</h3>
-          <span class="prof-loc">📍 ${p.bairro}, ${p.cidade}</span>
-          <p class="prof-bio">${p.bio}</p>
-          <span class="prof-contact">📱 ${p.tel}</span>
-          ${isAdmin ? `<button class="prof-del" onclick="delProf('${p.id}')">Remover jogador</button>` : ''}
+    list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">Sincronizando com a nuvem...</div>';
+    
+    try {
+      // Create index in firebase or it may fallback to no ordering if index isn't ready. 
+      // To avoid index errors, we'll fetch all and sort client-side for simplicity, 
+      // or just trust Firebase to return them. For safety, let's fetch and sort manually.
+      const querySnapshot = await getDocs(collection(db, "jogadores"));
+      const profs = [];
+      querySnapshot.forEach((doc) => {
+        profs.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Sort by date descending
+      profs.sort((a, b) => new Date(b.dataCadastro || 0) - new Date(a.dataCadastro || 0));
+
+      if(profs.length === 0) {
+        list.innerHTML = '<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: var(--muted); border: 2px dashed var(--line); border-radius: 12px; font-size:1.1rem;">Nenhum jogador cadastrado ainda.<br><a href="cadastro.html" style="color:var(--accent);font-weight:bold;margin-top:12px;display:inline-block;">Seja o primeiro a se cadastrar!</a></div>';
+        return;
+      }
+      
+      list.innerHTML = profs.map(p => `
+        <div class="prof-card" id="card-${p.id}">
+          <img src="${p.foto}" alt="${p.nome}" class="prof-photo">
+          <div class="prof-info">
+            <h3 class="prof-name">${p.nome}</h3>
+            <span class="prof-loc">📍 ${p.bairro}, ${p.cidade}</span>
+            <p class="prof-bio">${p.bio}</p>
+            <span class="prof-contact">📱 ${p.tel}</span>
+            ${isAdmin ? `<button class="prof-del" onclick="window.delProf('${p.id}')">Remover jogador (Nuvem)</button>` : ''}
+          </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+    } catch (error) {
+      console.error("Erro ao buscar jogadores:", error);
+      list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:red;">Erro ao conectar com o banco de dados. Verifique as configurações.</div>';
+    }
   }
 
-  window.delProf = function(id) {
-    if(confirm('Tem certeza que deseja remover este jogador?')) {
-      const profs = getProfs().filter(p => p.id !== id);
-      saveProfs(profs);
-      renderProfs();
+  window.delProf = async function(id) {
+    if(confirm('Tem certeza que deseja remover este jogador DEFINITIVAMENTE da nuvem?')) {
+      try {
+        await deleteDoc(doc(db, "jogadores", id));
+        document.getElementById('card-' + id).remove();
+        alert('Jogador removido da nuvem!');
+      } catch (error) {
+        alert("Erro ao remover: " + error.message);
+      }
     }
   };
 
