@@ -32,4 +32,4 @@ Este portal foi criado com o objetivo de dar visibilidade aos damistas profissio
 3. Acesse `http://localhost:8000/index.html` em seu navegador.
 
 ---
-*Projeto idealizado e coordenado pelo Prof. Me. Wildemarkes Almeida.*
+*Projeto coordenado pela Coordenação Técnica.*
