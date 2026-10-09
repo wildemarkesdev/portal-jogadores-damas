@@ -55,8 +55,8 @@ section.block.alt{background:var(--surface);border-block:1px solid var(--line);}
 .sec-head p{margin-inline:auto;color:var(--muted);font-size:1.1rem;margin-top:12px;}
 
 /* grid systems */
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:32px;}
-.grid-2{display:grid;grid-template-columns:repeat(auto-fit, minmax(400px, 1fr));gap:40px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr));gap:32px;}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 400px), 1fr));gap:40px;}
 
 /* info cards */
 .info-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:32px;transition:all .3s ease;}
@@ -66,7 +66,7 @@ section.block.alt{background:var(--surface);border-block:1px solid var(--line);}
 .info-card p{color:var(--muted);font-size:0.95rem;margin:0;}
 
 /* e-commerce */
-.store-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:24px;}
+.store-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 250px), 1fr));gap:24px;}
 .product{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all .3s ease;}
 .product:hover{transform:translateY(-6px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.15);border-color:var(--gold);}
 .product-img{width:100%;aspect-ratio:1;object-fit:cover;background:#EAEAEA;border-bottom:1px solid var(--line);}
@@ -78,7 +78,7 @@ section.block.alt{background:var(--surface);border-block:1px solid var(--line);}
 .product:hover .btn{background:var(--ink);color:var(--surface);border-color:var(--ink);}
 
 /* players list */
-.prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+.prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 24px; }
 .prof-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition:transform .2s ease; box-shadow:0 4px 6px -4px rgba(0,0,0,0.05); }
 .prof-card:hover{transform:translateY(-4px);box-shadow:0 12px 20px -8px rgba(0,0,0,0.1);border-color:var(--accent);}
 .prof-photo { width: 100%; aspect-ratio: 1; object-fit: cover; background: #eee; border-bottom:1px solid var(--line); }
@@ -92,9 +92,21 @@ section.block.alt{background:var(--surface);border-block:1px solid var(--line);}
 footer{padding-block:60px 40px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted);background:var(--bg);}
 footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-between}
 
+.sec-head-row { display:flex; justify-content:space-between; align-items:flex-end; text-align:left; gap: 20px; flex-wrap: wrap; }
 @media (max-width:860px){
   .hero h1{font-size:2.5rem;}
   nav.menu{margin-left:0;width:100%;padding-bottom:8px}
+  .sec-head-row { flex-direction:column; align-items:flex-start; }
+  footer .wrap { flex-direction:column; gap:24px; }
+}
+@media (max-width:480px){
+  .hero h1{font-size:2rem;}
+  .brand { font-size: 1.2rem; }
+  nav.menu{gap: 8px;}
+  nav.menu a { font-size: 0.85rem; }
+  section.block { padding-block: 40px; }
+  .hero { padding-block: 40px 60px; }
+  .sec-head { margin-bottom: 32px; }
 }
 </style>
 </head>
@@ -116,7 +128,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="wrap">
-      <h1 style="margin-bottom: 16px; font-size: clamp(2.5rem, 5.5vw, 4.2rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+      <h1 style="margin-bottom: 16px; font-size: clamp(1.8rem, 5.5vw, 4.2rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
         Portal do Damista 
         <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Bandeira do Maranhão" title="Maranhão" style="height: clamp(40px, 6vw, 60px); border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.2);">
         Maranhense
@@ -214,7 +226,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
   <!-- PLAYERS SECTION -->
   <section class="block alt" id="jogadores">
     <div class="wrap">
-      <div class="sec-head" style="display:flex; justify-content:space-between; align-items:flex-end; text-align:left;">
+      <div class="sec-head sec-head-row">
         <div>
           <span class="eyebrow">Mural da Fama</span>
           <h2>Jogadores Cadastrados</h2>
@@ -234,7 +246,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
               <th style="padding: 16px;">Foto</th>
               <th style="padding: 16px;">Nome</th>
               <th style="padding: 16px;">Cidade</th>
-              <th style="padding: 16px; text-align: right;">Ações</th>
+              <th style="padding: 16px; text-align: center;">Idade</th>
             </tr>
           </thead>
           <tbody id="prof-list">
@@ -310,6 +322,19 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
     }
   }
 
+  function calcularIdade(dataStr) {
+    if (!dataStr) return '-';
+    const nasc = new Date(dataStr);
+    if (isNaN(nasc)) return '-';
+    const hoje = new Date();
+    let idade = hoje.getFullYear() - nasc.getFullYear();
+    const m = hoje.getMonth() - nasc.getMonth();
+    if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) {
+      idade--;
+    }
+    return idade;
+  }
+
   function drawTable(data) {
     const list = document.getElementById('prof-list');
     if(data.length === 0) {
@@ -317,17 +342,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
       return;
     }
     
-    list.innerHTML = data.map(p => `
+    list.innerHTML = data.map(p => {
+      const idade = calcularIdade(p.dataNascimento);
+      return `
       <tr id="row-${p.id}" style="border-bottom: 1px solid var(--line); transition: background 0.2s;" onmouseover="this.style.background='#F9FAF8'" onmouseout="this.style.background='transparent'">
-        <td style="padding: 16px; width: 70px;"><img src="${p.foto}" alt="${p.nome}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"></td>
-        <td style="padding: 16px; font-weight: 600; color: var(--ink);">${p.nome}</td>
+        <td style="padding: 16px; width: 70px;"><a href="perfil.html?id=${p.id}"><img src="${p.foto}" alt="${p.nome}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"></a></td>
+        <td style="padding: 16px; font-weight: 600; color: var(--ink);"><a href="perfil.html?id=${p.id}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''">${p.nome}</a></td>
         <td style="padding: 16px; color: var(--muted);">${p.cidade || '-'}</td>
-        <td style="padding: 16px; text-align: right;">
-          <a href="perfil.html?id=${p.id}" class="btn ghost" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; display: inline-block;">Ver Perfil</a>
-          ${isAdmin ? `<button class="btn" style="background:var(--bad); border-color:var(--bad); padding: 6px 12px; font-size: 0.85rem; margin-left: 8px;" onclick="window.delProf('${p.id}')">Excluir</button>` : ''}
+        <td style="padding: 16px; text-align: center; color: var(--ink); font-weight: 600;">
+          ${idade}
+          ${isAdmin ? `<br><button class="btn" style="background:none; border:none; color:var(--bad); padding: 4px; font-size: 0.8rem; margin-top: 4px; cursor: pointer;" onclick="window.delProf('${p.id}')">Excluir</button>` : ''}
         </td>
       </tr>
-    `).join('');
+      `;
+    }).join('');
   }
 
   const filtroInput = document.getElementById('filtro-cidade');
