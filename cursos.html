@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Cursos - Portal do Damista</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #F3F4F0;
+      --surface: #FFFFFF;
+      --ink: #16201B;
+      --muted: #56635C;
+      --line: #D6DBD4;
+      --accent: #1E6A4C;
+      --accent-ink: #FFFFFF;
+      --accent-soft: #E1EEE7;
+      --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+      --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: 20px;
+      width: 100%;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--f-display);
+      line-height: 1.02;
+      text-wrap: balance;
+      margin: 0;
+      letter-spacing: .005em
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4.4vw, 3.5rem);
+      font-weight: 800;
+      text-transform: uppercase
+    }
+
+    p { margin: 0; margin-bottom: 16px; }
+
+    a { color: var(--accent) }
+
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: .85rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* nav */
+    header.top {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .top .wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: 60px;
+      flex-wrap: wrap
+    }
+
+    .brand {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 2px solid var(--ink)
+    }
+
+    .brand-mark i:nth-child(1),
+    .brand-mark i:nth-child(4) {
+      background: var(--ink)
+    }
+
+    nav.menu {
+      display: flex;
+      gap: 4px 18px;
+      flex-wrap: wrap;
+      margin-left: auto
+    }
+
+    nav.menu a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: all .2s ease;
+    }
+
+    nav.menu a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    nav.menu a.cta {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* sections */
+    section.block {
+      padding-block: 80px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .coming-soon {
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--muted);
+      border-radius: 12px;
+      padding: 60px 40px;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .coming-soon-icon {
+      font-size: 4rem;
+      margin-bottom: 24px;
+    }
+
+    footer {
+      padding-block: 60px 40px;
+      border-top: 1px solid var(--line);
+      font-size: .9rem;
+      color: var(--muted);
+      background: var(--bg);
+    }
+
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px 40px;
+      justify-content: space-between
+    }
+
+    @media (max-width:860px) {
+      nav.menu { margin-left: 0; width: 100%; padding-bottom: 8px }
+      footer .wrap { flex-direction: column; gap: 24px; }
+    }
+    @media (max-width:480px) {
+      .brand { font-size: 1.2rem; }
+      nav.menu { gap: 8px; }
+      nav.menu a { font-size: 0.85rem; }
+      h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Portal do Damista</a>
+      <nav class="menu" aria-label="Seções">
+        <a href="index.html">Início</a>
+        <a href="index.html#info">Eventos</a>
+        <a href="cursos.html">Cursos</a>
+        <a href="index.html#jogadores">Mural de Jogadores</a>
+        <a href="cadastro.html" class="cta">Fazer Cadastro</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="flex: 1; display: flex; flex-direction: column;">
+    <section class="block">
+      <div class="wrap">
+        <div class="coming-soon">
+          <div class="coming-soon-icon">📚</div>
+          <span class="eyebrow" style="margin-bottom: 12px;">Capacitação e Treinamento</span>
+          <h2>Em Breve</h2>
+          <p style="margin-top: 16px; color: var(--muted); margin-inline: auto;">Nossa plataforma de cursos está sendo desenvolvida. Logo você terá acesso a materiais exclusivos, videoaulas e táticas avançadas para evoluir seu jogo para o próximo nível.</p>
+          <a href="index.html" class="btn" style="display:inline-flex;align-items:center;justify-content:center;font:600 1.05rem var(--f-body);padding:14px 24px;border-radius:6px;border:2px solid var(--accent);background:var(--accent);color:white;text-decoration:none;margin-top:24px;">Voltar ao Início</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contatos">
+    <div class="wrap">
+      <div>
+        <b style="color:var(--ink)">Portal do Damista</b><br>
+        Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
+        <strong style="color:var(--ink)">Contatos:</strong><br>
+        WhatsApp: (98) 90000-0000<br>
+        E-mail: contato@portaldodamista.com.br<br>
+        Endereço: São Luís, MA
+      </div>
+      <div style="max-width:300px;">Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br><br>Regras oficiais: Federação Mundial de Jogo de Damas (FMJD)</div>
+    </div>
+  </footer>
+</body>
+
+</html>
