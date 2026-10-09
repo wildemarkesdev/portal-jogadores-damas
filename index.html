@@ -26,8 +26,7 @@ a{color:var(--accent)}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
 .brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
-.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
-.brand-mark i:nth-child(1),.brand-mark i:nth-child(4){background:var(--ink)}
+
 nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
 nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent;transition:all .2s ease;}
 nav.menu a:hover{border-color:var(--accent);color:var(--accent)}
@@ -113,7 +112,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Portal do Damista</a>
+    <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão" style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
     <nav class="menu" aria-label="Seções">
       <a href="index.html">Início</a>
       <a href="index.html#info">Eventos</a>
@@ -128,10 +127,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="wrap">
-      <h1 style="margin-bottom: 16px; font-size: clamp(1.8rem, 5.5vw, 4.2rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
-        Portal do Damista 
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Bandeira do Maranhão" title="Maranhão" style="height: clamp(40px, 6vw, 60px); border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.2);">
-        Maranhense
+      <div style="display:flex; justify-content:center; margin-bottom: 24px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Bandeira do Maranhão" title="Maranhão" style="height: 60px; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1);">
+      </div>
+      <h1 style="margin-bottom: 16px; font-size: clamp(2.2rem, 6vw, 4.5rem);">
+        Portal do Damista Maranhense
       </h1>
       <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os jogadores que fazem parte da história do esporte no estado.</p>
       <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
@@ -209,7 +209,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
 <footer id="contatos">
   <div class="wrap">
     <div>
-      <b style="color:var(--ink)">Portal do Damista</b><br>
+      <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
       Coordenação técnica: Prof. Me. Wildemarkes Almeida<br><br>
       <strong style="color:var(--ink)">Contatos:</strong><br>
       WhatsApp: (98) 90000-0000<br>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Perfil do Jogador - Portal do Damista</title>
+  <title>Perfil do Jogador - Portal do Damista Maranhense</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -78,7 +78,7 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="index.html"><span class="brand-mark"><i></i><i></i><i></i><i></i></span>Portal do Damista</a>
+      <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão" style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
       <nav class="menu">
         <a href="index.html">Início</a>
         <a href="cursos.html">Cursos</a>
@@ -208,7 +208,7 @@
               </div>
             </div>
           `;
-          document.title = p.nome + " - Portal do Damista";
+          document.title = p.nome + " - Portal do Damista Maranhense";
 
           if (p.lidraughts) {
             fetch(`https://lidraughts.org/api/user/${p.lidraughts}`)
