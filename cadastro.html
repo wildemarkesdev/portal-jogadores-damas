@@ -498,6 +498,76 @@
               dataCadastro: new Date().toISOString()
             };
 
+            // Tentar buscar o Rating da CBJD no momento do cadastro
+            try {
+              submitBtn.innerHTML = '<div class="spinner"></div> Buscando Rating CBJD...';
+              const nomeParaBusca = novo.nome;
+              const urlBusca = `https://ratingdamas.org/rating?search=${encodeURIComponent(nomeParaBusca)}`;
+              const proxies = [
+                `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
+                `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlBusca)}`
+              ];
+
+              async function fetchWithTimeout(resource, options = {}) {
+                const { timeout = 20000 } = options;
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                const response = await fetch(resource, { ...options, signal: controller.signal });
+                clearTimeout(id);
+                return response;
+              }
+
+              async function getRatingHtml() {
+                for (let proxy of proxies) {
+                  try {
+                    const res = await fetchWithTimeout(proxy, { cache: 'no-store', timeout: 20000 });
+                    if (!res.ok) continue;
+                    let text = await res.text();
+                    if (proxy.includes('allorigins')) {
+                      try { text = JSON.parse(text).contents; } catch(e) { continue; }
+                    }
+                    if (text && text.includes('<table')) return text;
+                  } catch (err) {} // Timeout ou erro de CORS no proxy atual
+                }
+                throw new Error('Todos os proxies falharam ou deram timeout');
+              }
+              
+              const htmlBusca = await getRatingHtml();
+              const parser = new DOMParser();
+              const docDOM = parser.parseFromString(htmlBusca, 'text/html');
+              const trs = docDOM.querySelectorAll('table tbody tr');
+              const ths = docDOM.querySelectorAll('table thead th');
+              let idx100 = 3; // Default 100-R
+              ths.forEach((th, i) => {
+                if (th.textContent.includes('100-R')) idx100 = i;
+              });
+              
+              for (let tr of trs) {
+                const tds = tr.querySelectorAll('td');
+                if (tds.length >= 3) {
+                  const nomeNaTabela = tds[1].textContent.trim().toLowerCase();
+                  if (nomeNaTabela.includes(nomeParaBusca.toLowerCase()) || nomeParaBusca.toLowerCase().includes(nomeNaTabela)) {
+                    const ratingEncontrado = {
+                      reg: tds[0].textContent.trim(),
+                      uf: tds[2].textContent.trim(),
+                      r100c: tds[idx100] ? tds[idx100].textContent.trim() : '0'
+                    };
+                    if (ratingEncontrado.uf === 'MA' || ratingEncontrado.uf === '') {
+                        if (ratingEncontrado.r100c !== '0') {
+                            novo.ratingNacional = ratingEncontrado; // Anexa ao objeto antes de salvar!
+                        }
+                        break;
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              console.log("Busca de rating falhou no cadastro, continuará sem o dado oficial.", err);
+            }
+
+            submitBtn.innerHTML = '<div class="spinner"></div> Salvando Dados...';
+
             try {
               await addDoc(collection(db, "jogadores"), novo);
               m.className = 'msg ok';
