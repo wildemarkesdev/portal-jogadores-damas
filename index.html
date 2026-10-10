@@ -1,286 +1,735 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Portal do Damista Maranhense</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>
-:root{
-  --bg:#F3F4F0; --surface:#FFFFFF; --ink:#16201B; --muted:#56635C; --line:#D6DBD4;
-  --accent:#1E6A4C; --accent-ink:#FFFFFF; --accent-soft:#E1EEE7;
-  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-  --good:#2D7A4D; --bad:#C83532; --gold:#C69C6D; --gold-soft:#F8F1E5;
-}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
-.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
-h1,h2,h3,h4{font-family:var(--f-display);line-height:1.02;text-wrap:balance;margin:0;letter-spacing:.005em}
-h2{font-size:clamp(2rem,4.4vw,3.5rem);font-weight:800;text-transform:uppercase}
-h3{font-size:1.8rem;font-weight:800;text-transform:uppercase}
-p{margin:0;max-width:65ch; margin-bottom: 16px;}
-a{color:var(--accent)}
-.eyebrow{font-family:var(--f-mono);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+<!doctype html>
+<html>
 
-/* nav */
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
-.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Portal do Damista Maranhense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #F3F4F0;
+      --surface: #FFFFFF;
+      --ink: #16201B;
+      --muted: #56635C;
+      --line: #D6DBD4;
+      --accent: #1E6A4C;
+      --accent-ink: #FFFFFF;
+      --accent-soft: #E1EEE7;
+      --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+      --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --good: #2D7A4D;
+      --bad: #C83532;
+      --gold: #C69C6D;
+      --gold-soft: #F8F1E5;
+    }
 
-nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
-nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent;transition:all .2s ease;}
-nav.menu a:hover{border-color:var(--accent);color:var(--accent)}
-nav.menu a.cta{color:var(--accent);border-bottom-color:var(--accent);}
+    * {
+      box-sizing: border-box
+    }
 
-/* hero */
-.hero{background:linear-gradient(145deg, var(--ink) 0%, #2A3B32 100%);color:var(--surface);padding-block:80px 100px;text-align:center;position:relative;overflow:hidden;}
-.hero::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0V0zm20 20h20v20H20V20z" fill="rgba(255,255,255,0.02)" fill-rule="evenodd"/></svg>') repeat;opacity:0.6;}
-.hero .wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
-.hero h1{font-size:clamp(3rem,6vw,5rem);font-weight:800;text-transform:uppercase;margin-bottom:16px;}
-.hero p{font-size:1.2rem;color:rgba(255,255,255,0.8);max-width:800px;margin-bottom:32px;}
-.hero .btn{background:var(--surface);color:var(--ink);border:none;}
-.hero .btn:hover{background:var(--accent);color:var(--surface);transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,0.2);}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0
+    }
 
-/* general buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 1.05rem var(--f-body);padding:14px 24px;border-radius:6px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer;transition:all .2s ease;}
-.btn.ghost{background:transparent;color:var(--accent)}
-.btn.ghost:hover{background:var(--accent-soft)}
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: 20px
+    }
 
-/* sections */
-section.block{padding-block:80px;}
-section.block.alt{background:var(--surface);border-block:1px solid var(--line);}
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--f-display);
+      line-height: 1.02;
+      text-wrap: balance;
+      margin: 0;
+      letter-spacing: .005em
+    }
 
-.sec-head{text-align:center;margin-bottom:56px;}
-.sec-head p{margin-inline:auto;color:var(--muted);font-size:1.1rem;margin-top:12px;}
+    h2 {
+      font-size: clamp(2rem, 4.4vw, 3.5rem);
+      font-weight: 800;
+      text-transform: uppercase
+    }
 
-/* grid systems */
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr));gap:32px;}
-.grid-2{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 400px), 1fr));gap:40px;}
+    h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-transform: uppercase
+    }
 
-/* info cards */
-.info-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:32px;transition:all .3s ease;}
-.info-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px -10px rgba(0,0,0,0.1);border-color:var(--accent);}
-.info-card .icon{width:48px;height:48px;background:var(--accent-soft);color:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;font-weight:bold;font-family:var(--f-mono);}
-.info-card h4{font-size:1.5rem;margin-bottom:12px;}
-.info-card p{color:var(--muted);font-size:0.95rem;margin:0;}
+    p {
+      margin: 0;
+      max-width: 65ch;
+      margin-bottom: 16px;
+    }
 
-/* e-commerce */
-.store-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 250px), 1fr));gap:24px;}
-.product{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all .3s ease;}
-.product:hover{transform:translateY(-6px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.15);border-color:var(--gold);}
-.product-img{width:100%;aspect-ratio:1;object-fit:cover;background:#EAEAEA;border-bottom:1px solid var(--line);}
-.product-info{padding:24px;display:flex;flex-direction:column;flex:1;}
-.product-cat{font-family:var(--f-mono);font-size:0.75rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
-.product h4{font-size:1.3rem;margin-bottom:8px;}
-.product .price{font-family:var(--f-mono);font-weight:600;font-size:1.1rem;color:var(--ink);margin-top:auto;margin-bottom:16px;}
-.product .btn{width:100%;font-size:0.9rem;padding:10px;background:var(--surface);color:var(--ink);border-color:var(--line);}
-.product:hover .btn{background:var(--ink);color:var(--surface);border-color:var(--ink);}
+    a {
+      color: var(--accent)
+    }
 
-/* players list */
-.prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 24px; }
-.prof-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition:transform .2s ease; box-shadow:0 4px 6px -4px rgba(0,0,0,0.05); }
-.prof-card:hover{transform:translateY(-4px);box-shadow:0 12px 20px -8px rgba(0,0,0,0.1);border-color:var(--accent);}
-.prof-photo { width: 100%; aspect-ratio: 1; object-fit: cover; background: #eee; border-bottom:1px solid var(--line); }
-.prof-info { padding: 24px; display: flex; flex-direction: column; flex: 1; }
-.prof-name { font-size: 1.4rem; font-weight: 800; color: var(--ink); margin: 0 0 4px; font-family:var(--f-display); text-transform:uppercase; letter-spacing:0.02em; }
-.prof-loc { font-size: 0.85rem; color: var(--muted); display: flex; gap: 6px; align-items: center; margin-bottom: 12px; }
-.prof-bio { font-size: 0.95rem; color: var(--ink); line-height:1.5; margin-bottom:16px;}
-.prof-contact { font-family: var(--f-mono); font-size: 0.85rem; color: var(--accent); margin-top: auto; padding-top:16px; border-top:1px dashed var(--line); font-weight:500;}
-.prof-del { align-self: flex-start; margin-top: 12px; background:none; border:0; color:var(--bad); font:600 .85rem var(--f-body); cursor:pointer; padding:0; }
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: .85rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px
+    }
 
-footer{padding-block:60px 40px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted);background:var(--bg);}
-footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-between}
+    /* nav */
+    header.top {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line)
+    }
 
-.sec-head-row { display:flex; justify-content:space-between; align-items:flex-end; text-align:left; gap: 20px; flex-wrap: wrap; }
-@media (max-width:860px){
-  .hero h1{font-size:2.5rem;}
-  nav.menu{margin-left:0;width:100%;padding-bottom:8px}
-  .sec-head-row { flex-direction:column; align-items:flex-start; }
-  footer .wrap { flex-direction:column; gap:24px; }
-}
-@media (max-width:480px){
-  .hero h1{font-size:2rem;}
-  .brand { font-size: 1.2rem; }
-  nav.menu{gap: 8px;}
-  nav.menu a { font-size: 0.85rem; }
-  section.block { padding-block: 40px; }
-  .hero { padding-block: 40px 60px; }
-  .sec-head { margin-bottom: 32px; }
-}
-</style>
+    .top .wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: 60px;
+      flex-wrap: wrap
+    }
+
+    .brand {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    nav.menu {
+      display: flex;
+      gap: 4px 18px;
+      flex-wrap: wrap;
+      margin-left: auto
+    }
+
+    nav.menu a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: all .2s ease;
+    }
+
+    nav.menu a:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    nav.menu a.cta {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* hero */
+    .hero {
+      background: linear-gradient(145deg, var(--ink) 0%, #2A3B32 100%);
+      color: var(--surface);
+      padding-block: 80px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0V0zm20 20h20v20H20V20z" fill="rgba(255,255,255,0.02)" fill-rule="evenodd"/></svg>') repeat;
+      opacity: 0.6;
+    }
+
+    .hero .wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+      margin-bottom: 32px;
+    }
+
+    .hero .btn {
+      background: var(--surface);
+      color: var(--ink);
+      border: none;
+    }
+
+    .hero .btn:hover {
+      background: var(--accent);
+      color: var(--surface);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* general buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font: 600 1.05rem var(--f-body);
+      padding: 14px 24px;
+      border-radius: 6px;
+      border: 2px solid var(--accent);
+      background: var(--accent);
+      color: var(--accent-ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent)
+    }
+
+    .btn.ghost:hover {
+      background: var(--accent-soft)
+    }
+
+    /* sections */
+    section.block {
+      padding-block: 80px;
+    }
+
+    section.block.alt {
+      background: var(--surface);
+      border-block: 1px solid var(--line);
+    }
+
+    .sec-head {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .sec-head p {
+      margin-inline: auto;
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-top: 12px;
+    }
+
+    /* grid systems */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 32px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+      gap: 40px;
+    }
+
+    /* info cards */
+    .info-card {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all .3s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
+      border-color: var(--accent);
+    }
+
+    .info-card .icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-family: var(--f-mono);
+    }
+
+    .info-card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .info-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* e-commerce */
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+      gap: 24px;
+    }
+
+    .product {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all .3s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.15);
+      border-color: var(--gold);
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #EAEAEA;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .product-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-cat {
+      font-family: var(--f-mono);
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .product h4 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .product .price {
+      font-family: var(--f-mono);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-top: auto;
+      margin-bottom: 16px;
+    }
+
+    .product .btn {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .product:hover .btn {
+      background: var(--ink);
+      color: var(--surface);
+      border-color: var(--ink);
+    }
+
+    /* players list */
+    .prof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+      gap: 24px;
+    }
+
+    .prof-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease;
+      box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    }
+
+    .prof-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.1);
+      border-color: var(--accent);
+    }
+
+    .prof-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #eee;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .prof-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .prof-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 4px;
+      font-family: var(--f-display);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .prof-loc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .prof-bio {
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .prof-contact {
+      font-family: var(--f-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      font-weight: 500;
+    }
+
+    .prof-del {
+      align-self: flex-start;
+      margin-top: 12px;
+      background: none;
+      border: 0;
+      color: var(--bad);
+      font: 600 .85rem var(--f-body);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    footer {
+      padding-block: 60px 40px;
+      border-top: 1px solid var(--line);
+      font-size: .9rem;
+      color: var(--muted);
+      background: var(--bg);
+    }
+
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px 40px;
+      justify-content: space-between
+    }
+
+    .sec-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      text-align: left;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width:860px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      nav.menu {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 8px
+      }
+
+      .sec-head-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      footer .wrap {
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width:480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .brand {
+        font-size: 1.2rem;
+      }
+
+      nav.menu {
+        gap: 8px;
+      }
+
+      nav.menu a {
+        font-size: 0.85rem;
+      }
+
+      section.block {
+        padding-block: 40px;
+      }
+
+      .hero {
+        padding-block: 40px 60px;
+      }
+
+      .sec-head {
+        margin-bottom: 32px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão" style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
-    <nav class="menu" aria-label="Seções">
-      <a href="index.html">Início</a>
-      <a href="index.html#info">Eventos</a>
-      <a href="cursos.html">Cursos</a>
-      <a href="index.html#jogadores">Mural de Jogadores</a>
-      <a href="cadastro.html" class="cta">Fazer Cadastro</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <!-- HERO SECTION -->
-  <section class="hero">
+  <header class="top">
     <div class="wrap">
-      <h1 style="margin-bottom: 16px; font-size: clamp(2.2rem, 6vw, 4.5rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Bandeira do Maranhão" title="Maranhão" style="height: clamp(40px, 6vw, 60px); border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1);">
-        Portal do Damista Maranhense
-      </h1>
-      <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os jogadores que fazem parte da história do esporte no estado.</p>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
-        <a href="#jogadores" class="btn">Conhecer Jogadores</a>
-        <a href="cadastro.html" class="btn" style="background:transparent;border-color:rgba(255,255,255,0.4);color:var(--surface);">Fazer Cadastro</a>
-      </div>
+      <a class="brand" href="index.html"><img
+          src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão"
+          style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
+      <nav class="menu" aria-label="Seções">
+        <a href="index.html">Início</a>
+        <a href="index.html#info">Eventos</a>
+        <a href="cursos.html">Cursos</a>
+        <a href="index.html#jogadores">Mural de Jogadores</a>
+        <a href="cadastro.html" class="cta">Fazer Cadastro</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <!-- INFO SECTION (JOGO, TORNEIOS, EVENTOS) -->
-  <section class="block alt" id="info">
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="wrap">
+        <h1
+          style="margin-bottom: 16px; font-size: clamp(2.2rem, 6vw, 4.5rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg"
+            alt="Bandeira do Maranhão" title="Maranhão"
+            style="height: clamp(40px, 6vw, 60px); border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1);">
+          Portal do Damista Maranhense
+        </h1>
+        <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os jogadores que fazem
+          parte da história do esporte no estado.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+          <a href="#jogadores" class="btn">Conhecer Jogadores</a>
+          <a href="cadastro.html" class="btn"
+            style="background:transparent;border-color:rgba(255,255,255,0.4);color:var(--surface);">Fazer Cadastro</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO SECTION (JOGO, TORNEIOS, EVENTOS) -->
+    <section class="block alt" id="info">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">Atividades e Cultura</span>
+          <h2>O Jogo e Eventos</h2>
+          <p>A federação e o projeto Damas na Escola organizam atividades contínuas para o fomento do esporte de alto
+            rendimento.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="info-card">
+            <div class="icon">JD</div>
+            <h4>O Jogo (10x10)</h4>
+            <p>O foco da nossa comunidade é a modalidade Internacional (10x10), reconhecida mundialmente pela FMJD.
+              Promovemos o estudo técnico, aberturas modernas e a tática aprofundada da escola russa.</p>
+          </div>
+          <div class="info-card">
+            <div class="icon">🏆</div>
+            <h4>Torneios Oficiais</h4>
+            <p>Participe dos campeonatos regionais e seletivas estaduais. O circuito maranhense ranqueia os atletas e
+              garante vagas para competições da Confederação Brasileira (CBD) e eventos pan-americanos.</p>
+          </div>
+          <div class="info-card">
+            <div class="icon">📅</div>
+            <h4>Eventos e Treinos</h4>
+            <p>Encontros presenciais de análise de partidas, simultâneas com mestres convidados e oficinas em escolas
+              para difusão da modalidade. Mantenha-se cadastrado para receber o calendário completo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PLAYERS SECTION -->
+    <section class="block alt" id="jogadores">
+      <div class="wrap">
+        <div class="sec-head sec-head-row">
+          <div>
+            <span class="eyebrow">Mural da Fama</span>
+            <h2>Jogadores Cadastrados</h2>
+            <p style="margin-left:0;">Profissionais, amadores e mestres que fazem parte da nossa liga.</p>
+          </div>
+          <a href="cadastro.html" class="btn">Registrar-se</a>
+        </div>
+
+        <div class="filter-bar" style="margin-bottom: 24px;">
+          <input type="text" id="filtro-cidade" placeholder="Buscar por cidade..."
+            style="padding: 12px; border-radius: 6px; border: 1px solid var(--line); width: 100%; max-width: 300px; font-family: var(--f-body); font-size: 1rem;">
+        </div>
+
+        <div class="prof-table-wrap" style="overflow-x: auto;">
+          <table class="prof-table"
+            style="width: 100%; border-collapse: collapse; text-align: left; background: var(--surface); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <thead>
+              <tr style="background: var(--accent); color: white;">
+                <th style="padding: 16px;">Foto</th>
+                <th style="padding: 16px;">Nome</th>
+                <th style="padding: 16px;">Cidade</th>
+                <th style="padding: 16px; text-align: center;">Idade</th>
+              </tr>
+            </thead>
+            <tbody id="prof-list">
+              <!-- JS render here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contatos">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">Atividades e Cultura</span>
-        <h2>O Jogo e Eventos</h2>
-        <p>A federação e o projeto Damas na Escola organizam atividades contínuas para o fomento do esporte de alto rendimento.</p>
+      <div>
+        <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
+        Coordenação Técnica<br><br>
+        <strong style="color:var(--ink)">Contatos:</strong><br>
+        WhatsApp: (98) 90000-0000<br>
+        E-mail: contato@portaldodamista.com.br<br>
+        Endereço: São Luís, MA
       </div>
-
-      <div class="grid-3">
-        <div class="info-card">
-          <div class="icon">JD</div>
-          <h4>O Jogo (10x10)</h4>
-          <p>O foco da nossa comunidade é a modalidade Internacional (10x10), reconhecida mundialmente pela FMJD. Promovemos o estudo técnico, aberturas modernas e a tática aprofundada da escola russa.</p>
-        </div>
-        <div class="info-card">
-          <div class="icon">🏆</div>
-          <h4>Torneios Oficiais</h4>
-          <p>Participe dos campeonatos regionais e seletivas estaduais. O circuito maranhense ranqueia os atletas e garante vagas para competições da Confederação Brasileira (CBD) e eventos pan-americanos.</p>
-        </div>
-        <div class="info-card">
-          <div class="icon">📅</div>
-          <h4>Eventos e Treinos</h4>
-          <p>Encontros presenciais de análise de partidas, simultâneas com mestres convidados e oficinas em escolas para difusão da modalidade. Mantenha-se cadastrado para receber o calendário completo.</p>
-        </div>
-      </div>
+      <div style="max-width:300px;">Filiado a Federação Maranhense de Jogos de Dama (FMJDM)<br><br>Regras oficiais:
+        Federação Mundial de Jogo de Damas (FMJD)</div>
     </div>
-  </section>
+  </footer>
 
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  <!-- PLAYERS SECTION -->
-  <section class="block alt" id="jogadores">
-    <div class="wrap">
-      <div class="sec-head sec-head-row">
-        <div>
-          <span class="eyebrow">Mural da Fama</span>
-          <h2>Jogadores Cadastrados</h2>
-          <p style="margin-left:0;">Profissionais, amadores e mestres que fazem parte da nossa liga.</p>
-        </div>
-        <a href="cadastro.html" class="btn">Registrar-se</a>
-      </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
+      authDomain: "portal-jogadores-de-dama.firebaseapp.com",
+      projectId: "portal-jogadores-de-dama",
+      storageBucket: "portal-jogadores-de-dama.firebasestorage.app",
+      messagingSenderId: "58381213060",
+      appId: "1:58381213060:web:14d476a88e5869fdb311d1"
+    };
 
-      <div class="filter-bar" style="margin-bottom: 24px;">
-        <input type="text" id="filtro-cidade" placeholder="Buscar por cidade..." style="padding: 12px; border-radius: 6px; border: 1px solid var(--line); width: 100%; max-width: 300px; font-family: var(--f-body); font-size: 1rem;">
-      </div>
-
-      <div class="prof-table-wrap" style="overflow-x: auto;">
-        <table class="prof-table" style="width: 100%; border-collapse: collapse; text-align: left; background: var(--surface); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-          <thead>
-            <tr style="background: var(--accent); color: white;">
-              <th style="padding: 16px;">Foto</th>
-              <th style="padding: 16px;">Nome</th>
-              <th style="padding: 16px;">Cidade</th>
-              <th style="padding: 16px; text-align: center;">Idade</th>
-            </tr>
-          </thead>
-          <tbody id="prof-list">
-            <!-- JS render here -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer id="contatos">
-  <div class="wrap">
-    <div>
-      <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
-      Coordenação Técnica<br><br>
-      <strong style="color:var(--ink)">Contatos:</strong><br>
-      WhatsApp: (98) 90000-0000<br>
-      E-mail: contato@portaldodamista.com.br<br>
-      Endereço: São Luís, MA
-    </div>
-    <div style="max-width:300px;">Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br><br>Regras oficiais: Federação Mundial de Jogo de Damas (FMJD)</div>
-  </div>
-</footer>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
-    authDomain: "portal-jogadores-de-dama.firebaseapp.com",
-    projectId: "portal-jogadores-de-dama",
-    storageBucket: "portal-jogadores-de-dama.firebasestorage.app",
-    messagingSenderId: "58381213060",
-    appId: "1:58381213060:web:14d476a88e5869fdb311d1"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
 
 
-  let allProfs = [];
+    let allProfs = [];
 
-  async function renderProfs() {
-    const list = document.getElementById('prof-list');
-    list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Sincronizando com a nuvem...</td></tr>';
-    
-    try {
-      const querySnapshot = await getDocs(collection(db, "jogadores"));
-      allProfs = [];
-      querySnapshot.forEach((doc) => {
-        allProfs.push({ id: doc.id, ...doc.data() });
-      });
+    async function renderProfs() {
+      const list = document.getElementById('prof-list');
+      list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Sincronizando com a nuvem...</td></tr>';
 
-      // Sort by date descending
-      allProfs.sort((a, b) => new Date(b.dataCadastro || 0) - new Date(a.dataCadastro || 0));
-      drawTable(allProfs);
-    } catch (error) {
-      console.error("Erro ao buscar jogadores:", error);
-      list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:red;">Erro ao conectar com o banco de dados. Verifique as configurações.</td></tr>';
+      try {
+        const querySnapshot = await getDocs(collection(db, "jogadores"));
+        allProfs = [];
+        querySnapshot.forEach((doc) => {
+          allProfs.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Sort by date descending
+        allProfs.sort((a, b) => new Date(b.dataCadastro || 0) - new Date(a.dataCadastro || 0));
+        drawTable(allProfs);
+      } catch (error) {
+        console.error("Erro ao buscar jogadores:", error);
+        list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:red;">Erro ao conectar com o banco de dados. Verifique as configurações.</td></tr>';
+      }
     }
-  }
 
-  function calcularIdade(dataStr) {
-    if (!dataStr) return '-';
-    const nasc = new Date(dataStr);
-    if (isNaN(nasc)) return '-';
-    const hoje = new Date();
-    let idade = hoje.getFullYear() - nasc.getFullYear();
-    const m = hoje.getMonth() - nasc.getMonth();
-    if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) {
-      idade--;
+    function calcularIdade(dataStr) {
+      if (!dataStr) return '-';
+      const nasc = new Date(dataStr);
+      if (isNaN(nasc)) return '-';
+      const hoje = new Date();
+      let idade = hoje.getFullYear() - nasc.getFullYear();
+      const m = hoje.getMonth() - nasc.getMonth();
+      if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) {
+        idade--;
+      }
+      return idade;
     }
-    return idade;
-  }
 
-  function drawTable(data) {
-    const list = document.getElementById('prof-list');
-    if(data.length === 0) {
-      list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Nenhum jogador encontrado.</td></tr>';
-      return;
-    }
-    
-    list.innerHTML = data.map(p => {
-      const idade = calcularIdade(p.dataNascimento);
-      return `
+    function drawTable(data) {
+      const list = document.getElementById('prof-list');
+      if (data.length === 0) {
+        list.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--muted);">Nenhum jogador encontrado.</td></tr>';
+        return;
+      }
+
+      list.innerHTML = data.map(p => {
+        const idade = calcularIdade(p.dataNascimento);
+        return `
       <tr id="row-${p.id}" style="border-bottom: 1px solid var(--line); transition: background 0.2s;" onmouseover="this.style.background='#F9FAF8'" onmouseout="this.style.background='transparent'">
         <td style="padding: 16px; width: 70px;"><a href="perfil.html?id=${p.id}"><img src="${p.foto}" alt="${p.apelido || p.nome}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; object-position: top center;"></a></td>
         <td style="padding: 16px; font-weight: 600; color: var(--ink);"><a href="perfil.html?id=${p.id}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''">${p.apelido || p.nome}</a></td>
@@ -290,20 +739,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:24px 40px;justify-content:space-bet
         </td>
       </tr>
       `;
-    }).join('');
-  }
+      }).join('');
+    }
 
-  const filtroInput = document.getElementById('filtro-cidade');
-  if (filtroInput) {
-    filtroInput.addEventListener('input', (e) => {
-      const val = e.target.value.toLowerCase();
-      const filtrados = allProfs.filter(p => (p.cidade || '').toLowerCase().includes(val));
-      drawTable(filtrados);
-    });
-  }
+    const filtroInput = document.getElementById('filtro-cidade');
+    if (filtroInput) {
+      filtroInput.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
+        const filtrados = allProfs.filter(p => (p.cidade || '').toLowerCase().includes(val));
+        drawTable(filtrados);
+      });
+    }
 
 
 
-  renderProfs();
-</script>
-</body></html>
+    renderProfs();
+  </script>
+</body>
+
+</html>

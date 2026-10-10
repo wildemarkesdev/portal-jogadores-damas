@@ -101,7 +101,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
@@ -280,98 +280,111 @@
           // Buscar Rating Nacional via CORS Proxy com Fallbacks
           const urlBusca = `https://ratingdamas.org/rating?search=${encodeURIComponent(p.nome)}`;
           
-          const proxies = [
-            `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
-            `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
-            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlBusca)}`
-          ];
-
-          async function getRatingHtml() {
-            for (let proxy of proxies) {
-              try {
-                const res = await fetch(proxy, { cache: 'no-store' });
-                if (!res.ok) continue;
-                let text = await res.text();
-                if (proxy.includes('allorigins')) {
-                  try { text = JSON.parse(text).contents; } catch(e) { continue; }
-                }
-                if (text && text.includes('<table')) return text;
-              } catch (err) {}
-            }
-            throw new Error('All proxies failed');
+          function renderizarRatingNacional(ratingObj) {
+            document.getElementById('nacional-stats').innerHTML = `
+              <div class="info-grid" style="margin-top: 0;">
+                <div class="info-box" style="border-color: var(--gold); background: var(--gold-soft);">
+                  <span class="info-label" style="color: var(--gold);">Rating 100 Casas CBJD</span>
+                  <span class="info-value" style="font-size: 1.3rem; color: var(--gold);">🏅 ${ratingObj.r100c}</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-label">Modalidade</span>
+                  <span class="info-value">100 casas</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-label">Registro / UF</span>
+                  <span class="info-value">Nº ${ratingObj.reg} (${ratingObj.uf || 'N/I'})</span>
+                </div>
+                <div class="info-box" style="background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="window.open('${urlBusca}', '_blank')">
+                  <span style="color: white; font-weight: bold; text-decoration: none;">↗ Ver Perfil Oficial</span>
+                </div>
+              </div>
+            `;
           }
 
-          getRatingHtml()
-            .then(html => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-              const trs = doc.querySelectorAll('table tbody tr');
-              let ratingEncontrado = null;
-              const ths = doc.querySelectorAll('table thead th');
-              let idx100 = 3; // Default
-              ths.forEach((th, i) => {
-                if (th.textContent.includes('100-R')) idx100 = i;
-              });
+          if (p.ratingNacional && p.ratingNacional.r100c) {
+            // Usa dados já salvos no banco para não sobrecarregar
+            renderizarRatingNacional(p.ratingNacional);
+          } else {
+            const proxies = [
+              `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
+              `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
+              `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlBusca)}`
+            ];
 
-              for (let tr of trs) {
-                const tds = tr.querySelectorAll('td');
-                if (tds.length >= 3) {
-                  const nomeNaTabela = tds[1].textContent.trim().toLowerCase();
-                  if (nomeNaTabela.includes(p.nome.toLowerCase()) || p.nome.toLowerCase().includes(nomeNaTabela)) {
-                    ratingEncontrado = {
-                      reg: tds[0].textContent.trim(),
-                      uf: tds[2].textContent.trim(),
-                      r100c: tds[idx100] ? tds[idx100].textContent.trim() : '0'
-                    };
-                    
-                    if (ratingEncontrado.uf === 'MA' || ratingEncontrado.uf === '') {
-                        break;
-                    } else {
-                        ratingEncontrado = null; // Ignora se não for do Maranhão
+            async function getRatingHtml() {
+              for (let proxy of proxies) {
+                try {
+                  const res = await fetch(proxy, { cache: 'no-store' });
+                  if (!res.ok) continue;
+                  let text = await res.text();
+                  if (proxy.includes('allorigins')) {
+                    try { text = JSON.parse(text).contents; } catch(e) { continue; }
+                  }
+                  if (text && text.includes('<table')) return text;
+                } catch (err) {}
+              }
+              throw new Error('All proxies failed');
+            }
+
+            getRatingHtml()
+              .then(async html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const trs = doc.querySelectorAll('table tbody tr');
+                let ratingEncontrado = null;
+                const ths = doc.querySelectorAll('table thead th');
+                let idx100 = 3; // Default
+                ths.forEach((th, i) => {
+                  if (th.textContent.includes('100-R')) idx100 = i;
+                });
+
+                for (let tr of trs) {
+                  const tds = tr.querySelectorAll('td');
+                  if (tds.length >= 3) {
+                    const nomeNaTabela = tds[1].textContent.trim().toLowerCase();
+                    if (nomeNaTabela.includes(p.nome.toLowerCase()) || p.nome.toLowerCase().includes(nomeNaTabela)) {
+                      ratingEncontrado = {
+                        reg: tds[0].textContent.trim(),
+                        uf: tds[2].textContent.trim(),
+                        r100c: tds[idx100] ? tds[idx100].textContent.trim() : '0'
+                      };
+                      
+                      if (ratingEncontrado.uf === 'MA' || ratingEncontrado.uf === '') {
+                          break;
+                      } else {
+                          ratingEncontrado = null; // Ignora se não for do Maranhão
+                      }
                     }
                   }
                 }
-              }
 
-              if (ratingEncontrado && ratingEncontrado.r100c !== '0') {
-                const maxRating = ratingEncontrado.r100c;
-                
-                document.getElementById('nacional-stats').innerHTML = `
-                  <div class="info-grid" style="margin-top: 0;">
-                    <div class="info-box" style="border-color: var(--gold); background: var(--gold-soft);">
-                      <span class="info-label" style="color: var(--gold);">Rating 100 Casas CBJD</span>
-                      <span class="info-value" style="font-size: 1.3rem; color: var(--gold);">🏅 ${maxRating}</span>
+                if (ratingEncontrado && ratingEncontrado.r100c !== '0') {
+                  renderizarRatingNacional(ratingEncontrado);
+                  // Salva os dados oficiais no banco para evitar consultas futuras
+                  try {
+                    await updateDoc(docRef, { ratingNacional: ratingEncontrado });
+                  } catch (e) {
+                    console.error("Erro ao salvar rating oficial no banco:", e);
+                  }
+                } else {
+                  document.getElementById('nacional-stats').innerHTML = `
+                    <div style="text-align: center; color: var(--muted);">
+                      <p style="margin-bottom: 12px;">Não encontramos um rating nacional associado a "${p.nome}".</p>
+                      <a href="${urlBusca}" target="_blank" class="btn ghost" style="padding: 6px 12px; font-size: 0.9rem;">Buscar manualmente no site</a>
                     </div>
-                    <div class="info-box">
-                      <span class="info-label">Modalidade</span>
-                      <span class="info-value">100 casas</span>
-                    </div>
-                    <div class="info-box">
-                      <span class="info-label">Registro / UF</span>
-                      <span class="info-value">Nº ${ratingEncontrado.reg} (${ratingEncontrado.uf || 'N/I'})</span>
-                    </div>
-                    <div class="info-box" style="background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="window.open('${urlBusca}', '_blank')">
-                      <span style="color: white; font-weight: bold; text-decoration: none;">↗ Ver Perfil Oficial</span>
-                    </div>
-                  </div>
-                `;
-              } else {
+                  `;
+                }
+              })
+              .catch(err => {
                 document.getElementById('nacional-stats').innerHTML = `
                   <div style="text-align: center; color: var(--muted);">
-                    <p style="margin-bottom: 12px;">Não encontramos um rating nacional associado a "${p.nome}".</p>
-                    <a href="${urlBusca}" target="_blank" class="btn ghost" style="padding: 6px 12px; font-size: 0.9rem;">Buscar manualmente no site</a>
+                    <p style="margin-bottom: 12px;">Servidores de busca instáveis. Acesse o portal oficial para conferir o rating.</p>
+                    <a href="${urlBusca}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 0.9rem;">Ver Rating Oficial</a>
                   </div>
                 `;
-              }
-            })
-            .catch(err => {
-              document.getElementById('nacional-stats').innerHTML = `
-                <div style="text-align: center; color: var(--muted);">
-                  <p style="margin-bottom: 12px;">Servidores de busca instáveis. Acesse o portal oficial para conferir o rating.</p>
-                  <a href="${urlBusca}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 0.9rem;">Ver Rating Oficial</a>
-                </div>
-              `;
-            });
+              });
+          }
         } else {
           container.innerHTML = '<div class="loading" style="color:red;">Nenhum jogador encontrado com este ID. Ele pode ter sido deletado.</div>';
         }
