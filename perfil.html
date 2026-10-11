@@ -34,19 +34,132 @@
     .btn.ghost { background: transparent; color: var(--accent); }
     .btn.ghost:hover { background: var(--accent); color: white; }
     
-    header.top { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
-    header.top .wrap { display: flex; justify-content: space-between; align-items: center; min-height: 64px; }
-    .brand { font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 8px; }
-    .brand-mark { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 16px; height: 16px; }
-    .brand-mark i { background: var(--accent); }
-    nav.menu { display: flex; gap: 24px; align-items: center; }
-    nav.menu a { font-weight: 600; color: var(--ink); }
-    nav.menu a:hover { color: var(--accent); }
-    nav.menu a.cta { background: var(--ink); color: white; padding: 6px 14px; border-radius: 4px; }
-    nav.menu a.cta:hover { background: var(--accent); }
+    header.top {
+      background: rgba(243, 244, 240, 0.94);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
 
-    .perfil-container { display: flex; gap: 40px; margin-top: 60px; align-items: flex-start; }
-    .perfil-foto { width: 300px; height: 300px; border-radius: 16px; object-fit: cover; object-position: top center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 4px solid var(--surface); }
+    header.top .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 64px;
+      gap: 16px;
+      position: relative;
+    }
+
+    .brand {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: clamp(1.15rem, 4.2vw, 1.45rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: .01em;
+      text-decoration: none;
+      z-index: 102;
+    }
+
+    .brand img {
+      height: 24px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    /* Menu Toggle (Mobile) */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 102;
+      transition: all .2s ease;
+      color: var(--ink);
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:focus-visible {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .menu-toggle .bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform .25s ease, opacity .2s ease;
+      transform-origin: center;
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    nav.menu {
+      display: flex;
+      gap: 4px 18px;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    nav.menu a {
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: .95rem;
+      padding: 8px 4px;
+      border-bottom: 2px solid transparent;
+      transition: all .2s ease;
+    }
+
+    nav.menu a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    nav.menu a.cta {
+      color: var(--accent-ink);
+      background: var(--accent);
+      padding: 8px 16px;
+      border-radius: 6px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    nav.menu a.cta:hover {
+      background: #16533b;
+      border-color: #16533b;
+      color: #fff;
+    }
+
+    .perfil-container { display: flex; gap: 40px; margin-top: 40px; align-items: flex-start; }
+    .perfil-foto { width: 280px; height: 280px; border-radius: 16px; object-fit: cover; object-position: top center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 4px solid var(--surface); }
     .perfil-info { flex: 1; }
     .perfil-info h2 { font-size: 3.5rem; margin-bottom: 10px; }
     .perfil-cidade { font-family: var(--f-mono); font-size: 1rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 24px; }
@@ -62,18 +175,91 @@
 
     .loading { text-align: center; padding: 100px; font-size: 1.2rem; color: var(--muted); }
 
-    @media(max-width: 768px) {
-      .perfil-container { flex-direction: column; }
-      .perfil-foto { width: 100%; height: auto; aspect-ratio: 1; }
-      nav.menu { flex-wrap: wrap; gap: 12px; }
-      .brand { font-size: 1.1rem; }
-      .perfil-info h2 { font-size: 2.5rem; }
+    @media (max-width: 860px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      nav.menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.15);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        margin: 0;
+        padding: 10px 16px 18px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+        z-index: 100;
+      }
+
+      nav.menu.is-active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      nav.menu a {
+        padding: 12px 14px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        display: flex;
+        align-items: center;
+      }
+
+      nav.menu a:hover,
+      nav.menu a:focus-visible {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-left-color: var(--accent);
+      }
+
+      nav.menu a.cta {
+        margin-top: 8px;
+        text-align: center;
+        justify-content: center;
+        padding: 12px;
+      }
     }
+
+    @media(max-width: 768px) {
+      .perfil-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 24px;
+        gap: 20px;
+      }
+      .perfil-foto {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      }
+      .perfil-info {
+        width: 100%;
+      }
+      .perfil-info h2 {
+        font-size: 2.2rem;
+      }
+      .perfil-bio {
+        margin-inline: auto;
+      }
+    }
+
     @media(max-width: 480px) {
       .info-grid { grid-template-columns: 1fr; }
-      .perfil-info h2 { font-size: 2rem; }
-      header.top .wrap { flex-direction: column; gap: 12px; padding-block: 12px; }
-      nav.menu { justify-content: center; width: 100%; }
+      .perfil-info h2 { font-size: 1.9rem; }
     }
   </style>
 </head>
@@ -81,8 +267,16 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão" style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
-      <nav class="menu">
+      <a class="brand" href="index.html">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão">
+        Portal do Damista
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mainMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <nav class="menu" id="mainMenu" aria-label="Seções">
         <a href="index.html">Início</a>
         <a href="cursos.html">Cursos</a>
         <a href="index.html#jogadores">Mural</a>
@@ -392,6 +586,40 @@
         console.error("Erro ao buscar documento:", error);
         container.innerHTML = '<div class="loading" style="color:red;">Erro de conexão com o banco de dados.</div>';
       }
+    }
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainMenu = document.getElementById('mainMenu');
+    if (menuToggle && mainMenu) {
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExp = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExp);
+        mainMenu.classList.toggle('is-active', !isExp);
+      });
+
+      mainMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mainMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainMenu.classList.contains('is-active')) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+          menuToggle.focus();
+        }
+      });
     }
 
     loadProfile();

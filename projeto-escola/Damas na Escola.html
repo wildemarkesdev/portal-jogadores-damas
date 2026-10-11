@@ -43,15 +43,25 @@ a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 /* nav */
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
-.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
-.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:100;background:rgba(243,244,240,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px;position:relative}
+.brand{font-family:var(--f-display);font-weight:800;font-size:clamp(1.15rem,4.2vw,1.45rem);text-transform:uppercase;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px;z-index:102}
+.brand-mark{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);flex-shrink:0}
 .brand-mark i:nth-child(1),.brand-mark i:nth-child(4){background:var(--ink)}
-nav.menu{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto}
-nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent}
-nav.menu a:hover{border-color:var(--accent)}
-nav.menu a.cta{color:var(--accent)}
+
+/* Menu Toggle (Mobile) */
+.menu-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;cursor:pointer;z-index:102;transition:all .2s ease;color:var(--ink)}
+.menu-toggle:hover,.menu-toggle:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
+.menu-toggle .bar{display:block;width:22px;height:2px;background:currentColor;border-radius:2px;transition:transform .25s ease,opacity .2s ease;transform-origin:center}
+.menu-toggle[aria-expanded="true"] .bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] .bar:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu-toggle[aria-expanded="true"] .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+nav.menu{display:flex;gap:4px 18px;align-items:center;margin-left:auto}
+nav.menu a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:8px 4px;border-bottom:2px solid transparent;transition:all .2s ease}
+nav.menu a:hover{border-color:var(--accent);color:var(--accent)}
+nav.menu a.cta{color:var(--accent-ink);background:var(--accent);padding:8px 16px;border-radius:6px;border-bottom:2px solid var(--accent)}
+nav.menu a.cta:hover{background:#16533b;border-color:#16533b;color:#fff}
 
 /* hero */
 .hero{padding-block:48px 56px}
@@ -156,11 +166,16 @@ footer{padding-block:40px;border-top:1px solid var(--line);font-size:.9rem;color
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
 
 @media (max-width:860px){
+  .menu-toggle{display:flex}
+  nav.menu{position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 16px 32px -8px rgba(0,0,0,.15);flex-direction:column;align-items:stretch;gap:0;margin:0;padding:10px 16px 18px;display:none;opacity:0;transform:translateY(-8px);transition:opacity .2s ease,transform .2s ease;z-index:100}
+  nav.menu.is-active{display:flex;opacity:1;transform:translateY(0)}
+  nav.menu a{padding:12px 14px;font-size:1rem;border-radius:6px;border-bottom:none;border-left:3px solid transparent;display:flex;align-items:center}
+  nav.menu a:hover,nav.menu a:focus-visible{background:var(--accent-soft);color:var(--accent);border-left-color:var(--accent)}
+  nav.menu a.cta{margin-top:8px;text-align:center;justify-content:center;padding:12px}
   .hero .wrap,.sec-head,.level,.rules{grid-template-columns:minmax(0,1fr)}
   .g3,.why{grid-template-columns:minmax(0,1fr)}
   .routine{grid-template-columns:minmax(0,1fr)}
   .routine li{border-right:0;border-bottom:1px solid var(--line)}
-  nav.menu{margin-left:0;width:100%;padding-bottom:8px}
 }
 @media (max-width:560px){
   .g2,.fgrid{grid-template-columns:minmax(0,1fr)}
@@ -174,12 +189,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-bet
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Damas na Escola</a>
-    <nav class="menu" aria-label="Seções">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mainMenu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <nav class="menu" id="mainMenu" aria-label="Seções">
       <a href="#projeto">O projeto</a>
       <a href="#ensino">Plano de ensino</a>
       <a href="rotina.html">Rotina de Treino</a>
       <a href="regras.html">Regras Oficiais</a>
-      <a href="profissionais.html">Profissional</a>
+      <a href="../index.html#jogadores">Mural de Jogadores</a>
       <a href="#contatos" class="cta">Contatos</a>
     </nav>
   </div>
@@ -298,11 +318,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-bet
       <b style="color:var(--ink)">Damas na Escola</b><br>
       Coordenação Técnica<br><br>
       <strong style="color:var(--ink)">Contatos:</strong><br>
-      WhatsApp: (98) 90000-0000<br>
+      WhatsApp: (98) 98486-6444<br>
       E-mail: contato@damasnaescola.com.br<br>
       Endereço: São Luís, MA
     </div>
-    <div>Parceria proposta: Federação Maranhense de Jogos de Dama (FMJDM)<br>Regras: Federação Mundial de Jogo de Damas (FMJD)</div>
+    <div style="max-width:300px;">Parceria proposta: <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
   </div>
 </footer>
 
@@ -378,6 +398,37 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-bet
        fBold.addEventListener('dblclick', () => { window.location.href = '?admin=1'; });
        fBold.style.cursor = 'pointer'; fBold.title = 'Duplo clique para gerenciar';
      }
+  }
+
+  /* ---------- Mobile Menu Toggle ---------- */
+  const menuToggle = document.getElementById('menuToggle');
+  const mainMenu = document.getElementById('mainMenu');
+  if (menuToggle && mainMenu) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExp = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExp);
+      mainMenu.classList.toggle('is-active', !isExp);
+    });
+    mainMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mainMenu.classList.remove('is-active');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!mainMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mainMenu.classList.remove('is-active');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mainMenu.classList.contains('is-active')) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mainMenu.classList.remove('is-active');
+        menuToggle.focus();
+      }
+    });
   }
 })();
 </script>

@@ -94,36 +94,96 @@
     header.top {
       position: sticky;
       top: env(safe-area-inset-top, 0px);
-      z-index: 10;
-      background: var(--bg);
-      border-bottom: 1px solid var(--line)
+      z-index: 100;
+      background: rgba(243, 244, 240, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
 
     .top .wrap {
       display: flex;
       align-items: center;
-      gap: 20px;
-      min-height: 60px;
-      flex-wrap: wrap
+      justify-content: space-between;
+      min-height: 64px;
+      gap: 16px;
+      position: relative;
     }
 
     .brand {
       font-family: var(--f-display);
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: clamp(1.15rem, 4.2vw, 1.45rem);
       text-transform: uppercase;
       text-decoration: none;
       color: var(--ink);
       display: flex;
       align-items: center;
-      gap: 10px
+      gap: 10px;
+      letter-spacing: .01em;
+      z-index: 102;
+    }
+
+    .brand img {
+      height: 24px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    /* Menu Toggle (Mobile) */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 102;
+      transition: all .2s ease;
+      color: var(--ink);
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:focus-visible {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .menu-toggle .bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform .25s ease, opacity .2s ease;
+      transform-origin: center;
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .menu-toggle[aria-expanded="true"] .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
     }
 
     nav.menu {
       display: flex;
       gap: 4px 18px;
-      flex-wrap: wrap;
-      margin-left: auto
+      align-items: center;
+      margin-left: auto;
     }
 
     nav.menu a {
@@ -131,19 +191,28 @@
       text-decoration: none;
       font-weight: 600;
       font-size: .95rem;
-      padding: 4px 0;
+      padding: 8px 4px;
       border-bottom: 2px solid transparent;
       transition: all .2s ease;
     }
 
     nav.menu a:hover {
       border-color: var(--accent);
-      color: var(--accent)
+      color: var(--accent);
     }
 
     nav.menu a.cta {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+      color: var(--accent-ink);
+      background: var(--accent);
+      padding: 8px 16px;
+      border-radius: 6px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    nav.menu a.cta:hover {
+      background: #16533b;
+      border-color: #16533b;
+      color: #fff;
     }
 
     /* hero */
@@ -490,20 +559,146 @@
       flex-wrap: wrap;
     }
 
+    /* Search and Table Polish */
+    .search-input-wrap {
+      position: relative;
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .search-input-wrap input {
+      padding: 12px 16px 12px 40px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      width: 100%;
+      font-family: var(--f-body);
+      font-size: 0.95rem;
+      background: var(--surface);
+      transition: all .2s ease;
+    }
+
+    .search-input-wrap input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .prof-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .prof-table th {
+      padding: 16px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+
+    .prof-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .prof-thumb {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform .2s ease;
+    }
+
+    .prof-row:hover .prof-thumb {
+      transform: scale(1.08);
+    }
+
+    .age-badge {
+      display: inline-block;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
     @media (max-width:860px) {
-      .hero h1 {
-        font-size: 2.5rem;
+      .menu-toggle {
+        display: flex;
       }
 
       nav.menu {
-        margin-left: 0;
-        width: 100%;
-        padding-bottom: 8px
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.15);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        margin: 0;
+        padding: 10px 16px 18px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+        z-index: 100;
+      }
+
+      nav.menu.is-active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      nav.menu a {
+        padding: 12px 14px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        display: flex;
+        align-items: center;
+      }
+
+      nav.menu a:hover,
+      nav.menu a:focus-visible {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-left-color: var(--accent);
+      }
+
+      nav.menu a.cta {
+        margin-top: 8px;
+        text-align: center;
+        justify-content: center;
+        padding: 12px;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
       }
 
       .sec-head-row {
         flex-direction: column;
         align-items: flex-start;
+        gap: 16px;
       }
 
       footer .wrap {
@@ -512,33 +707,151 @@
       }
     }
 
-    @media (max-width:480px) {
-      .hero h1 {
-        font-size: 2rem;
+    /* Mobile Cards View for Players (< 680px) */
+    @media (max-width: 680px) {
+      .search-input-wrap {
+        max-width: 100%;
       }
 
-      .brand {
-        font-size: 1.2rem;
+      .sec-head-row .btn {
+        width: 100%;
       }
 
-      nav.menu {
-        gap: 8px;
+      .prof-table-wrap {
+        overflow-x: visible;
       }
 
-      nav.menu a {
+      .prof-table,
+      .prof-table tbody,
+      .prof-table tr.prof-row,
+      .prof-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .prof-table thead {
+        display: none;
+      }
+
+      .prof-table {
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .prof-table tr.prof-row {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 12px;
+        display: grid;
+        grid-template-columns: 52px 1fr auto;
+        grid-template-rows: auto auto;
+        column-gap: 14px;
+        row-gap: 4px;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        transition: transform .2s ease, border-color .2s ease;
+      }
+
+      .prof-table tr.prof-row:active {
+        transform: scale(0.99);
+        border-color: var(--accent);
+      }
+
+      .prof-table td {
+        padding: 0 !important;
+        border: none !important;
+      }
+
+      .prof-table td.col-photo {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 52px !important;
+      }
+
+      .prof-table .prof-thumb {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 50%;
+        border: 2px solid var(--accent-soft);
+      }
+
+      .prof-table td.col-name {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+
+      .prof-table td.col-name a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .prof-table td.col-city {
+        grid-column: 2;
+        grid-row: 2;
         font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .prof-table td.col-age {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        text-align: right !important;
+      }
+
+      .prof-table .age-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        font-family: var(--f-mono);
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width:480px) {
+      .hero {
+        padding-block: 44px 56px;
+      }
+
+      .hero h1 {
+        font-size: 1.95rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .hero-btns .btn {
+        width: 100%;
       }
 
       section.block {
-        padding-block: 40px;
-      }
-
-      .hero {
-        padding-block: 40px 60px;
+        padding-block: 48px;
       }
 
       .sec-head {
-        margin-bottom: 32px;
+        margin-bottom: 28px;
+      }
+
+      .info-card {
+        padding: 22px;
       }
     }
   </style>
@@ -547,10 +860,16 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="index.html"><img
-          src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão"
-          style="height: 24px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1);">Portal do Damista Maranhense</a>
-      <nav class="menu" aria-label="Seções">
+      <a class="brand" href="index.html">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão">
+        Portal do Damista
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mainMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <nav class="menu" id="mainMenu" aria-label="Seções">
         <a href="index.html">Início</a>
         <a href="index.html#info">Eventos</a>
         <a href="cursos.html">Cursos</a>
@@ -565,15 +884,15 @@
     <section class="hero">
       <div class="wrap">
         <h1
-          style="margin-bottom: 16px; font-size: clamp(2.2rem, 6vw, 4.5rem); display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          style="margin-bottom: 16px; font-size: clamp(2rem, 5.5vw, 4.2rem); display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;">
           <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg"
             alt="Bandeira do Maranhão" title="Maranhão"
-            style="height: clamp(40px, 6vw, 60px); border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1);">
+            style="height: clamp(34px, 5vw, 54px); border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.15);">
           Portal do Damista Maranhense
         </h1>
         <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os jogadores que fazem
           parte da história do esporte no estado.</p>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
           <a href="#jogadores" class="btn">Conhecer Jogadores</a>
           <a href="cadastro.html" class="btn"
             style="background:transparent;border-color:rgba(255,255,255,0.4);color:var(--surface);">Fazer Cadastro</a>
@@ -628,19 +947,20 @@
         </div>
 
         <div class="filter-bar" style="margin-bottom: 24px;">
-          <input type="text" id="filtro-cidade" placeholder="Buscar por cidade..."
-            style="padding: 12px; border-radius: 6px; border: 1px solid var(--line); width: 100%; max-width: 300px; font-family: var(--f-body); font-size: 1rem;">
+          <div class="search-input-wrap">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="filtro-cidade" placeholder="Buscar por jogador ou cidade..." aria-label="Buscar por jogador ou cidade">
+          </div>
         </div>
 
-        <div class="prof-table-wrap" style="overflow-x: auto;">
-          <table class="prof-table"
-            style="width: 100%; border-collapse: collapse; text-align: left; background: var(--surface); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div class="prof-table-wrap">
+          <table class="prof-table">
             <thead>
-              <tr style="background: var(--accent); color: white;">
-                <th style="padding: 16px;">Foto</th>
-                <th style="padding: 16px;">Nome</th>
-                <th style="padding: 16px;">Cidade</th>
-                <th style="padding: 16px; text-align: center;">Idade</th>
+              <tr>
+                <th style="width: 70px;">Foto</th>
+                <th>Nome</th>
+                <th>Cidade</th>
+                <th style="text-align: center; width: 100px;">Idade</th>
               </tr>
             </thead>
             <tbody id="prof-list">
@@ -662,8 +982,8 @@
         E-mail: contato@portaldodamista.com.br<br>
         Endereço: São Luís, MA
       </div>
-      <div style="max-width:300px;">Filiado a Federação Maranhense de Jogos de Dama (FMJDM)<br><br>Regras oficiais:
-        Federação Mundial de Jogo de Damas (FMJD)</div>
+      <div style="max-width:300px;">Filiado a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais:
+        <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
     </div>
   </footer>
 
@@ -729,13 +1049,14 @@
 
       list.innerHTML = data.map(p => {
         const idade = calcularIdade(p.dataNascimento);
+        const displayName = p.apelido || p.nome;
         return `
-      <tr id="row-${p.id}" style="border-bottom: 1px solid var(--line); transition: background 0.2s;" onmouseover="this.style.background='#F9FAF8'" onmouseout="this.style.background='transparent'">
-        <td style="padding: 16px; width: 70px;"><a href="perfil.html?id=${p.id}"><img src="${p.foto}" alt="${p.apelido || p.nome}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; object-position: top center;"></a></td>
-        <td style="padding: 16px; font-weight: 600; color: var(--ink);"><a href="perfil.html?id=${p.id}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''">${p.apelido || p.nome}</a></td>
-        <td style="padding: 16px; color: var(--muted);">${p.cidade || '-'}</td>
-        <td style="padding: 16px; text-align: center; color: var(--ink); font-weight: 600;">
-          ${idade}
+      <tr id="row-${p.id}" class="prof-row">
+        <td class="col-photo"><a href="perfil.html?id=${p.id}" aria-label="Ver perfil de ${displayName}"><img src="${p.foto}" alt="${displayName}" class="prof-thumb"></a></td>
+        <td class="col-name"><a href="perfil.html?id=${p.id}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''">${displayName}</a></td>
+        <td class="col-city"><span aria-hidden="true" style="margin-right:2px;">📍</span>${p.cidade || '-'}</td>
+        <td class="col-age" style="text-align: center;">
+          <span class="age-badge">${idade !== '-' ? `${idade} anos` : '-'}</span>
         </td>
       </tr>
       `;
@@ -745,13 +1066,49 @@
     const filtroInput = document.getElementById('filtro-cidade');
     if (filtroInput) {
       filtroInput.addEventListener('input', (e) => {
-        const val = e.target.value.toLowerCase();
-        const filtrados = allProfs.filter(p => (p.cidade || '').toLowerCase().includes(val));
+        const val = e.target.value.toLowerCase().trim();
+        const filtrados = allProfs.filter(p => 
+          (p.cidade || '').toLowerCase().includes(val) ||
+          (p.nome || '').toLowerCase().includes(val) ||
+          (p.apelido || '').toLowerCase().includes(val)
+        );
         drawTable(filtrados);
       });
     }
 
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainMenu = document.getElementById('mainMenu');
+    if (menuToggle && mainMenu) {
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExp = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExp);
+        mainMenu.classList.toggle('is-active', !isExp);
+      });
 
+      mainMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mainMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainMenu.classList.contains('is-active')) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+          menuToggle.focus();
+        }
+      });
+    }
 
     renderProfs();
   </script>
