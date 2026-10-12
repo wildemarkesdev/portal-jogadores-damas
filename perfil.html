@@ -297,7 +297,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
@@ -517,10 +517,35 @@
             return (txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
           }
 
-          // 1. Tentar encontrar na base local de atletas do Maranhão (100 Casas)
+          // 1. Tentar encontrar na base oficial CBJD (Nuvem Firestore ou Base Local)
           let atletaBase = null;
-          if (window.BASE_CBJD_MARANHAO_100C && Array.isArray(window.BASE_CBJD_MARANHAO_100C)) {
-            const pNorm = normalizarTexto(p.nome);
+          const pNorm = normalizarTexto(p.nome);
+
+          try {
+            const snapCbjd = await getDocs(collection(db, "rating_cbjd_ma"));
+            if (!snapCbjd.empty) {
+              snapCbjd.forEach(docSnap => {
+                if (atletaBase) return;
+                const a = docSnap.data();
+                const aNorm = normalizarTexto(a.nome);
+                if (aNorm === pNorm) {
+                  atletaBase = a;
+                } else {
+                  const pWords = pNorm.split(/\s+/).filter(w => w.length > 2);
+                  const aWords = aNorm.split(/\s+/).filter(w => w.length > 2);
+                  const matchAllP = pWords.length >= 2 && pWords.every(w => aNorm.includes(w));
+                  const matchAllA = aWords.length >= 2 && aWords.every(w => pWords.includes(w));
+                  if (matchAllP || matchAllA || (pNorm.length > 5 && aNorm.includes(pNorm)) || (aNorm.length > 5 && pNorm.includes(aNorm))) {
+                    atletaBase = a;
+                  }
+                }
+              });
+            }
+          } catch (errCbjd) {
+            console.warn("Consulta Firestore rating_cbjd_ma falhou, usando base em memória:", errCbjd);
+          }
+
+          if (!atletaBase && window.BASE_CBJD_MARANHAO_100C && Array.isArray(window.BASE_CBJD_MARANHAO_100C)) {
             atletaBase = window.BASE_CBJD_MARANHAO_100C.find(a => {
               const aNorm = normalizarTexto(a.nome);
               if (aNorm === pNorm) return true;
