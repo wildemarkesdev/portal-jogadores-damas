@@ -1,0 +1,11 @@
+# Ferramentas e utilitários internos de coleta / raspagem de dados
+coletor-cbjd.html
+coletor_cbjd.py
+executar_coletor.bat
+gerar-dados.html
+sincronizar-nuvem.html
+
+# Arquivos temporários e duplicatas de downloads
+* (1).*
+*.tmp
+*.log

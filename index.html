@@ -871,9 +871,10 @@
       </button>
       <nav class="menu" id="mainMenu" aria-label="Seções">
         <a href="index.html">Início</a>
+        <a href="rating-ma.html">Ranking MA</a>
         <a href="index.html#info">Eventos</a>
         <a href="cursos.html">Cursos</a>
-        <a href="index.html#jogadores">Mural de Jogadores</a>
+        <a href="index.html#jogadores">Mural</a>
         <a href="cadastro.html" class="cta">Fazer Cadastro</a>
       </nav>
     </div>
@@ -890,10 +891,10 @@
             style="height: clamp(34px, 5vw, 54px); border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.15);">
           Portal do Damista Maranhense
         </h1>
-        <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os jogadores que fazem
+        <p>O ponto de encontro dos damistas maranhenses. Acompanhe torneios, eventos, e conheça os atletas que fazem
           parte da história do esporte no estado.</p>
         <div class="hero-btns" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
-          <a href="#jogadores" class="btn">Conhecer Jogadores</a>
+          <a href="#jogadores" class="btn">Conhecer Atletas</a>
           <a href="cadastro.html" class="btn"
             style="background:transparent;border-color:rgba(255,255,255,0.4);color:var(--surface);">Fazer Cadastro</a>
         </div>
@@ -940,7 +941,7 @@
         <div class="sec-head sec-head-row">
           <div>
             <span class="eyebrow">Mural da Fama</span>
-            <h2>Jogadores Cadastrados</h2>
+            <h2>Atletas Cadastrados</h2>
             <p style="margin-left:0;">Profissionais, amadores e mestres que fazem parte da nossa liga.</p>
           </div>
           <a href="cadastro.html" class="btn">Registrar-se</a>
@@ -949,7 +950,7 @@
         <div class="filter-bar" style="margin-bottom: 24px;">
           <div class="search-input-wrap">
             <span class="search-icon" aria-hidden="true">🔍</span>
-            <input type="text" id="filtro-cidade" placeholder="Buscar por jogador ou cidade..." aria-label="Buscar por jogador ou cidade">
+            <input type="text" id="filtro-cidade" placeholder="Buscar por atleta ou cidade..." aria-label="Buscar por atleta ou cidade">
           </div>
         </div>
 
@@ -977,12 +978,12 @@
       <div>
         <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
         Coordenação Técnica<br><br>
-        <strong style="color:var(--ink)">Contatos:</strong><br>
+        <strong style="color:var(--ink)">Suporte Técnico:</strong><br>
         WhatsApp: (98) 98486-6444<br>
         E-mail: contato@portaldodamista.com.br<br>
         Endereço: São Luís, MA
       </div>
-      <div style="max-width:300px;">Filiado a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais:
+      <div style="max-width:300px;">Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais:
         <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
     </div>
   </footer>
@@ -1029,8 +1030,17 @@
 
     function calcularIdade(dataStr) {
       if (!dataStr) return '-';
-      const nasc = new Date(dataStr);
-      if (isNaN(nasc)) return '-';
+      let nasc = null;
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataStr)) {
+        const [d, m, y] = dataStr.split('/').map(Number);
+        nasc = new Date(y, m - 1, d);
+      } else if (/^\d{4}-\d{2}-\d{2}$/.test(dataStr)) {
+        const [y, m, d] = dataStr.split('-').map(Number);
+        nasc = new Date(y, m - 1, d);
+      } else {
+        nasc = new Date(dataStr);
+      }
+      if (!nasc || isNaN(nasc)) return '-';
       const hoje = new Date();
       let idade = hoje.getFullYear() - nasc.getFullYear();
       const m = hoje.getMonth() - nasc.getMonth();

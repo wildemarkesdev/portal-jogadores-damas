@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Perfil do Jogador - Portal do Damista Maranhense</title>
+  <title>Perfil do Atleta - Portal do Damista Maranhense</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <script src="jogadores-maranhao-cbjd.js"></script>
   <style>
     :root {
       --bg: #F3F4F0;
@@ -278,6 +279,7 @@
       </button>
       <nav class="menu" id="mainMenu" aria-label="Seções">
         <a href="index.html">Início</a>
+        <a href="rating-ma.html">Ranking MA</a>
         <a href="cursos.html">Cursos</a>
         <a href="index.html#jogadores">Mural</a>
         <a href="cadastro.html" class="cta">Fazer Cadastro</a>
@@ -289,7 +291,7 @@
     <a href="index.html#jogadores" class="btn ghost" style="margin-top: 40px; padding: 8px 16px;">&larr; Voltar ao Mural</a>
     
     <div id="conteudo-perfil">
-      <div class="loading">Carregando informações do jogador...</div>
+      <div class="loading">Carregando informações do atleta...</div>
     </div>
   </main>
 
@@ -315,7 +317,7 @@
       const container = document.getElementById('conteudo-perfil');
 
       if(!id) {
-        container.innerHTML = '<div class="loading" style="color:red;">Jogador não encontrado (ID ausente).</div>';
+        container.innerHTML = '<div class="loading" style="color:red;">Atleta não encontrado (ID ausente).</div>';
         return;
       }
 
@@ -328,8 +330,17 @@
           
           let idadeStr = 'Não informada';
           if (p.dataNascimento) {
-            const nasc = new Date(p.dataNascimento);
-            if (!isNaN(nasc)) {
+            let nasc = null;
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(p.dataNascimento)) {
+              const [d, m, y] = p.dataNascimento.split('/').map(Number);
+              nasc = new Date(y, m - 1, d);
+            } else if (/^\d{4}-\d{2}-\d{2}$/.test(p.dataNascimento)) {
+              const [y, m, d] = p.dataNascimento.split('-').map(Number);
+              nasc = new Date(y, m - 1, d);
+            } else {
+              nasc = new Date(p.dataNascimento);
+            }
+            if (nasc && !isNaN(nasc)) {
               const hoje = new Date();
               let idade = hoje.getFullYear() - nasc.getFullYear();
               const m = hoje.getMonth() - nasc.getMonth();
@@ -347,7 +358,7 @@
                 <h2 style="margin-bottom: 4px;">${p.apelido || p.nome}</h2>
                 ${p.apelido ? `<span style="display: block; font-size: 1.1rem; color: var(--muted); margin-bottom: 12px; font-weight: 500;">${p.nome}</span>` : ''}
                 <span class="perfil-cidade">📍 ${p.bairro || 'Bairro não inf.'}, ${p.cidade || 'Cidade não inf.'}</span>
-                <p class="perfil-bio">${p.bio || 'Nenhuma biografia disponível para este jogador.'}</p>
+                <p class="perfil-bio">${p.bio || 'Nenhuma biografia disponível para este atleta.'}</p>
                 
                 <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
                   <div class="info-box" style="padding: 12px 16px;">
@@ -381,8 +392,13 @@
 
             <div style="margin-top: 40px;">
               <h3>Rating Nacional Oficial</h3>
-              <div id="nacional-stats" style="margin-top: 16px; padding: 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--line);">
-                <div style="color: var(--muted); text-align: center;">Buscando dados na CBJD (ratingdamas.org)...</div>
+              <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 16px;">
+                <div id="nacional-stats" style="flex: 1; min-width: 300px; padding: 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--line);">
+                  <div style="color: var(--muted); text-align: center;">Buscando dados na CBJD (ratingdamas.org)...</div>
+                </div>
+                <a id="btn-perfil-oficial" href="https://ratingdamas.org/rating?search=${encodeURIComponent(p.nome)}" target="_blank" class="info-box" style="width: 220px; height: 108px; background: #262421; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.2s; border: none; flex-shrink: 0;" onmouseover="this.style.background='#36332f'; this.style.transform='translateY(-4px)';" onmouseout="this.style.background='#262421'; this.style.transform='none';">
+                  <span style="font-weight: bold; font-size: 1.1rem;">↗ Ver Perfil Oficial</span>
+                </a>
               </div>
             </div>
 
@@ -404,7 +420,7 @@
                   <tbody>
                     <tr>
                       <td colspan="4" style="padding: 32px; text-align: center; color: var(--muted);">
-                        Nenhum resultado oficial registrado recentemente para este jogador.
+                        Nenhum resultado oficial registrado recentemente para este atleta.
                       </td>
                     </tr>
                   </tbody>
@@ -468,7 +484,7 @@
                 document.getElementById('lidraughts-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Usuário não encontrado no Lidraughts ou não existe. <br><a href="https://lidraughts.org/signup" target="_blank" style="color: var(--accent); text-decoration: underline; margin-top: 8px; display: inline-block;">Clique aqui para fazer o cadastro no Lidraughts</a>.</p>`;
               });
           } else {
-             document.getElementById('lidraughts-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Este jogador ainda não vinculou uma conta do Lidraughts.</p>`;
+             document.getElementById('lidraughts-stats').innerHTML = `<p style="color:var(--muted); text-align: center; margin: 0;">Este atleta ainda não vinculou uma conta do Lidraughts.</p>`;
           }
 
           // Buscar Rating Nacional via CORS Proxy com Fallbacks
@@ -476,30 +492,64 @@
           
           function renderizarRatingNacional(ratingObj) {
             document.getElementById('nacional-stats').innerHTML = `
-              <div class="info-grid" style="margin-top: 0;">
+              <div class="info-grid grid-3" style="margin-top: 0;">
                 <div class="info-box" style="border-color: var(--gold); background: var(--gold-soft);">
                   <span class="info-label" style="color: var(--gold);">Rating 100 Casas CBJD</span>
-                  <span class="info-value" style="font-size: 1.3rem; color: var(--gold);">🏅 ${ratingObj.r100c}</span>
+                  <span class="info-value" style="font-size: 1.3rem; color: var(--gold);">🏅 ${ratingObj.r100r || ratingObj.r100c || '-'}</span>
                 </div>
                 <div class="info-box">
                   <span class="info-label">Modalidade</span>
-                  <span class="info-value">100 casas</span>
+                  <span class="info-value">${ratingObj.modalidade || '100 casas'}</span>
                 </div>
                 <div class="info-box">
-                  <span class="info-label">Registro / UF</span>
-                  <span class="info-value">Nº ${ratingObj.reg} (${ratingObj.uf || 'N/I'})</span>
-                </div>
-                <div class="info-box" style="background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="window.open('${urlBusca}', '_blank')">
-                  <span style="color: white; font-weight: bold; text-decoration: none;">↗ Ver Perfil Oficial</span>
+                  <span class="info-label">Estado (UF)</span>
+                  <span class="info-value">Maranhão (${ratingObj.uf || 'MA'})</span>
                 </div>
               </div>
             `;
+            const btnOficial = document.getElementById('btn-perfil-oficial');
+            if (btnOficial && ratingObj.urlPerfil) {
+              btnOficial.href = ratingObj.urlPerfil;
+            }
           }
 
-          if (p.ratingNacional && p.ratingNacional.r100c) {
-            // Usa dados já salvos no banco para não sobrecarregar
+          function normalizarTexto(txt) {
+            return (txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          }
+
+          // 1. Tentar encontrar na base local de atletas do Maranhão (100 Casas)
+          let atletaBase = null;
+          if (window.BASE_CBJD_MARANHAO_100C && Array.isArray(window.BASE_CBJD_MARANHAO_100C)) {
+            const pNorm = normalizarTexto(p.nome);
+            atletaBase = window.BASE_CBJD_MARANHAO_100C.find(a => {
+              const aNorm = normalizarTexto(a.nome);
+              if (aNorm === pNorm) return true;
+              const pWords = pNorm.split(/\s+/).filter(w => w.length > 2);
+              const aWords = aNorm.split(/\s+/).filter(w => w.length > 2);
+              const matchAllP = pWords.length >= 2 && pWords.every(w => aNorm.includes(w));
+              const matchAllA = aWords.length >= 2 && aWords.every(w => pWords.includes(w));
+              return matchAllP || matchAllA || (pNorm.length > 5 && aNorm.includes(pNorm)) || (aNorm.length > 5 && pNorm.includes(aNorm));
+            });
+          }
+
+          if (atletaBase) {
+            const ratingObj = {
+              reg: atletaBase.registro,
+              uf: atletaBase.uf || 'MA',
+              r100r: atletaBase.r100r,
+              r100c: atletaBase.r100c,
+              modalidade: atletaBase.modalidade || '100 Casas',
+              urlPerfil: atletaBase.urlPerfil
+            };
+            renderizarRatingNacional(ratingObj);
+            try {
+              updateDoc(docRef, { ratingNacional: ratingObj });
+            } catch (e) {}
+          } else if (p.ratingNacional && p.ratingNacional.r100c) {
+            // 2. Usa dados já salvos no banco para não sobrecarregar
             renderizarRatingNacional(p.ratingNacional);
           } else {
+            // 3. Fallback via Proxies
             const proxies = [
               `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
               `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
@@ -555,7 +605,6 @@
 
                 if (ratingEncontrado && ratingEncontrado.r100c !== '0') {
                   renderizarRatingNacional(ratingEncontrado);
-                  // Salva os dados oficiais no banco para evitar consultas futuras
                   try {
                     await updateDoc(docRef, { ratingNacional: ratingEncontrado });
                   } catch (e) {
@@ -563,24 +612,22 @@
                   }
                 } else {
                   document.getElementById('nacional-stats').innerHTML = `
-                    <div style="text-align: center; color: var(--muted);">
-                      <p style="margin-bottom: 12px;">Não encontramos um rating nacional associado a "${p.nome}".</p>
-                      <a href="${urlBusca}" target="_blank" class="btn ghost" style="padding: 6px 12px; font-size: 0.9rem;">Buscar manualmente no site</a>
+                    <div style="text-align: center; color: var(--muted); padding: 8px 0;">
+                      <p style="margin: 0;">Não encontramos um registro de rating nacional oficial para este atleta.</p>
                     </div>
                   `;
                 }
               })
               .catch(err => {
                 document.getElementById('nacional-stats').innerHTML = `
-                  <div style="text-align: center; color: var(--muted);">
-                    <p style="margin-bottom: 12px;">Servidores de busca instáveis. Acesse o portal oficial para conferir o rating.</p>
-                    <a href="${urlBusca}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 0.9rem;">Ver Rating Oficial</a>
+                  <div style="text-align: center; color: var(--muted); padding: 8px 0;">
+                    <p style="margin: 0;">Servidores de busca instáveis. Consulte a ficha oficial no botão ao lado.</p>
                   </div>
                 `;
               });
           }
         } else {
-          container.innerHTML = '<div class="loading" style="color:red;">Nenhum jogador encontrado com este ID. Ele pode ter sido deletado.</div>';
+          container.innerHTML = '<div class="loading" style="color:red;">Nenhum atleta encontrado com este ID. Ele pode ter sido deletado.</div>';
         }
       } catch (error) {
         console.error("Erro ao buscar documento:", error);
@@ -624,5 +671,23 @@
 
     loadProfile();
   </script>
+
+  <footer id="contatos" style="margin-top: 60px; padding: 40px 0; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted);">
+    <div class="wrap" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
+      <div>
+        <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
+        Coordenação Técnica e Estatística<br><br>
+        <strong style="color:var(--ink)">Suporte Técnico:</strong><br>
+        WhatsApp: (98) 98486-6444<br>
+        E-mail: contato@portaldodamista.com.br<br>
+        Endereço: São Luís, MA
+      </div>
+      <div style="max-width:320px;">
+        Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>
+        Dados da <a href="https://ratingdamas.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Confederação Brasileira de Jogo de Damas (CBJD)</a><br><br>
+        Regras oficiais internacionais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial (FMJD)</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

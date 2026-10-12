@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <script src="jogadores-maranhao-cbjd.js"></script>
   <style>
     :root {
       --bg: #F3F4F0;
@@ -452,6 +453,84 @@
       background: var(--muted);
       border-color: var(--muted);
     }
+
+    /* Sugestões de Autocomplete CBJD */
+    .sugestoes-cbjd-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .sugestoes-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      margin-top: 4px;
+      box-shadow: 0 12px 30px -4px rgba(0,0,0,0.18);
+      z-index: 50;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .sugestao-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s ease;
+    }
+    .sugestao-item:last-child {
+      border-bottom: none;
+    }
+    .sugestao-item:hover, .sugestao-item:focus {
+      background: var(--accent-soft);
+    }
+    .sugestao-nome {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 0.96rem;
+    }
+    .sugestao-rating {
+      font-family: var(--f-mono);
+      font-size: 0.82rem;
+      background: rgba(30, 106, 76, 0.12);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .sugestao-btn-action {
+      font-size: 0.78rem;
+      font-family: var(--f-mono);
+      color: var(--accent);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-fill-pill {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-fill-pill:hover {
+      background: #164f38;
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 
@@ -469,9 +548,10 @@
       </button>
       <nav class="menu" id="mainMenu" aria-label="Seções">
         <a href="index.html">Início</a>
+        <a href="rating-ma.html">Ranking MA</a>
         <a href="index.html#info">Eventos</a>
         <a href="cursos.html">Cursos</a>
-        <a href="index.html#jogadores">Mural de Jogadores</a>
+        <a href="index.html#jogadores">Mural</a>
         <a href="cadastro.html" class="cta">Fazer Cadastro</a>
       </nav>
     </div>
@@ -483,18 +563,25 @@
           <span class="eyebrow">Cadastro Oficial</span>
           <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 12px;">Inscreva-se</h2>
           <p style="margin-inline: auto; font-size: 1.1rem; color: var(--muted); max-width: 600px;">
-            Preencha seus dados abaixo para fazer parte do nosso quadro oficial de jogadores profissionais do Maranhão.
+            Preencha seus dados abaixo para fazer parte do nosso quadro oficial de atletas do Maranhão.
           </p>
         </div>
 
         <div class="card" id="form-prof" style="margin-bottom: 40px; background: var(--surface);">
-          <h3>Inscreva-se como Profissional</h3>
+          <h3>Inscreva-se como Atleta</h3>
           <form id="f-prof">
             <div class="fgrid">
-              <div class="field"><label for="p-nome">Nome Completo (Para busca do Rating)</label><input id="p-nome" required></div>
+              <div class="field full">
+                <label for="p-nome">Nome Completo (Verificação Instantânea na Base CBJD-MA)</label>
+                <div class="sugestoes-cbjd-wrap">
+                  <input id="p-nome" autocomplete="off" required placeholder="Comece a digitar seu nome (ex: Abmael, Marcio, Allan...)">
+                  <div id="sugestoes-dropdown" class="sugestoes-dropdown" style="display: none;"></div>
+                </div>
+                <div id="cbjd-match-status" style="margin-top: 8px; display: none;"></div>
+              </div>
               <div class="field"><label for="p-apelido">Nome de Exibição / Apelido</label><input id="p-apelido" required></div>
               <div class="field"><label for="p-tel">Telefone / WhatsApp</label><input id="p-tel" required></div>
-              <div class="field"><label for="p-nasc">Data de Nascimento</label><input type="date" id="p-nasc" required></div>
+              <div class="field"><label for="p-nasc">Data de Nascimento</label><input type="text" id="p-nasc" required placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" autocomplete="bday"></div>
               <div class="field"><label for="p-cep">CEP</label><input id="p-cep" required placeholder="Ex: 65000000" maxlength="9"></div>
               <div class="field"><label for="p-lidraughts">Usuário Lidraughts (Opcional)</label><input id="p-lidraughts" placeholder="Seu apelido lá"></div>
 
@@ -513,7 +600,7 @@
             </div>
             <div style="display: flex; gap: 12px; margin-top: 8px;">
               <button class="btn" type="submit">Enviar Cadastro</button>
-              <a href="index.html" class="btn ghost">Ver Lista de Jogadores</a>
+              <a href="index.html#jogadores" class="btn ghost">Ver Lista de Atletas</a>
             </div>
             <p class="msg" id="p-msg" hidden></p>
           </form>
@@ -526,17 +613,17 @@
       <div>
       <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
       Coordenação Técnica<br><br>
-      <strong style="color:var(--ink)">Contatos:</strong><br>
+      <strong style="color:var(--ink)">Suporte Técnico:</strong><br>
       WhatsApp: (98) 98486-6444<br>
       E-mail: contato@portaldodamista.com.br<br>
         Endereço: São Luís, MA
       </div>
-      <div style="max-width:300px;">Parceria proposta: <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
+      <div style="max-width:300px;">Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
     </div>
   </footer>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD12ju4vDeznTlfXGKtgGSVuG6hZkDOU_c",
@@ -551,6 +638,222 @@
     const db = getFirestore(app);
 
     function msg(el, text, kind) { el.hidden = false; el.className = 'msg ' + kind; el.textContent = text; }
+
+    // Base de Atletas CBJD do Maranhão (Carregamento instantâneo em memória)
+    let maranhaoCbjdBase = (typeof window !== 'undefined' && Array.isArray(window.BASE_CBJD_MARANHAO_100C))
+      ? [...window.BASE_CBJD_MARANHAO_100C]
+      : [];
+    let atletaCbjdDetectado = null;
+
+    function atualizarDatalist() {
+      const datalist = document.getElementById('lista-cbjd-nomes');
+      if (datalist && maranhaoCbjdBase.length > 0) {
+        datalist.innerHTML = maranhaoCbjdBase
+          .map(a => `<option value="${a.nome}">${a.r100r ? 'Rating Rápido: ' + a.r100r : ''}</option>`)
+          .join('');
+      }
+    }
+    atualizarDatalist();
+
+    async function carregarBaseMaranhao() {
+      // 1. Tentar ler do Firestore (rating_cbjd_ma) para dados mais recentes
+      try {
+        const snap = await getDocs(collection(db, "rating_cbjd_ma"));
+        if (!snap.empty) {
+          maranhaoCbjdBase = [];
+          snap.forEach(doc => maranhaoCbjdBase.push(doc.data()));
+          atualizarDatalist();
+        }
+      } catch (err) {
+        console.warn("Firestore rating_cbjd_ma inacessível no momento, mantendo base local:", err);
+      }
+
+      // 2. Se a base ainda estiver vazia, tentar JSON local
+      if (maranhaoCbjdBase.length === 0) {
+        try {
+          const res = await fetch('jogadores-maranhao-cbjd.json');
+          if (res.ok) {
+            maranhaoCbjdBase = await res.json();
+            atualizarDatalist();
+          }
+        } catch (err) {
+          console.warn("JSON local de jogadores do Maranhão não carregado:", err);
+        }
+      }
+    }
+    carregarBaseMaranhao();
+
+    function normalizarTexto(txt) {
+      return (txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    // Verificação instantânea do Nome na Base CBJD-MA com Autopreenchimento
+    const pNomeInput = document.getElementById('p-nome');
+    const pApelidoInput = document.getElementById('p-apelido');
+    const matchStatusEl = document.getElementById('cbjd-match-status');
+    const sugestoesDropdown = document.getElementById('sugestoes-dropdown');
+
+    function selecionarAtleta(atleta) {
+      atletaCbjdDetectado = atleta;
+      pNomeInput.value = atleta.nome;
+      if (pApelidoInput && !pApelidoInput.value.trim()) {
+        const partes = atleta.nome.trim().split(/\s+/);
+        pApelidoInput.value = partes.length > 1 ? `${partes[0]} ${partes[1]}` : partes[0];
+      }
+      if (sugestoesDropdown) sugestoesDropdown.style.display = 'none';
+
+      const r100r = atleta.r100r || '0';
+      const r100c = atleta.r100c || '0';
+      matchStatusEl.style.display = 'block';
+      matchStatusEl.innerHTML = `
+        <div style="background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.4rem;">🏅</span>
+            <div>
+              <div style="font-weight: 700; color: var(--accent);">Atleta Federado CBJD (Maranhão - 100 Casas) Vinculado!</div>
+              <div style="font-size: 0.85rem; color: var(--ink);">
+                <b>${atleta.nome}</b> · Rating Rápido (100-R): <b>${r100r}</b> · Clássico (100-C): <b>${r100c}</b>
+              </div>
+            </div>
+          </div>
+          <span style="font-size: 0.75rem; background: var(--accent); color: white; padding: 4px 10px; border-radius: 4px; font-weight: 700;">✓ Autopreenchido</span>
+        </div>
+      `;
+    }
+
+    function verificarMatchNome() {
+      if (!pNomeInput || !matchStatusEl) return;
+      const termo = normalizarTexto(pNomeInput.value);
+      if (termo.length < 2) {
+        if (sugestoesDropdown) sugestoesDropdown.style.display = 'none';
+        matchStatusEl.style.display = 'none';
+        atletaCbjdDetectado = null;
+        return;
+      }
+
+      // Buscar atletas que correspondem ao que foi digitado
+      const matches = maranhaoCbjdBase.filter(j => {
+        const n = normalizarTexto(j.nome);
+        return n.includes(termo) || termo.includes(n);
+      });
+
+      // Renderizar sugestões clicáveis caso ainda não tenha sido exatamente o mesmo
+      if (sugestoesDropdown) {
+        const jaSelecionadoExato = atletaCbjdDetectado && normalizarTexto(atletaCbjdDetectado.nome) === termo;
+        if (matches.length > 0 && !jaSelecionadoExato) {
+          sugestoesDropdown.innerHTML = `
+            <div style="padding: 6px 12px; background: var(--bg); font-size: 0.75rem; font-family: var(--f-mono); color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--line); display:flex; justify-content:space-between;">
+              <span>Atletas Oficiais Encontrados (${matches.length})</span>
+              <span>Clique no nome para autopreencher ↵</span>
+            </div>
+          ` + matches.slice(0, 6).map((m, idx) => `
+            <div class="sugestao-item" data-idx="${idx}">
+              <div>
+                <div class="sugestao-nome">${m.nome}</div>
+                <div style="font-size: 0.75rem; color: var(--muted);">Maranhão · 100 Casas</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="sugestao-rating">100-R: ${m.r100r || m.r100c || '-'}</span>
+                <span class="sugestao-btn-action">Preencher ↵</span>
+              </div>
+            </div>
+          `).join('');
+
+          sugestoesDropdown.style.display = 'block';
+
+          sugestoesDropdown.querySelectorAll('.sugestao-item').forEach((itemEl, idx) => {
+            itemEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              selecionarAtleta(matches[idx]);
+            });
+          });
+        } else {
+          sugestoesDropdown.style.display = 'none';
+        }
+      }
+
+      // Se houver match exato
+      const matchExato = matches.find(j => normalizarTexto(j.nome) === termo);
+      if (matchExato) {
+        selecionarAtleta(matchExato);
+      } else if (matches.length > 0 && (!atletaCbjdDetectado || normalizarTexto(atletaCbjdDetectado.nome) !== termo)) {
+        const melhor = matches[0];
+        atletaCbjdDetectado = melhor;
+        const r100r = melhor.r100r || '0';
+        const r100c = melhor.r100c || '0';
+        matchStatusEl.style.display = 'block';
+        matchStatusEl.innerHTML = `
+          <div style="background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.4rem;">💡</span>
+              <div>
+                <div style="font-weight: 700; color: var(--accent);">Atleta localizado na CBJD:</div>
+                <div style="font-size: 0.85rem; color: var(--ink);">
+                  <b>${melhor.nome}</b> · Rating Rápido (100-R): <b>${r100r}</b>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn-fill-pill" id="btn-preencher-banner">
+              ✨ Preencher com "${melhor.nome}"
+            </button>
+          </div>
+        `;
+        const btnBanner = document.getElementById('btn-preencher-banner');
+        if (btnBanner) {
+          btnBanner.addEventListener('click', () => selecionarAtleta(melhor));
+        }
+      } else if (matches.length === 0) {
+        atletaCbjdDetectado = null;
+        matchStatusEl.style.display = 'block';
+        matchStatusEl.innerHTML = `
+          <div style="background: #F8F9F8; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; color: var(--muted); display: flex; align-items: center; gap: 8px;">
+            <span>ℹ️</span> Não localizado no cadastro CBJD-MA prévio. O perfil será criado normalmente como novo damista.
+          </div>
+        `;
+      }
+    }
+
+    if (pNomeInput) {
+      pNomeInput.addEventListener('input', verificarMatchNome);
+      pNomeInput.addEventListener('focus', verificarMatchNome);
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (sugestoesDropdown && !sugestoesDropdown.contains(e.target) && e.target !== pNomeInput) {
+        sugestoesDropdown.style.display = 'none';
+      }
+    });
+
+    // Máscara automática de Data de Nascimento (DD/MM/AAAA)
+    const pNascInput = document.getElementById('p-nasc');
+    if (pNascInput) {
+      pNascInput.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 8) v = v.slice(0, 8);
+        if (v.length > 4) {
+          v = v.replace(/^(\d{2})(\d{2})(\d{0,4})/, '$1/$2/$3');
+        } else if (v.length > 2) {
+          v = v.replace(/^(\d{2})(\d{0,2})/, '$1/$2');
+        }
+        e.target.value = v;
+      });
+
+      pNascInput.addEventListener('blur', (e) => {
+        const v = e.target.value.trim();
+        if (!v || v.length < 10) return;
+        const [dStr, mStr, yStr] = v.split('/');
+        const d = parseInt(dStr, 10);
+        const m = parseInt(mStr, 10);
+        const y = parseInt(yStr, 10);
+        const curYear = new Date().getFullYear();
+
+        if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1920 || y > curYear) {
+          alert(`Data de nascimento inválida (${v}). Por favor, informe no formato DD/MM/AAAA com dia entre 01-31, mês entre 01-12 e ano entre 1920 e ${curYear}.`);
+          e.target.focus();
+        }
+      });
+    }
 
     // Auto-fill address from CEP via ViaCEP API
     document.getElementById('p-cep').addEventListener('blur', async (e) => {
@@ -619,10 +922,35 @@
             // Comprime a imagem para JPEG com 60% de qualidade
             const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
 
+            // Validação e formatação da Data de Nascimento (DD/MM/AAAA)
+            const nascRaw = document.getElementById('p-nasc').value.trim();
+            let dataNascFinal = nascRaw;
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(nascRaw)) {
+              const [dStr, mStr, yStr] = nascRaw.split('/');
+              const d = parseInt(dStr, 10);
+              const m = parseInt(mStr, 10);
+              const y = parseInt(yStr, 10);
+              const curYear = new Date().getFullYear();
+              if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1920 || y > curYear) {
+                msg(m, `Data de nascimento inválida (${nascRaw}). Verifique dia (01-31), mês (01-12) e ano.`, 'err');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                document.getElementById('p-nasc').focus();
+                return;
+              }
+              dataNascFinal = `${yStr}-${mStr.padStart(2, '0')}-${dStr.padStart(2, '0')}`;
+            } else {
+              msg(m, 'Por favor, preencha a Data de Nascimento completa no formato DD/MM/AAAA (ex: 15/08/1985).', 'err');
+              submitBtn.innerHTML = originalBtnText;
+              submitBtn.disabled = false;
+              document.getElementById('p-nasc').focus();
+              return;
+            }
+
             const novo = {
               nome: document.getElementById('p-nome').value.trim(),
               apelido: document.getElementById('p-apelido').value.trim(),
-              dataNascimento: document.getElementById('p-nasc').value,
+              dataNascimento: dataNascFinal,
               cep: document.getElementById('p-cep').value.trim(),
               endereco: document.getElementById('p-end').value.trim(),
               numero: document.getElementById('p-num').value.trim(),
@@ -635,72 +963,32 @@
               dataCadastro: new Date().toISOString()
             };
 
-            // Tentar buscar o Rating da CBJD no momento do cadastro
-            try {
-              submitBtn.innerHTML = '<div class="spinner"></div> Buscando Rating CBJD...';
-              const nomeParaBusca = novo.nome;
-              const urlBusca = `https://ratingdamas.org/rating?search=${encodeURIComponent(nomeParaBusca)}`;
-              const proxies = [
-                `https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}&disableCache=true`,
-                `https://corsproxy.io/?${encodeURIComponent(urlBusca)}`,
-                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlBusca)}`
-              ];
-
-              async function fetchWithTimeout(resource, options = {}) {
-                const { timeout = 20000 } = options;
-                const controller = new AbortController();
-                const id = setTimeout(() => controller.abort(), timeout);
-                const response = await fetch(resource, { ...options, signal: controller.signal });
-                clearTimeout(id);
-                return response;
-              }
-
-              async function getRatingHtml() {
-                for (let proxy of proxies) {
-                  try {
-                    const res = await fetchWithTimeout(proxy, { cache: 'no-store', timeout: 20000 });
-                    if (!res.ok) continue;
-                    let text = await res.text();
-                    if (proxy.includes('allorigins')) {
-                      try { text = JSON.parse(text).contents; } catch(e) { continue; }
-                    }
-                    if (text && text.includes('<table')) return text;
-                  } catch (err) {} // Timeout ou erro de CORS no proxy atual
-                }
-                throw new Error('Todos os proxies falharam ou deram timeout');
-              }
-              
-              const htmlBusca = await getRatingHtml();
-              const parser = new DOMParser();
-              const docDOM = parser.parseFromString(htmlBusca, 'text/html');
-              const trs = docDOM.querySelectorAll('table tbody tr');
-              const ths = docDOM.querySelectorAll('table thead th');
-              let idx100 = 3; // Default 100-R
-              ths.forEach((th, i) => {
-                if (th.textContent.includes('100-R')) idx100 = i;
+            // Consulta instantânea na base CBJD-MA em memória (Exclusivo 100 Casas)
+            if (atletaCbjdDetectado) {
+              novo.ratingNacional = {
+                reg: atletaCbjdDetectado.registro || '',
+                uf: atletaCbjdDetectado.uf || 'MA',
+                modalidade: "100 Casas",
+                r100r: atletaCbjdDetectado.r100r || '0',
+                r100c: atletaCbjdDetectado.r100c || '0',
+                titulo: atletaCbjdDetectado.titulo || 'Atleta Federado 100 Casas'
+              };
+            } else if (maranhaoCbjdBase.length > 0) {
+              const normNome = normalizarTexto(novo.nome);
+              const match = maranhaoCbjdBase.find(j => {
+                const n = normalizarTexto(j.nome);
+                return n.includes(normNome) || normNome.includes(n);
               });
-              
-              for (let tr of trs) {
-                const tds = tr.querySelectorAll('td');
-                if (tds.length >= 3) {
-                  const nomeNaTabela = tds[1].textContent.trim().toLowerCase();
-                  if (nomeNaTabela.includes(nomeParaBusca.toLowerCase()) || nomeParaBusca.toLowerCase().includes(nomeNaTabela)) {
-                    const ratingEncontrado = {
-                      reg: tds[0].textContent.trim(),
-                      uf: tds[2].textContent.trim(),
-                      r100c: tds[idx100] ? tds[idx100].textContent.trim() : '0'
-                    };
-                    if (ratingEncontrado.uf === 'MA' || ratingEncontrado.uf === '') {
-                        if (ratingEncontrado.r100c !== '0') {
-                            novo.ratingNacional = ratingEncontrado; // Anexa ao objeto antes de salvar!
-                        }
-                        break;
-                    }
-                  }
-                }
+              if (match) {
+                novo.ratingNacional = {
+                  reg: match.registro || '',
+                  uf: match.uf || 'MA',
+                  modalidade: "100 Casas",
+                  r100r: match.r100r || '0',
+                  r100c: match.r100c || '0',
+                  titulo: match.titulo || 'Atleta Federado 100 Casas'
+                };
               }
-            } catch (err) {
-              console.log("Busca de rating falhou no cadastro, continuará sem o dado oficial.", err);
             }
 
             submitBtn.innerHTML = '<div class="spinner"></div> Salvando Dados...';
