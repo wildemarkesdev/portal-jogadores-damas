@@ -588,7 +588,7 @@
                 <input id="p-tel" required placeholder="(98) 9XXXX-XXXX">
                 <label style="display: flex; align-items: flex-start; gap: 8px; font-weight: normal; font-size: 0.82rem; color: var(--muted); margin-top: 6px; cursor: pointer;">
                   <input type="checkbox" id="p-publicar-tel" style="width: auto; margin-top: 2px;">
-                  <span>Permitir exibir meu WhatsApp publicamente no perfil para receber desafios</span>
+                  <span>Desejo exibir meu WhatsApp publicamente no perfil</span>
                 </label>
               </div>
               <div class="field">
@@ -605,9 +605,9 @@
                 <div style="display: flex; gap: 12px; align-items: flex-start;">
                   <span style="font-size: 1.5rem;">🛡️</span>
                   <div style="flex: 1;">
-                    <strong style="color: #8D6E63; font-size: 0.98rem;">Atleta Menor de 18 Anos (Proteção Especial LGPD - Art. 14)</strong>
+                    <strong style="color: #8D6E63; font-size: 0.98rem;">Atleta Menor de 18 Anos (Proteção e Segurança)</strong>
                     <p style="font-size: 0.84rem; color: #5D4037; margin: 4px 0 12px;">
-                      Identificamos que o atleta é menor de idade. Conforme a LGPD, a inscrição e divulgação de imagem esportiva de menores de 18 anos necessita da autorização de pelo menos um dos pais ou responsável legal.
+                      Identificamos que o atleta é menor de idade. A inscrição e divulgação da imagem esportiva de menores de 18 anos necessita da autorização de pelo menos um dos pais ou responsável legal.
                     </p>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
                       <div>
@@ -623,7 +623,7 @@
                 </div>
               </div>
 
-              <!-- AVISO LGPD: ENDEREÇO RESIDENCIAL SIGILOSO -->
+              <!-- AVISO: ENDEREÇO RESIDENCIAL SIGILOSO -->
               <div class="field full" style="margin-top: 6px;">
                 <div style="background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 12px 16px; font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 12px;">
                   <span style="font-size: 1.4rem;">📦</span>
@@ -649,12 +649,12 @@
                   placeholder="Conte um pouco sobre sua trajetória, anos de experiência, títulos em torneios da federação..."></textarea>
               </div>
 
-              <!-- TERMO DE CONSENTIMENTO LGPD OBRIGATÓRIO -->
+              <!-- TERMO DE CONSENTIMENTO OBRIGATÓRIO -->
               <div class="field full" style="margin-top: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 16px;">
                 <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-weight: normal; font-size: 0.88rem; color: var(--ink); line-height: 1.5;">
                   <input type="checkbox" id="p-lgpd-consent" required style="width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); flex-shrink: 0;">
                   <span>
-                    <b>Termo de Consentimento e Privacidade (LGPD):</b> Autorizo o <b>Portal do Damista Maranhense</b> a armazenar meus dados pessoais e publicar meu perfil esportivo (nome, apelido, foto, cidade, idade, biografia e ratings oficiais) no mural público e ranking oficial. Declaro estar ciente de que meu endereço residencial será utilizado exclusivamente para envio físico de materiais e que posso solicitar a atualização ou exclusão definitiva dos meus dados a qualquer momento pelo suporte do portal. <a href="privacidade.html" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: 700;">Ler Política de Privacidade</a>.
+                    <b>Termo de Consentimento e Privacidade:</b> Autorizo o <b>Portal do Damista Maranhense</b> a armazenar meus dados pessoais e publicar meu perfil esportivo (nome, apelido, foto, cidade, idade, biografia e ratings oficiais) no mural público e ranking oficial. Declaro estar ciente de que meu endereço residencial será utilizado exclusivamente para envio físico de materiais e que posso solicitar a atualização ou exclusão definitiva dos meus dados a qualquer momento pelo suporte do portal. <a href="privacidade.html" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: 700;">Ler Política de Privacidade</a>.
                   </span>
                 </label>
               </div>
@@ -682,7 +682,7 @@
       <div style="max-width:320px;">
         Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>
         Regras oficiais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial (FMJD)</a><br><br>
-        🛡️ <a href="privacidade.html" style="color:var(--accent); text-decoration:underline; font-weight:600;">Política de Privacidade e LGPD</a>
+        🛡️ <a href="privacidade.html" style="color:var(--accent); text-decoration:underline; font-weight:600;">Política de Privacidade</a>
       </div>
     </div>
   </footer>
@@ -1052,7 +1052,7 @@
               respNome = respNomeEl ? respNomeEl.value.trim() : '';
               respTel = respTelEl ? respTelEl.value.trim() : '';
               if (!respNome || !respTel) {
-                msg(m, 'Atenção (LGPD): Para atletas menores de 18 anos, é obrigatório preencher o Nome e WhatsApp do Responsável Legal.', 'err');
+                msg(m, 'Para atletas menores de 18 anos, é obrigatório preencher o Nome e WhatsApp do Responsável Legal.', 'err');
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
                 if (respNomeEl) respNomeEl.focus();
@@ -1060,10 +1060,10 @@
               }
             }
 
-            // Validação Termo de Consentimento LGPD
+            // Validação Termo de Consentimento
             const lgpdConsent = document.getElementById('p-lgpd-consent');
             if (lgpdConsent && !lgpdConsent.checked) {
-              msg(m, 'É necessário assinalar o Termo de Consentimento e Privacidade (LGPD) para prosseguir.', 'err');
+              msg(m, 'É necessário assinalar o Termo de Consentimento e Privacidade para prosseguir.', 'err');
               submitBtn.innerHTML = originalBtnText;
               submitBtn.disabled = false;
               lgpdConsent.focus();
