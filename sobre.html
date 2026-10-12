@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Sobre o Portal - Portal do Damista Maranhense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    :root {
+      --bg: #F3F4F0;
+      --surface: #FFFFFF;
+      --ink: #16201B;
+      --muted: #56635C;
+      --line: #D6DBD4;
+      --accent: #1E6A4C;
+      --accent-ink: #FFFFFF;
+      --accent-soft: #E1EEE7;
+      --gold: #C69C6D;
+      --gold-soft: #F8F1E5;
+      --gold-dark: #8D6E63;
+      --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+      --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-inline: 20px;
+    }
+
+    header.top {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(243, 244, 240, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top .wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: 64px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: var(--f-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand img {
+      height: 24px;
+      border-radius: 2px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      width: 22px;
+      height: 2px;
+      background-color: var(--ink);
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    nav.menu {
+      display: flex;
+      gap: 6px 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav.menu a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 6px 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    nav.menu a:hover, nav.menu a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    nav.menu a.cta {
+      background: var(--accent);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border-bottom: none;
+    }
+
+    nav.menu a.cta:hover {
+      background: #164f38;
+      color: white;
+    }
+
+    /* Hero */
+    .hero-sobre {
+      background: linear-gradient(180deg, #16201B 0%, #1E382B 100%);
+      color: white;
+      padding: 80px 0 70px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-sobre h1 {
+      font-family: var(--f-display);
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      margin: 12px 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+    }
+
+    .hero-sobre p {
+      max-width: 780px;
+      margin: 0 auto 28px;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+    }
+
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-badge {
+      font-family: var(--f-mono);
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Blocos e Seções */
+    section.bloco {
+      padding: 70px 0;
+    }
+
+    section.bloco.alt {
+      background: var(--surface);
+      border-block: 1px solid var(--line);
+    }
+
+    .sec-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .sec-header h2 {
+      font-family: var(--f-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 8px 0;
+    }
+
+    .sec-header p {
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* Grid Tripla (Missão, Visão, Valores) */
+    .grid-mvv {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 28px;
+    }
+
+    .card-mvv {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 4px 16px -8px rgba(0, 0, 0, 0.06);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-mvv:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .card-mvv::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent);
+    }
+
+    .card-mvv.visao::before { background: var(--gold); }
+    .card-mvv.valores::before { background: #3B7A57; }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .card-mvv.visao .card-icon {
+      background: var(--gold-soft);
+      color: var(--gold-dark);
+    }
+
+    .card-mvv h3 {
+      font-family: var(--f-display);
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .card-mvv p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* Card de Independência e Parceria */
+    .card-independencia {
+      background: #FFFFFF;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 40px 36px;
+      box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .indep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 36px;
+      align-items: center;
+    }
+
+    .tag-parceria {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--f-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .card-independencia h3 {
+      font-family: var(--f-display);
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 16px;
+      line-height: 1.1;
+    }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.96rem;
+      color: var(--ink);
+    }
+
+    .check-list li span.icon {
+      color: var(--accent);
+      font-weight: 800;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    /* Grade de Cursos para Comunidade */
+    .grid-cursos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 28px;
+    }
+
+    .card-curso-comunidade {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 32px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s ease;
+    }
+
+    .card-curso-comunidade:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px -8px rgba(0, 0, 0, 0.12);
+      border-color: var(--accent);
+    }
+
+    .curso-tag-publico {
+      font-family: var(--f-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      align-self: flex-start;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .card-curso-comunidade h4 {
+      font-family: var(--f-display);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .card-curso-comunidade p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .curso-beneficios {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.9rem;
+      border-top: 1px dashed var(--line);
+      padding-top: 14px;
+    }
+
+    .curso-beneficios li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* Seção Oficinas & Treinamentos para Instituições */
+    .oficinas-card {
+      background: linear-gradient(135deg, #1E6A4C 0%, #164F38 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 50px 40px;
+      box-shadow: 0 16px 36px -12px rgba(30, 106, 76, 0.35);
+    }
+
+    .oficinas-card h2 {
+      font-family: var(--f-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      text-transform: uppercase;
+      margin: 0 0 16px;
+      line-height: 1.05;
+    }
+
+    .oficinas-card p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 720px;
+      margin-bottom: 36px;
+    }
+
+    .oficinas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .oficina-item {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 22px;
+      backdrop-filter: blur(4px);
+    }
+
+    .oficina-item h5 {
+      font-family: var(--f-display);
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+      color: var(--gold-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .oficina-item p {
+      font-size: 0.92rem;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+    }
+
+    /* Formulário / Ação de Contato */
+    .contato-box-cta {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 36px;
+      color: var(--ink);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font: 600 1.05rem var(--f-body);
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #164f38;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn.whatsapp {
+      background: #25D366;
+      color: #0B4619;
+      font-weight: 700;
+    }
+
+    .btn.whatsapp:hover {
+      background: #1EBE5D;
+      color: white;
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    input, select, textarea {
+      font: inherit;
+      font-size: 0.98rem;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--ink);
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(30, 106, 76, 0.15);
+    }
+
+    /* Footer */
+    footer {
+      padding-block: 60px 40px;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px 40px;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 860px) {
+      .menu-toggle { display: flex; }
+      nav.menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 16px 32px -8px rgba(0,0,0,0.15);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 16px 18px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      nav.menu.is-active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      nav.menu a {
+        padding: 12px 14px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+      }
+      nav.menu a:hover, nav.menu a.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-left-color: var(--accent);
+      }
+      nav.menu a.cta { margin-top: 8px; text-align: center; justify-content: center; }
+      .fgrid { grid-template-columns: 1fr; }
+      .oficinas-card { padding: 36px 20px; }
+      footer .wrap { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Bandeira_do_Maranh%C3%A3o.svg" alt="Maranhão">
+        Portal do Damista
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mainMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <nav class="menu" id="mainMenu" aria-label="Seções">
+        <a href="index.html">Início</a>
+        <a href="sobre.html" class="active">Sobre</a>
+        <a href="rating-ma.html">Ranking MA</a>
+        <a href="cursos.html">Cursos</a>
+        <a href="index.html#jogadores">Mural</a>
+        <a href="cadastro.html" class="cta">Fazer Cadastro</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero-sobre">
+      <div class="wrap">
+        <span class="eyebrow">História, Propósito & Fomento Comunitário</span>
+        <h1>Sobre o Portal do Damista Maranhense</h1>
+        <p>
+          Uma iniciativa autônoma dedicada a valorizar os mestres e praticantes do Maranhão, popularizar o jogo de damas em todas as idades e levar o poder transformador do esporte da mente a toda a sociedade.
+        </p>
+        <div class="hero-badges">
+          <span class="hero-badge">🏛️ Iniciativa Independente</span>
+          <span class="hero-badge">🤝 Apoio Logístico à FMJDM</span>
+          <span class="hero-badge">🏁 Modalidades 100 & 64 Casas</span>
+          <span class="hero-badge">💡 Esporte Educativo e Inclusivo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSÃO, VISÃO E VALORES -->
+    <section class="bloco">
+      <div class="wrap">
+        <div class="sec-header">
+          <span class="eyebrow">Pilares Fundamentais</span>
+          <h2>Missão, Visão e Valores</h2>
+          <p>
+            Construímos esta plataforma com propósitos claros de elevação esportiva, respeito às pessoas e compromisso cultural com o nosso estado.
+          </p>
+        </div>
+
+        <div class="grid-mvv">
+          <!-- MISSÃO -->
+          <div class="card-mvv">
+            <div class="card-icon">🎯</div>
+            <h3>Nossa Missão</h3>
+            <p>
+              Tornar o jogo de damas amplamente conhecido, praticado e respeitado em todo o Maranhão. Valorizar e dar visibilidade aos nossos atletas — dos veteranos de praça aos jovens competidores —, resgatando a história viva do esporte e promovendo o desenvolvimento do raciocínio lógico como ferramenta de cidadania.
+            </p>
+          </div>
+
+          <!-- VISÃO -->
+          <div class="card-mvv visao">
+            <div class="card-icon">👁️</div>
+            <h3>Nossa Visão</h3>
+            <p>
+              Consolidar o Maranhão como uma referência nacional no jogo de damas, transformando o portal no maior polo comunitário e digital de integração, formação técnica e conexão esportiva de atletas de todas as regiões do estado.
+            </p>
+          </div>
+
+          <!-- VALORES -->
+          <div class="card-mvv valores">
+            <div class="card-icon">💎</div>
+            <h3>Nossos Valores</h3>
+            <p>
+              <b>• Dignidade e Valorização:</b> Reconhecer o esforço e a genialidade dos damistas maranhenses.<br>
+              <b>• Inclusão Social:</b> O esporte pertence a todas as idades, gêneros e origens.<br>
+              <b>• Ética e Integridade:</b> Transparência, precisão estatística e respeito às regras.<br>
+              <b>• Autonomia e Colaboração:</b> Ações voluntárias e independentes a favor da comunidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDEPENDÊNCIA E PARCERIA COM A FEDERAÇÃO -->
+    <section class="bloco alt">
+      <div class="wrap">
+        <div class="card-independencia">
+          <div class="indep-grid">
+            <div>
+              <span class="tag-parceria">🤝 Transparência & Autonomia</span>
+              <h3>Independência Institucional e Parceria Colaborativa</h3>
+              <p style="color: var(--muted); font-size: 1.05rem; margin-bottom: 20px;">
+                É fundamental deixar claro o nosso papel institucional para que atletas, apoiadores e o público compreendam a natureza deste projeto:
+              </p>
+              <ul class="check-list">
+                <li>
+                  <span class="icon">✓</span>
+                  <div>
+                    <b>Iniciativa Não-Governamental e Autônoma:</b> Este portal <u>não pertence</u> formalmente à Federação Maranhense de Jogos de Dama (FMJDM) e <u>não pertence</u> à Confederação Brasileira de Jogo de Damas (CBJD). Todas as nossas decisões e investimentos são de gestão independente.
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">✓</span>
+                  <div>
+                    <b>Parceria Fraterna e Apoio Logístico:</b> Atuamos como parceiros oficiais e voluntários da <b>FMJDM</b>. Nosso propósito é somar forças, ajudando a federação na logística de cadastramento dos atletas, divulgação de torneios e publicação dos rankings oficiais.
+                  </div>
+                </li>
+                <li>
+                  <span class="icon">✓</span>
+                  <div>
+                    <b>Gratuito para Atletas e Entidades:</b> Não cobramos taxas da federação nem dos jogadores pelo registro no portal. Nossa missão é valorizar o damista maranhense sem criar barreiras.
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 28px; text-align: center;">
+              <span style="font-size: 3rem;">🏛️</span>
+              <h4 style="font-family: var(--f-display); font-size: 1.5rem; text-transform: uppercase; margin: 12px 0 8px;">Unidos pelo Esporte</h4>
+              <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 20px;">
+                A federação organiza os campeonatos oficiais e chancela as titulações. O portal dá visibilidade, estrutura digital e suporte de comunicação a cada um dos talentos da nossa terra.
+              </p>
+              <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" class="btn" style="padding: 10px 18px; font-size: 0.9rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line);">
+                  ↗ Conhecer a FMJDM
+                </a>
+                <a href="rating-ma.html" class="btn" style="padding: 10px 18px; font-size: 0.9rem;">
+                  Ver Ranking Oficial
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETOS DE CURSOS PARA A COMUNIDADE -->
+    <section class="bloco">
+      <div class="wrap">
+        <div class="sec-header">
+          <span class="eyebrow">Inclusão Social & Educação</span>
+          <h2>Cursos Especializados para a Comunidade</h2>
+          <p>
+            O jogo de damas é uma poderosa ginástica cerebral. Temos como meta estruturar cursos e turmas dedicadas, com metodologias específicas e horários separados para cada público:
+          </p>
+        </div>
+
+        <div class="grid-cursos">
+          <!-- IDOSOS -->
+          <div class="card-curso-comunidade">
+            <span class="curso-tag-publico">👵 Terceira Idade & Sênior</span>
+            <h4>Damas para a Longevidade Ativa</h4>
+            <p>
+              Módulos voltados para a preservação cognitiva, memória de curto e longo prazo, raciocínio ágil e convivência comunitária fraterna. Uma forma divertida e saudável de manter a mente ativa e prevenir perdas cognitivas.
+            </p>
+            <ul class="curso-beneficios">
+              <li>🧠 Estimulação contínua da memória</li>
+              <li>☕ Encontros de socialização e bem-estar</li>
+              <li>🧘 Exercício da concentração e paciência</li>
+            </ul>
+          </div>
+
+          <!-- MULHERES -->
+          <div class="card-curso-comunidade">
+            <span class="curso-tag-publico" style="background: #FCE4EC; color: #C2185B;">👩 Turma Feminina</span>
+            <h4>Damas Delas: Mulheres no Tabuleiro</h4>
+            <p>
+              Espaço acolhedor e exclusivo para incentivar e capacitar mulheres no esporte da mente. Foco na quebra de barreiras históricas, formação de novas competidoras, árbitras e líderes de projetos comunitários.
+            </p>
+            <ul class="curso-beneficios">
+              <li>🌸 Ambiente de apoio e incentivo mútuo</li>
+              <li>🏆 Preparação para torneios estaduais</li>
+              <li>👑 Formação de campeãs e instrutoras</li>
+            </ul>
+          </div>
+
+          <!-- CRIANÇAS -->
+          <div class="card-curso-comunidade">
+            <span class="curso-tag-publico" style="background: #E3F2FD; color: #1976D2;">🧒 Crianças & Jovens</span>
+            <h4>Damas na Escola: Jovens Mestres</h4>
+            <p>
+              Integração direta com o projeto escolar (tabuleiro 10×10 internacional e 64 casas). Ensina noções de cálculo geométrico, respeito aos adversários, resiliência e foco no desempenho acadêmico.
+            </p>
+            <ul class="curso-beneficios">
+              <li>📐 Geometria espacial e lógica matemática</li>
+              <li>🎯 Disciplina, ética e respeito às regras</li>
+              <li>🏅 Descoberta precoce de novos talentos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top: 32px; background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; padding: 16px 20px; text-align: center; font-size: 0.95rem; color: var(--muted);">
+          ℹ️ <b>Importante:</b> As turmas e materiais dos cursos são totalmente <b>separados e adaptados</b> à realidade, faixa etária e ritmo de aprendizado de cada grupo.
+        </div>
+      </div>
+    </section>
+
+    <!-- OFICINAS, PALESTRAS E TREINAMENTOS INSTITUCIONAIS -->
+    <section class="bloco" style="padding-top: 0;">
+      <div class="wrap">
+        <div class="oficinas-card">
+          <div style="text-align: center; margin-bottom: 36px;">
+            <span class="eyebrow" style="color: #FFE082;">Parcerias Institucionais</span>
+            <h2 style="color: white;">Oficinas, Palestras e Treinamentos</h2>
+            <p style="margin-inline: auto;">
+              Quer levar o Jogo de Damas para sua escola, empresa, clube, praça, centro comunitário ou prefeitura? Oferecemos programas completos ministrados por damistas experientes e mestres federados.
+            </p>
+          </div>
+
+          <div class="oficinas-grid">
+            <div class="oficina-item">
+              <h5>🏫 Oficinas Pedagógicas</h5>
+              <p>Capacitação prática para escolas públicas, colégios particulares e projetos sociais, ensinando desde as regras até as combinações táticas.</p>
+            </div>
+
+            <div class="oficina-item">
+              <h5>🎤 Palestras Motivacionais</h5>
+              <p>O tabuleiro como metáfora para tomada de decisão sob pressão, visão estratégica de longo prazo e foco em metas corporativas.</p>
+            </div>
+
+            <div class="oficina-item">
+              <h5>♟️ Treinamento de Alto Rendimento</h5>
+              <p>Clínicas de abertura, teoria de finais e análise profunda de partidas para atletas que desejam disputar campeonatos estaduais e nacionais.</p>
+            </div>
+
+            <div class="oficina-item">
+              <h5>⚡ Exibições Simultâneas</h5>
+              <p>Eventos abertos de grande apelo visual onde um mestre maranhense enfrenta de 10 a 25 jogadores ao mesmo tempo na sua instituição.</p>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO / CONTATO DIRETO -->
+          <div class="contato-box-cta">
+            <div style="text-align: center; margin-bottom: 28px;">
+              <h3 style="font-family: var(--f-display); font-size: 1.8rem; text-transform: uppercase; margin: 0 0 8px; color: var(--accent);">
+                Solicite uma Oficina ou Palestra
+              </h3>
+              <p style="color: var(--muted); margin: 0; font-size: 0.95rem;">
+                Preencha os dados abaixo ou envie uma mensagem direta no nosso WhatsApp oficial para agendarmos uma apresentação.
+              </p>
+            </div>
+
+            <form id="f-oficina" onsubmit="event.preventDefault(); enviarSolicitacao();">
+              <div class="fgrid">
+                <div class="field">
+                  <label for="of-nome">Seu Nome / Responsável</label>
+                  <input id="of-nome" required placeholder="Ex: Professor Marcos Silva">
+                </div>
+
+                <div class="field">
+                  <label for="of-inst">Nome da Escola, Empresa ou Instituição</label>
+                  <input id="of-inst" required placeholder="Ex: Escola Municipal / Empresa X">
+                </div>
+
+                <div class="field">
+                  <label for="of-tipo">Tipo de Atividade Desejada</label>
+                  <select id="of-tipo" required>
+                    <option value="Oficina Pedagógica (Escola/Social)">Oficina Pedagógica (Escolar / Social)</option>
+                    <option value="Palestra Estratégica / Corporativa">Palestra Estratégica / Corporativa</option>
+                    <option value="Treinamento Técnico para Atletas">Treinamento Técnico de Alto Rendimento</option>
+                    <option value="Exibição Simultânea com Mestre">Exibição Simultânea em Evento</option>
+                    <option value="Outro Formato de Parceria">Outro Formato Personalizado</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="of-cid">Cidade no Maranhão</label>
+                  <input id="of-cid" required value="São Luís" placeholder="Ex: Caxias, Imperatriz, São Luís...">
+                </div>
+
+                <div class="field full">
+                  <label for="of-msg">Mensagem / Objetivos da Atividade</label>
+                  <textarea id="of-msg" required rows="3" placeholder="Conte-nos sobre a data estimada, número de participantes esperados e público-alvo..."></textarea>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 14px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+                <button type="submit" class="btn whatsapp" id="btn-enviar-oficina">
+                  <span>📱 Enviar Solicitação via WhatsApp</span>
+                </button>
+                <a href="mailto:contato@portaldodamista.com.br?subject=Solicitacao de Oficina ou Palestra" class="btn" style="background: var(--surface); color: var(--ink); border: 1px solid var(--line);">
+                  <span>✉️ Enviar por E-mail</span>
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="contatos">
+    <div class="wrap">
+      <div>
+        <b style="color:var(--ink)">Portal do Damista Maranhense</b><br>
+        Coordenação Técnica e Estatística<br><br>
+        <strong style="color:var(--ink)">Suporte Técnico:</strong><br>
+        WhatsApp: (98) 98486-6444<br>
+        E-mail: contato@portaldodamista.com.br<br>
+        Endereço: São Luís, MA
+      </div>
+      <div style="max-width:320px;">
+        Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>
+        Dados oficiais da <a href="https://ratingdamas.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">CBJD</a><br><br>
+        🛡️ <a href="privacidade.html" style="color:var(--accent); text-decoration:underline; font-weight:600;">Política de Privacidade</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Envio dinâmico da solicitação via WhatsApp formatado
+    function enviarSolicitacao() {
+      const nome = document.getElementById('of-nome').value.trim();
+      const inst = document.getElementById('of-inst').value.trim();
+      const tipo = document.getElementById('of-tipo').value;
+      const cid = document.getElementById('of-cid').value.trim();
+      const msg = document.getElementById('of-msg').value.trim();
+
+      const texto = `*SOLICITAÇÃO DE ATIVIDADE - PORTAL DO DAMISTA*\n\n` +
+        `👤 *Responsável:* ${nome}\n` +
+        `🏛️ *Instituição:* ${inst}\n` +
+        `📍 *Cidade:* ${cid}\n` +
+        `🎯 *Tipo:* ${tipo}\n` +
+        `📝 *Mensagem:* ${msg}`;
+
+      const url = `https://wa.me/5598984866444?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    // Menu Mobile
+    const menuToggle = document.getElementById('menuToggle');
+    const mainMenu = document.getElementById('mainMenu');
+    if (menuToggle && mainMenu) {
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExp = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExp);
+        mainMenu.classList.toggle('is-active', !isExp);
+      });
+
+      mainMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mainMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mainMenu.classList.remove('is-active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
