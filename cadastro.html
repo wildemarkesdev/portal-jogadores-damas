@@ -579,26 +579,87 @@
                 </div>
                 <div id="cbjd-match-status" style="margin-top: 8px; display: none;"></div>
               </div>
-              <div class="field"><label for="p-apelido">Nome de Exibição / Apelido</label><input id="p-apelido" required></div>
-              <div class="field"><label for="p-tel">Telefone / WhatsApp</label><input id="p-tel" required></div>
-              <div class="field"><label for="p-nasc">Data de Nascimento</label><input type="text" id="p-nasc" required placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" autocomplete="bday"></div>
+              <div class="field">
+                <label for="p-apelido">Nome de Exibição / Apelido</label>
+                <input id="p-apelido" required placeholder="Como prefere ser chamado">
+              </div>
+              <div class="field">
+                <label for="p-tel">Telefone / WhatsApp</label>
+                <input id="p-tel" required placeholder="(98) 9XXXX-XXXX">
+                <label style="display: flex; align-items: flex-start; gap: 8px; font-weight: normal; font-size: 0.82rem; color: var(--muted); margin-top: 6px; cursor: pointer;">
+                  <input type="checkbox" id="p-publicar-tel" style="width: auto; margin-top: 2px;">
+                  <span>Permitir exibir meu WhatsApp publicamente no perfil para receber desafios</span>
+                </label>
+              </div>
+              <div class="field">
+                <label for="p-nasc">Data de Nascimento</label>
+                <input type="text" id="p-nasc" required placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" autocomplete="bday">
+              </div>
+              <div class="field">
+                <label for="p-lidraughts">Usuário Lidraughts (Opcional)</label>
+                <input id="p-lidraughts" placeholder="Seu apelido lá">
+              </div>
+
+              <!-- ALERTA LGPD: ATLETA MENOR DE IDADE -->
+              <div id="box-menor-idade" style="display: none; background: #FFF9E6; border: 1px solid #FFE082; border-radius: 8px; padding: 16px; margin-top: 4px;" class="field full">
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                  <span style="font-size: 1.5rem;">🛡️</span>
+                  <div style="flex: 1;">
+                    <strong style="color: #8D6E63; font-size: 0.98rem;">Atleta Menor de 18 Anos (Proteção Especial LGPD - Art. 14)</strong>
+                    <p style="font-size: 0.84rem; color: #5D4037; margin: 4px 0 12px;">
+                      Identificamos que o atleta é menor de idade. Conforme a LGPD, a inscrição e divulgação de imagem esportiva de menores de 18 anos necessita da autorização de pelo menos um dos pais ou responsável legal.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                      <div>
+                        <label for="p-resp-nome" style="font-size: 0.84rem; font-weight: 600;">Nome Completo do Responsável Legal</label>
+                        <input id="p-resp-nome" placeholder="Pai, Mãe ou Responsável Legal">
+                      </div>
+                      <div>
+                        <label for="p-resp-tel" style="font-size: 0.84rem; font-weight: 600;">Telefone / WhatsApp do Responsável</label>
+                        <input id="p-resp-tel" placeholder="(98) 9XXXX-XXXX">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AVISO LGPD: ENDEREÇO RESIDENCIAL SIGILOSO -->
+              <div class="field full" style="margin-top: 6px;">
+                <div style="background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 12px 16px; font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 1.4rem;">📦</span>
+                  <div>
+                    <strong style="color: var(--ink);">Finalidade do Endereço Residencial (Uso Exclusivo e Sigiloso):</strong>
+                    Seu endereço completo (Rua, Número e CEP) é mantido sob sigilo no banco de dados e utilizado <b>estritamente pela coordenação técnica para envio de materiais didáticos, premiações e certificados</b>. Apenas a sua <b>Cidade</b> será divulgada no mural público para valorizar os damistas do seu município.
+                  </div>
+                </div>
+              </div>
+
               <div class="field"><label for="p-cep">CEP</label><input id="p-cep" required placeholder="Ex: 65000000" maxlength="9"></div>
-              <div class="field"><label for="p-lidraughts">Usuário Lidraughts (Opcional)</label><input id="p-lidraughts" placeholder="Seu apelido lá"></div>
+              <div class="field"><label for="p-cidade">Cidade</label><input id="p-cidade" required value="São Luís"></div>
 
               <div class="field"><label for="p-end">Endereço (Rua/Av)</label><input id="p-end" required></div>
               <div class="field"><label for="p-num">Número</label><input id="p-num" required></div>
 
               <div class="field"><label for="p-bairro">Bairro</label><input id="p-bairro" required></div>
               <div class="field"><label for="p-estado">Estado</label><input id="p-estado" value="Maranhão (MA)" readonly style="color: var(--muted); cursor: not-allowed;" title="Apenas residentes do MA"></div>
-              <div class="field"><label for="p-cidade">Cidade</label><input id="p-cidade" required value="São Luís"></div>
 
-              <div class="field"><label for="p-foto">Sua Foto (Arquivo de Imagem)</label><input type="file" id="p-foto" accept="image/*" required style="background: white; padding: 7px;"></div>
+              <div class="field full"><label for="p-foto">Sua Foto (Arquivo de Imagem)</label><input type="file" id="p-foto" accept="image/*" required style="background: white; padding: 7px;"></div>
               <div class="field full"><label for="p-bio">Breve Biografia e Conquistas</label><textarea id="p-bio"
                   required
                   placeholder="Conte um pouco sobre sua trajetória, anos de experiência, títulos em torneios da federação..."></textarea>
               </div>
+
+              <!-- TERMO DE CONSENTIMENTO LGPD OBRIGATÓRIO -->
+              <div class="field full" style="margin-top: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 16px;">
+                <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-weight: normal; font-size: 0.88rem; color: var(--ink); line-height: 1.5;">
+                  <input type="checkbox" id="p-lgpd-consent" required style="width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); flex-shrink: 0;">
+                  <span>
+                    <b>Termo de Consentimento e Privacidade (LGPD):</b> Autorizo o <b>Portal do Damista Maranhense</b> a armazenar meus dados pessoais e publicar meu perfil esportivo (nome, apelido, foto, cidade, idade, biografia e ratings oficiais) no mural público e ranking oficial. Declaro estar ciente de que meu endereço residencial será utilizado exclusivamente para envio físico de materiais e que posso solicitar a atualização ou exclusão definitiva dos meus dados a qualquer momento pelo suporte do portal. <a href="privacidade.html" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: 700;">Ler Política de Privacidade</a>.
+                  </span>
+                </label>
+              </div>
             </div>
-            <div style="display: flex; gap: 12px; margin-top: 8px;">
+            <div style="display: flex; gap: 12px; margin-top: 14px;">
               <button class="btn" type="submit">Enviar Cadastro</button>
               <a href="index.html#jogadores" class="btn ghost">Ver Lista de Atletas</a>
             </div>
@@ -618,7 +679,11 @@
       E-mail: contato@portaldodamista.com.br<br>
         Endereço: São Luís, MA
       </div>
-      <div style="max-width:300px;">Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>Regras oficiais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial de Jogo de Damas (FMJD)</a></div>
+      <div style="max-width:320px;">
+        Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>
+        Regras oficiais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial (FMJD)</a><br><br>
+        🛡️ <a href="privacidade.html" style="color:var(--accent); text-decoration:underline; font-weight:600;">Política de Privacidade e LGPD</a>
+      </div>
     </div>
   </footer>
   <script type="module">
@@ -837,7 +902,35 @@
           v = v.replace(/^(\d{2})(\d{0,2})/, '$1/$2');
         }
         e.target.value = v;
+        if (v.length === 10) verificarMenorIdade();
       });
+
+      function verificarMenorIdade() {
+        const v = pNascInput.value.trim();
+        const boxMenor = document.getElementById('box-menor-idade');
+        if (!boxMenor) return false;
+        if (/^\d{2}\/\d{2}\/\d{4}$/.test(v)) {
+          const [dStr, mStr, yStr] = v.split('/');
+          const d = parseInt(dStr, 10);
+          const m = parseInt(mStr, 10);
+          const y = parseInt(yStr, 10);
+          const nasc = new Date(y, m - 1, d);
+          if (!isNaN(nasc)) {
+            const hoje = new Date();
+            let idade = hoje.getFullYear() - nasc.getFullYear();
+            const mesDiff = hoje.getMonth() - nasc.getMonth();
+            if (mesDiff < 0 || (mesDiff === 0 && hoje.getDate() < nasc.getDate())) {
+              idade--;
+            }
+            if (idade < 18 && idade >= 4) {
+              boxMenor.style.display = 'block';
+              return true;
+            }
+          }
+        }
+        boxMenor.style.display = 'none';
+        return false;
+      }
 
       pNascInput.addEventListener('blur', (e) => {
         const v = e.target.value.trim();
@@ -851,6 +944,8 @@
         if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1920 || y > curYear) {
           alert(`Data de nascimento inválida (${v}). Por favor, informe no formato DD/MM/AAAA com dia entre 01-31, mês entre 01-12 e ano entre 1920 e ${curYear}.`);
           e.target.focus();
+        } else {
+          verificarMenorIdade();
         }
       });
     }
@@ -947,6 +1042,37 @@
               return;
             }
 
+            // Validação LGPD de Menor de Idade
+            const isMenor = verificarMenorIdade();
+            let respNome = '';
+            let respTel = '';
+            if (isMenor) {
+              const respNomeEl = document.getElementById('p-resp-nome');
+              const respTelEl = document.getElementById('p-resp-tel');
+              respNome = respNomeEl ? respNomeEl.value.trim() : '';
+              respTel = respTelEl ? respTelEl.value.trim() : '';
+              if (!respNome || !respTel) {
+                msg(m, 'Atenção (LGPD): Para atletas menores de 18 anos, é obrigatório preencher o Nome e WhatsApp do Responsável Legal.', 'err');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                if (respNomeEl) respNomeEl.focus();
+                return;
+              }
+            }
+
+            // Validação Termo de Consentimento LGPD
+            const lgpdConsent = document.getElementById('p-lgpd-consent');
+            if (lgpdConsent && !lgpdConsent.checked) {
+              msg(m, 'É necessário assinalar o Termo de Consentimento e Privacidade (LGPD) para prosseguir.', 'err');
+              submitBtn.innerHTML = originalBtnText;
+              submitBtn.disabled = false;
+              lgpdConsent.focus();
+              return;
+            }
+
+            const publicarTelCheckbox = document.getElementById('p-publicar-tel');
+            const deveExibirTel = !!(publicarTelCheckbox && publicarTelCheckbox.checked);
+
             const novo = {
               nome: document.getElementById('p-nome').value.trim(),
               apelido: document.getElementById('p-apelido').value.trim(),
@@ -957,6 +1083,12 @@
               bairro: document.getElementById('p-bairro').value.trim(),
               cidade: document.getElementById('p-cidade').value.trim(),
               tel: document.getElementById('p-tel').value.trim(),
+              exibirTelefone: deveExibirTel,
+              menorDeIdade: isMenor,
+              responsavelLegal: respNome || null,
+              responsavelTel: respTel || null,
+              consentimentoLGPD: true,
+              consentimentoData: new Date().toISOString(),
               lidraughts: document.getElementById('p-lidraughts').value.trim(),
               bio: document.getElementById('p-bio').value.trim(),
               foto: dataUrl,

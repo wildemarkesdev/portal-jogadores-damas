@@ -357,13 +357,15 @@
               <div class="perfil-info">
                 <h2 style="margin-bottom: 4px;">${p.apelido || p.nome}</h2>
                 ${p.apelido ? `<span style="display: block; font-size: 1.1rem; color: var(--muted); margin-bottom: 12px; font-weight: 500;">${p.nome}</span>` : ''}
-                <span class="perfil-cidade">📍 ${p.bairro || 'Bairro não inf.'}, ${p.cidade || 'Cidade não inf.'}</span>
+                <span class="perfil-cidade">📍 ${p.cidade || 'Maranhão'}</span>
                 <p class="perfil-bio">${p.bio || 'Nenhuma biografia disponível para este atleta.'}</p>
                 
                 <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
                   <div class="info-box" style="padding: 12px 16px;">
                     <span class="info-label">Contato</span>
-                    <span class="info-value" style="font-size: 1rem;">📱 ${p.tel || 'Não informado'}</span>
+                    <span class="info-value" style="font-size: 1rem;">
+                      ${p.exibirTelefone === true && p.tel ? `<a href="https://wa.me/55${p.tel.replace(/\D/g, '')}" target="_blank" style="color:var(--accent); text-decoration:underline; font-weight:600;">📱 ${p.tel}</a>` : `<span style="color:var(--muted); font-size:0.88rem;" title="Número protegido conforme a LGPD">🔒 Privado (LGPD)</span>`}
+                    </span>
                   </div>
                   <div class="info-box" style="padding: 12px 16px;">
                     <span class="info-label">Idade</span>
@@ -710,7 +712,8 @@
       <div style="max-width:320px;">
         Em parceria com a <a href="https://www.instagram.com/fmjdm_oficial/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Maranhense de Jogos de Dama (FMJDM)</a><br><br>
         Dados da <a href="https://ratingdamas.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Confederação Brasileira de Jogo de Damas (CBJD)</a><br><br>
-        Regras oficiais internacionais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial (FMJD)</a>
+        Regras oficiais internacionais: <a href="https://www.fmjd.org/" target="_blank" style="color:var(--ink); text-decoration:underline;">Federação Mundial (FMJD)</a><br><br>
+        🛡️ <a href="privacidade.html" style="color:var(--accent); text-decoration:underline; font-weight:600;">Política de Privacidade e LGPD</a>
       </div>
     </div>
   </footer>
