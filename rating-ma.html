@@ -731,8 +731,14 @@
     let cadastradosPortal = [];
 
     function parseRating(r) {
-      if (!r || r === '0' || r === '-') return 0;
-      return parseFloat(r.replace('.', '').replace(',', '.')) || 0;
+      if (r === null || r === undefined || r === '' || r === '-') return 0;
+      if (typeof r === 'number') return r < 100 ? Math.round(r * 1000) : r;
+      const s = String(r).trim().replace(/\./g, '').replace(',', '.');
+      return parseFloat(s) || 0;
+    }
+
+    function ratingExibido(j) {
+      return parseRating(j.r100r) || parseRating(j.r100c);
     }
 
     function normalizarTexto(txt) {
@@ -782,17 +788,10 @@
 
     function renderizarRanking() {
       // Filtrar atletas com Rating Rápido (100-R)
-      let lista = allJogadores.filter(j => (parseRating(j.r100r) || parseRating(j.r100c)) > 0);
+      let lista = allJogadores.filter(j => ratingExibido(j) > 0);
 
-      // Ordenação decrescente por Rating Rápido (100-R)
-      lista.sort((a, b) => {
-        const rA = parseRating(a.r100r);
-        const rB = parseRating(b.r100r);
-        if (rA > 0 && rB > 0) return rB - rA;
-        if (rA > 0 && rB === 0) return -1;
-        if (rA === 0 && rB > 0) return 1;
-        return (parseRating(b.r100c) - parseRating(a.r100c));
-      });
+      // Ordenação decrescente pelo rating exibido (Rápido; se ausente, Clássico)
+      lista.sort((a, b) => ratingExibido(b) - ratingExibido(a) || (a.nome || '').localeCompare(b.nome || ''));
 
       // Filtrar por busca (nome ou cidade, insensível a acentos e maiúsculas)
       const busca = normalizarTexto(document.getElementById('filtro-busca').value);
